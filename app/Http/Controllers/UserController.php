@@ -5,10 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entities\User;
+use App\Entities\Admin;
+use App\Entities\Infirmier;
+use App\Entities\Encadreur;
+use App\Entities\Animateur;
+
+
+
+
 class UserController extends Controller
 {
     private $em;
-    const LOGIN ='login';
 
     public function __construct(EntityManagerInterface $em){
         $this->em = $em;
@@ -30,11 +37,10 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
     }
 
     public function login(Request $request){
-      $login = $request->get($this::LOGIN);
+      $login = $request->get('login');
       $u = $this->em->getRepository(User::class);
       $entity = $u->findByLogin($login);
 
@@ -53,7 +59,11 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $login    = $request->get('login');
+        $password = $request->get('password');
+        $typeUser = $request->get('typeUser');
+
+        $this->registreUser($login,$password,$typeUser);
     }
 
     /**
@@ -106,5 +116,34 @@ class UserController extends Controller
       $typeUser=$this->em->getClassMetadata(get_class($myObject))->discriminatorValue;
 
       return $typeUser;
+    }
+
+
+    public function registreUser($log,$pass,$us){
+      $type = null;
+      $user = null;
+      switch ($us) {
+        case 'admin':
+          $user = new Admin();
+          break;
+        case 'infirm':
+          $user = new Infirmier();
+          break;
+        case 'enca':
+          $user = new Encadreur();
+          break;
+        case 'anim':
+          $user = new Animateur();
+          break;
+        default:
+          // code...
+          break;
+      }
+
+      $user->setLogin($log);
+      $user->setPassword($pass);
+      $this->em->persist($user);
+      $this->em->flush();
+      return "ok";
     }
 }

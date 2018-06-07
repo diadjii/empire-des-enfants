@@ -22,3 +22,4 @@ Route::get('/admin',function(){
 });
 
 Route::post('/login','UserController@login');
+Route::post("/addUser",'UserController@store');
