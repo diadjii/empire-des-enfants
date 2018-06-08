@@ -9,7 +9,8 @@ use App\Entities\Admin;
 use App\Entities\Infirmier;
 use App\Entities\Encadreur;
 use App\Entities\Animateur;
-
+use App\Http\Requests\UserFormRequest;
+use Illuminate\Support\Facades\Hash;
 
 
 
@@ -20,35 +21,31 @@ class UserController extends Controller
     public function __construct(EntityManagerInterface $em){
         $this->em = $em;
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-    }
 
     public function login(Request $request){
-      $login = $request->get('login');
-      $u = $this->em->getRepository(User::class);
-      $entity = $u->findByLogin($login);
+        $login = $request->get('login');
+        $password = $request->get('password');
 
-      $type= $this->getTypeUser($entity[0]);
-      session(['login'=>$entity[0]->getLogin(),
-                'id'=>$entity[0]->getId()
-      ]);
-      echo $type;
+        $u = $this->em->getRepository(User::class);
+        $entity = $u->findByLogin($login);
+
+        if(count($entity) > 0){
+          $mdp = $entity[0]->getPassword();
+
+          if(Hash::check($password,$mdp)){
+            $type= $this->getTypeUser($entity[0]);
+            session([
+              'login'=>$entity[0]->getLogin(),
+              'id'=>$entity[0]->getId(),
+              'typeCurrentUser' =>$type
+          ]);
+          echo $type;
+        }else{
+          echo "noPassword";
+        }
+      }else{
+        echo "noAccount";
+      }
     }
 
     /**
@@ -57,13 +54,20 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserFormRequest $request)
     {
+
         $login    = $request->get('login');
         $password = $request->get('password');
         $typeUser = $request->get('typeUser');
-
-        $this->registreUser($login,$password,$typeUser);
+        $u = $this->em->getRepository(User::class);
+        $entity = $u->findByLogin($login);
+        if(count($entity)>0){
+          return 'exist';
+        }else{
+          $this->registreUser($login,$password,$typeUser);
+          return "ok";
+        }
     }
 
     /**
@@ -111,13 +115,21 @@ class UserController extends Controller
         //
     }
 
+    public static function isLogin(){
+        $login = session('login');
+        if(isset($login)){
+          return view(session('typeCurrentUser'),compact('login'));
+        }else{
+          return view("login");
+        }
+    }
+
     //recuperation du type utilisateur
     public function getTypeUser($myObject){
       $typeUser=$this->em->getClassMetadata(get_class($myObject))->discriminatorValue;
 
       return $typeUser;
     }
-
 
     public function registreUser($log,$pass,$us){
       $type = null;
@@ -141,6 +153,7 @@ class UserController extends Controller
       }
 
       $user->setLogin($log);
+      $pass = Hash::make($pass);
       $user->setPassword($pass);
       $this->em->persist($user);
       $this->em->flush();

@@ -16,10 +16,15 @@ Route::get('/login', function () {
     return view('login');
 });
 
-Route::get('/admin',function(){
-  $login = session('login');
-  return view("admin",compact('login'));
+Route::get("/logOut",function(){
+  session()->flush();
+  $status="ok";
+  return $status;
 });
+
+Route::get('/admin','UserController@isLogin');
+Route::get("/administration","AdministrationController@index");
+Route::get('/administration/accueil','AdministrationController@accueil');
 
 Route::post('/login','UserController@login');
 Route::post("/addUser",'UserController@store');

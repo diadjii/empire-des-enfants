@@ -22,25 +22,33 @@ $("#login").submit(function(e){
 
 $('#formAddUser').submit(function(e){
   e.preventDefault();
-  var login = null, password = null, typeUser  = null;
+
   login = $("input[name='login']").val();
   password = $("input[name='password']").val();
   typeUser = $("select[name='typeUser']").val();
   token = $('input[name="_token"]').val();
 
-  if(login !=null && password !=null && typeUser != null){
     $.post("addUser",{
       login:login,
       password:password,
       typeUser:typeUser,
       _token:token
     }).then(function(response){
-      alert("L'utilisateur a ete créé avec succes");
+      switch (response) {
+        case 'ok':
+          alert("Compte Utilisateur créé avec success");
+          break;
+          case 'exist':
+            alert("Ce compte d'utilisateur existe dejà");
+            break;
+        default:
+
+      }
+
     }).fail(function(a,b){
       console.log(a);
       console.log(b);
     })
-  }
 
 })
 
@@ -49,52 +57,23 @@ function redirecUser(role){
     case "superadmin":
     window.location="admin";
     break;
+    case 'admin':
+      window.location="administration/accueil";
+      break;
     default:
+      console.log(role);
 
   }
 }
 
-/**controle du formulaire pour l'ajout d'un
-*nouveau utilisateur
-*/
-$('.ui.form')
-.form({
-  fields: {
-    login: {
-      identifier:'login',
-      rules: [
-        {
-          type   : 'empty',
-          prompt : 'Veillez Saisir votre login SVP'
-        },
-        {
-          type   : 'minLength[6]',
-          prompt : 'Le login doit contenir au moins 6 caracteres'
-        }
-      ]
-    },
-    password: {
-      identifier: 'password',
-      rules: [
-        {
-          type   : 'empty',
-          prompt : 'Veillez Saisir votre mot de passe SVP'
-        },
-        {
-          type   : 'minLength[6]',
-          prompt : 'Le mot de passe doit contenir au moins 6 caracteres'
-        }
-      ]
-    },
-    typeUser: {
-      identifier: 'typeUser',
-      rules: [
-        {
-          type   : 'empty',
-          prompt : "Veillez choisir le type d'utilisateur que vous voulez ajouter"
-        }
-      ]
-    }
-
-  }
-});
+$("#logOut").submit(function(e){
+  e.preventDefault();
+  $.get("logOut")
+  .then(function(response){
+    window.location = "login";
+  })
+  .fail(function(a,b){
+    console.log(a);
+    console.log(b);
+  })
+})
