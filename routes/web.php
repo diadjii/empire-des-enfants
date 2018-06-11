@@ -15,16 +15,22 @@ use App\Entities\SuperAdmin;
 Route::get('/login', function () {
     return view('login');
 });
+Route::post('/login','UserController@login');
 
-Route::get("/logOut",function(){
+Route::post("/logOut",function(){
   session()->flush();
-  $status="ok";
-  return $status;
+  return view("login");
 });
 
 Route::get('/admin','UserController@isLogin');
-Route::get("/administration","AdministrationController@index");
-Route::get('/administration/accueil','AdministrationController@accueil');
-
-Route::post('/login','UserController@login');
+Route::get('/admin/accueil','UserController@accueil');
+Route::get("/allUser",'UserController@show');
+Route::get("/infoUser/{idUser}","UserController@find");
 Route::post("/addUser",'UserController@store');
+
+Route::get("/administration","UserController@isLogin");
+Route::post("/administration/addActivite","ActiviteController@store");
+// Route::get('/administration/accueil','AdministrationController@accueil');
+
+Route::get("/infirmier",'InfirmierController@index');
+Route::get("/infirmier/accueil",'InfirmierController@accueil');

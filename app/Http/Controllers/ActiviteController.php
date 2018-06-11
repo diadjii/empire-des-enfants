@@ -3,9 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Entities\Activite;
+use App\Http\Requests\ActiviteFormRequest;
 
-class AdministrationController extends Controller
+class ActiviteController extends Controller
 {
+    private $em;
+
+    public function __construct(EntityManagerInterface $em){
+        $this->em = $em;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -13,13 +21,9 @@ class AdministrationController extends Controller
      */
     public function index()
     {
-        UserController::isLogin();
+        //
     }
 
-
-    public function accueil(){
-      return view('admin')->with('login',session('login'));
-    }
     /**
      * Show the form for creating a new resource.
      *
@@ -38,7 +42,15 @@ class AdministrationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $nomActivite = $request->get('nomActivite');
+        $descActivite = $request->get('descActivite');
+
+        $activite = new Activite();
+        $activite->setNomActivite($nomActivite);
+        $activite->setDescActivite($descActivite);
+
+        $this->em->persist($activite);
+        $this->em->flush();
     }
 
     /**

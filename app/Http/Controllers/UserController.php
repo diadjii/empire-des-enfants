@@ -12,8 +12,6 @@ use App\Entities\Animateur;
 use App\Http\Requests\UserFormRequest;
 use Illuminate\Support\Facades\Hash;
 
-
-
 class UserController extends Controller
 {
     private $em;
@@ -56,16 +54,17 @@ class UserController extends Controller
      */
     public function store(UserFormRequest $request)
     {
-
         $login    = $request->get('login');
         $password = $request->get('password');
         $typeUser = $request->get('typeUser');
+        $nom = $request->get('nom');
+        $prenom = $request->get('prenom');
         $u = $this->em->getRepository(User::class);
         $entity = $u->findByLogin($login);
         if(count($entity)>0){
           return 'exist';
         }else{
-          $this->registreUser($login,$password,$typeUser);
+          $this->registreUser($login,$password,$typeUser,$nom,$prenom);
           return "ok";
         }
     }
@@ -76,9 +75,26 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
-        //
+        $urep = $this->em->getRepository(User::class);
+        $liste = $urep->findAll();
+        $users=array();
+
+        //recuperation de la liste des utilisateurs
+        foreach ($liste as $user) {
+          $currentUser=array(
+            "id"  => $user->getId(),
+            "nom" => $user->getNom(),
+            "prenom" => $user->getPrenom(),
+            "role" => $this->getTypeUser($user),
+          );
+
+          if ($currentUser['role'] != 'superadmin') {
+            array_push($users,$currentUser);
+          }
+        }
+        return $users;
     }
 
     /**
@@ -117,8 +133,22 @@ class UserController extends Controller
 
     public static function isLogin(){
         $login = session('login');
+        $type = session('typeCurrentUser');
+        $t="";
         if(isset($login)){
-          return view(session('typeCurrentUser'),compact('login'));
+          switch ($type) {
+            case 'superadmin':
+              $t="superadmin";
+              break;
+            case 'admin':
+              $t="admin";
+              break;
+
+            default:
+              // code...
+              break;
+          }
+          return view($t,compact('login'));
         }else{
           return view("login");
         }
@@ -131,7 +161,7 @@ class UserController extends Controller
       return $typeUser;
     }
 
-    public function registreUser($log,$pass,$us){
+    public function registreUser($log,$pass,$us,$nom,$prenom){
       $type = null;
       $user = null;
       switch ($us) {
@@ -153,10 +183,17 @@ class UserController extends Controller
       }
 
       $user->setLogin($log);
+      $user->setNom($nom);
+      $user->setPrenom($prenom);
       $pass = Hash::make($pass);
       $user->setPassword($pass);
       $this->em->persist($user);
       $this->em->flush();
       return "ok";
+    }
+
+
+    public function find($idUser){
+      echo $ididUser;
     }
 }

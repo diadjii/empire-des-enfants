@@ -13,9 +13,12 @@ class InfirmierController extends Controller
      */
     public function index()
     {
-        //
+        UserController::isLogin();
     }
 
+public function accueil(){
+  return view('infirmier')->with('login',session('login'));
+}
     /**
      * Show the form for creating a new resource.
      *
