@@ -17,7 +17,7 @@ Route::get('/login', function () {
 });
 Route::post('/login','UserController@login');
 
-Route::post("/logOut",function(){
+Route::get("/logOut",function(){
   session()->flush();
   return view("login");
 });
@@ -30,7 +30,11 @@ Route::post("/addUser",'UserController@store');
 
 Route::get("/administration","UserController@isLogin");
 Route::post("/administration/addActivite","ActiviteController@store");
-// Route::get('/administration/accueil','AdministrationController@accueil');
+Route::get('/administration/listeActivites','ActiviteController@show');
+Route::get('/administration/Activites',function(){
+  $login = session('login');
+  return view("Activite",compact('login'));
+});
 
 Route::get("/infirmier",'InfirmierController@index');
 Route::get("/infirmier/accueil",'InfirmierController@accueil');

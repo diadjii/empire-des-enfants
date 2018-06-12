@@ -44,10 +44,12 @@ class ActiviteController extends Controller
     {
         $nomActivite = $request->get('nomActivite');
         $descActivite = $request->get('descActivite');
-
+        $date = date('l \t\h\e jS');
+        
         $activite = new Activite();
         $activite->setNomActivite($nomActivite);
         $activite->setDescActivite($descActivite);
+        $activite->setDateCreation($date);
 
         $this->em->persist($activite);
         $this->em->flush();
@@ -59,9 +61,23 @@ class ActiviteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
-        //
+      $acrep = $this->em->getRepository(Activite::class);
+      $liste = $acrep->findAll();
+      $activites=array();
+
+      //recuperation de la liste des activites
+      foreach ($liste as $act) {
+        $currentActivite=array(
+          "id"  => $act->getIdActivite(),
+          "nomActivite" => $act->getNomActivite(),
+          "descActivite" => $act->getDescActivite(),
+          "date" => $act->getDateCreation(),
+        );
+        array_push($activites,$currentActivite);
+      }
+      return $activites;
     }
 
     /**

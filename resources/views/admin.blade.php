@@ -1,42 +1,37 @@
-@extends('layout/app')
-@section('header')
-  <div class="ui content">
-      <div class="ui">
-        <img class="ui fluid image" src="/images/1.jpg">
-      </div>
+@extends('layout.app')
+{{-- <div class="ui secondary  menu">
+<a class="active item">
+Home
+</a>
+<a class="item">
+Messages
+</a>
+<a class="item">
+Friends
+</a>
+<div class="right menu">
+<div class="item">
+<div id="profile" class="ui primary button">{{$login}}</div>
+</div>
+<div class="ui item">
 
-    </div>
-  </div>
-@endsection
+<input type="submit" class="ui primary button" value="Log Out"/>
+<input type="hidden" name="_token" value="{!! csrf_token() !!}">
+
+</div>
+</div>
+</div> --}}
 @section('body')
-  <button id="addActivity" type="button" class="button green ui"name="button">Creer Activite</button>
-  <div class="ui modal">
+  <div class="ui content">
+    <img class="ui  image" src="/images/1.jpg">
 
-    <div class="header">
-    Creation d'une Activite
-    </div>
-    <div class="content">
-      <h2>Activite</h2>
-      <p id="message" class="ui error message" hidden></p>
-      <form  class="ui form" action="/administration/addActivite" method="post">
-        <input type="hidden" name="_token" value="{!! csrf_token() !!}">
-        <div class=" two fields">
-          <div class="field">
-            <label>Nom Activite</label>
-            <input type="text" name="nomActivite" placeholder="Saisir le Nom" >
-          </div>
-        </div>
-          <div class="two fields">
-            <div class="field">
-              <label>Description Activite</label>
-              <textarea name="descActivite" rows="8" cols="80"></textarea>
-            </div>
-          </div>
-        <button class="ui primary button" type="submit">Enregistrer</button>
-        <div class="ui error message"></div>
-      </form>
+
+  
+    <h3 class="ui header centered">Liste des Activtes</h3>
+    <div id="activites" class="ui container fluid grid">
     </div>
   </div>
-  <script src="/js/jquery-3.3.1.min.js" charset="utf-8"></script>
-  <script src="/js/admin.js" charset="utf-8"></script>
 @endsection
+
+</body>
+</html>

@@ -85,7 +85,7 @@ function redirectUser(role){
     window.location.href="admin";
     break;
     case 'admin':
-    window.location.href="administration/accueil";
+    window.location.href="administration";
     break;
     case 'infirmier':
     window.location.href="infirmier/accueil";
@@ -102,14 +102,12 @@ function redirectUser(role){
   }
 }
 
-$("#logOut").submit(function(e){
-  e.preventDefault();
-  var token = $("input[name='_token']").val();
-  $.post("logOut",{
-    _token:token
-  })
+$("#logOut").click(function(){
+  // e.preventDefault();
+  // var token = $("input[name='_token']").val();
+  $.get("logOut")
   .then(function(response){
-    window.location = "login";
+    window.location.href = "login";
   })
   .fail(function(a,b){
     console.log(a);

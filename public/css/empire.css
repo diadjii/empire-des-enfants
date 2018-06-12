@@ -2,8 +2,13 @@
   cursor:pointer;
 }
 
-#headerAdmin{
-  background-color: blue;
+#header{
+  background-image: url("../images/1.jpg");
   width: 100%;
   height: 100%;
+}
+#menuAdmin{
+  margin-bottom: 0px;
+  padding: 0.5%;
+  
 }
