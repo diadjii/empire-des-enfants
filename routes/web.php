@@ -35,6 +35,9 @@ Route::get('/administration/Activites',function(){
   $login = session('login');
   return view("Activite",compact('login'));
 });
+Route::get("/administration/editActivity/{idActivite}","ActiviteController@edit");
+Route::get("/administration/deleteActivite/{idActivite}","ActiviteController@destroy");
+Route::post("/administration/updateActivite","ActiviteController@update");
 
 Route::get("/infirmier",'InfirmierController@index');
 Route::get("/infirmier/accueil",'InfirmierController@accueil');

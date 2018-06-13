@@ -24,7 +24,7 @@ class ActivteFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'nomActivite'   => 'required|min:6',
+            'nomActivite'   => 'required|min:5',
             'descActivite'     => 'required|min:10',
         ];
     }

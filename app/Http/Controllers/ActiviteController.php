@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entities\Activite;
@@ -12,6 +13,7 @@ class ActiviteController extends Controller
     private $em;
 
     public function __construct(EntityManagerInterface $em){
+        UserController::isLogin();
         $this->em = $em;
     }
     /**
@@ -45,7 +47,7 @@ class ActiviteController extends Controller
         $nomActivite = $request->get('nomActivite');
         $descActivite = $request->get('descActivite');
         $date = date('l \t\h\e jS');
-        
+
         $activite = new Activite();
         $activite->setNomActivite($nomActivite);
         $activite->setDescActivite($descActivite);
@@ -53,6 +55,8 @@ class ActiviteController extends Controller
 
         $this->em->persist($activite);
         $this->em->flush();
+
+        return "ok";
     }
 
     /**
@@ -86,9 +90,17 @@ class ActiviteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($idActivite)
     {
         //
+        $acrep = $this->em->getRepository(Activite::class);
+        $activite = $acrep->findByIdActivite($idActivite);
+        $act=array(
+          "idActivite" =>$activite[0]->getIdActivite(),
+          "nomActivite" =>$activite[0]->getNomActivite(),
+          "descActivite" =>$activite[0]->getDescActivite()
+        );
+        return $act;
     }
 
     /**
@@ -98,9 +110,20 @@ class ActiviteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $idActivite    = $request->get('idActivite');
+        $nomActivite   = $request->get('nomActivite');
+        $descActivite  = $request->get('descActivite');
+
+        $acrep = $this->em->getRepository(Activite::class);
+        $activite = $acrep->findByIdActivite($idActivite);
+
+        $activite[0]->setNomActivite($nomActivite);
+        $activite[0]->setDescActivite($descActivite);
+
+        $this->em->flush();
+        return "ok";
     }
 
     /**
@@ -111,6 +134,12 @@ class ActiviteController extends Controller
      */
     public function destroy($id)
     {
-        //
+      $acrep = $this->em->getRepository(Activite::class);
+      $activite = $acrep->findByIdActivite($id);
+
+      $this->em->remove($activite[0]);
+      $this->em->flush();
+
+      return "ok";
     }
 }

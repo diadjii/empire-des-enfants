@@ -156,7 +156,7 @@ function generate(l){
 
 }
 
-/* exemple de fonction génération de mdp dans un form (utilise JQuery) */
+/* exemple de fonction génération de mdp dans un form  */
 $(document).ready(function() {
     /* on détecte un des champ du formulaire contient une class "gen", on insérera un bouton dans sa div parent qui appelera la fonction generate() */
     if($('form input.gen').length){
