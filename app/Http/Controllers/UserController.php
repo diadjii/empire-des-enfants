@@ -200,5 +200,3 @@ class UserController extends Controller
     echo $ididUser;
   }
 }
-
-}

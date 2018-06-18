@@ -26,9 +26,9 @@ Friends
     <img class="ui  image" src="/images/1.jpg">
 
 
-  
+
     <h3 class="ui header centered">Liste des Activtes</h3>
-    <div id="activites" class="ui container fluid grid">
+    <div id="activites" class="ui stackable fluid grid column">
     </div>
   </div>
 @endsection

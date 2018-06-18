@@ -46,7 +46,8 @@ class ActiviteController extends Controller
     {
         $nomActivite = $request->get('nomActivite');
         $descActivite = $request->get('descActivite');
-        $date = date('l \t\h\e jS');
+
+        $date = date('Y-m-d');//recuperation de la date actuelle
 
         $activite = new Activite();
         $activite->setNomActivite($nomActivite);
@@ -77,7 +78,8 @@ class ActiviteController extends Controller
           "id"  => $act->getIdActivite(),
           "nomActivite" => $act->getNomActivite(),
           "descActivite" => $act->getDescActivite(),
-          "date" => $act->getDateCreation(),
+          "date" => $act->getDateActivite(),
+
         );
         array_push($activites,$currentActivite);
       }
@@ -141,5 +143,44 @@ class ActiviteController extends Controller
       $this->em->flush();
 
       return "ok";
+    }
+
+
+    function agendaActivites(){
+      $acrep = $this->em->getRepository(Activite::class);
+      $liste = $acrep->findAll();
+      $activites=array();
+
+      //recuperation de la liste des activites
+      foreach ($liste as $act) {
+        $currentActivite=array(
+          "id"  => $act->getIdActivite(),
+          "title" => $act->getNomActivite(),
+          "start" => $act->getDateActivite(),
+          "description" => $act->getDescActivite()
+        );
+        array_push($activites,$currentActivite);
+      }
+      return $activites;
+    }
+
+    //enregistrement d'une activte dans le calendrier ds activites
+    public function saveToAgenda(Request $request){
+      $idActivite = $request->get('idActivite');
+      $dateActivite = $request->get('dateActivite');
+
+      $acrep = $this->em->getRepository(Activite::class);
+      $activite = $acrep->findByIdActivite($idActivite);
+
+      $activite[0]->setDateActivite($dateActivite);
+
+      try {
+        $this->em->persist($activite[0]);
+        $this->em->flush();
+        return "ok";
+      } catch (\Exception $e) {
+        return $e->getMessage();
+      }
+
     }
 }

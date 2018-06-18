@@ -31,6 +31,11 @@ class Activite{
   */
   private $dateCreation;
 
+  /**
+  *@ORM\Column(type="string",nullable=true)
+  */
+  private $dateActivite;
+
   public function getIdActivite()
   {
     return $this->idActivite;
@@ -114,6 +119,31 @@ class Activite{
 
         return $this;
     }
+
+    /**
+     * Get the value of Date Activite
+     *
+     * @return mixed
+     */
+    public function getDateActivite()
+    {
+        return $this->dateActivite;
+    }
+
+    /**
+     * Set the value of Date Activite
+     *
+     * @param mixed dateActivite
+     *
+     * @return self
+     */
+    public function setDateActivite($dateActivite)
+    {
+        $this->dateActivite = $dateActivite;
+
+        return $this;
+    }
+
 }
 
  ?>

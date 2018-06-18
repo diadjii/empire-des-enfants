@@ -29,15 +29,18 @@ Route::get("/infoUser/{idUser}","UserController@find");
 Route::post("/addUser",'UserController@store');
 
 Route::get("/administration","UserController@isLogin");
-Route::post("/administration/addActivite","ActiviteController@store");
-Route::get('/administration/listeActivites','ActiviteController@show');
+Route::get("/administration/dossier","DossierController@index");
 Route::get('/administration/Activites',function(){
   $login = session('login');
   return view("Activite",compact('login'));
 });
+Route::get("/administration/agendaActivites",'ActiviteController@agendaActivites');
+Route::post("/administration/addActivite","ActiviteController@store");
+Route::get('/administration/listeActivites','ActiviteController@show');
 Route::get("/administration/editActivity/{idActivite}","ActiviteController@edit");
 Route::get("/administration/deleteActivite/{idActivite}","ActiviteController@destroy");
 Route::post("/administration/updateActivite","ActiviteController@update");
+Route::post("/administration/saveToAgenda","ActiviteController@saveToAgenda");
 
 Route::get("/infirmier",'InfirmierController@index');
 Route::get("/infirmier/accueil",'InfirmierController@accueil');

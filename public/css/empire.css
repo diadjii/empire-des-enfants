@@ -10,5 +10,14 @@
 #menuAdmin{
   margin-bottom: 0px;
   padding: 0.5%;
-  
+
+}
+
+.addToAgenda{
+  margin-left: 20%;
+  color: red;
+}
+
+#chooseDate{
+  display: none;
 }

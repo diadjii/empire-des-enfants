@@ -3,6 +3,8 @@
   <meta charset="utf-8">
   <link href="/css/semantic.min.css" rel="stylesheet">
   <link href="/css/empire.css" rel="stylesheet">
+  <link href="/css/fullcalendar.min.css" rel="stylesheet">
+  <script src="../js/jquery-3.3.1.min.js" charset="utf-8"></script>
   <title></title>
 </head>
 <body onload="listeActivite()">
@@ -16,7 +18,7 @@
     <a class="item" href="/administration/Activites">
       Activites
     </a>
-    <a class="item">
+    <a class="item" href="/administration/dossier">
       Dossier Enfants
     </a>
     <div class="right menu">
@@ -33,9 +35,12 @@
   @yield('header')
   @yield('body')
   @yield('footer')
-  <script src="../js/jquery-3.3.1.min.js" charset="utf-8"></script>
   <script src="../js/semantic.min.js" charset="utf-8"></script>
   <script src="../js/empire.js" charset="utf-8"></script>
+  <script src="../js/moment.min.js" charset="utf-8"></script>
+  <script src="../js/fullcalendar.min.js" charset="utf-8"></script>
+  <script src="../js/scheduler.min.js" charset="utf-8"></script>
   <script src="../js/admin.js" charset="utf-8"></script>
+
 </body>
 </html>
