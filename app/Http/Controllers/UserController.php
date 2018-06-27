@@ -54,18 +54,23 @@ class UserController extends Controller
   */
   public function store(UserFormRequest $request)
   {
-    $login    = $request->get('login');
-    $password = $request->get('password');
-    $typeUser = $request->get('typeUser');
-    $nom = $request->get('nom');
-    $prenom = $request->get('prenom');
-    $u = $this->em->getRepository(User::class);
-    $entity = $u->findByLogin($login);
-    if(count($entity)>0){
-      return 'exist';
+    if(isset($request)){
+
+      $login    = $request->get('login');
+      $password = $request->get('password');
+      $typeUser = $request->get('typeUser');
+      $nom = $request->get('nom');
+      $prenom = $request->get('prenom');
+      $u = $this->em->getRepository(User::class);
+      $entity = $u->findByLogin($login);
+      if(count($entity)>0){
+        return 'exist';
+      }else{
+        $this->registreUser($login,$password,$typeUser,$nom,$prenom);
+        return "ok";
+      }
     }else{
-      $this->registreUser($login,$password,$typeUser,$nom,$prenom);
-      return "ok";
+      return "vide";
     }
   }
 
@@ -81,20 +86,24 @@ class UserController extends Controller
     $liste = $urep->findAll();
     $users=array();
 
+    $login = session('login');
     //recuperation de la liste des utilisateurs
     foreach ($liste as $user) {
-      $currentUser=array(
-        "id"  => $user->getId(),
-        "nom" => $user->getNom(),
-        "prenom" => $user->getPrenom(),
-        "role" => $this->getTypeUser($user),
-      );
+      $u = new User();
+      // $currentUser=array(
+      $u->setId($user->getId());
+      $u->setNom($user->getNom());
+      $u->setPrenom($user->getPrenom());
+      $u->setStatus($user->getStatus());
+      // "prenom" => $user->getPrenom(),
+      $u->setRole($this->getTypeUser($user));
+      // );
 
-      if ($currentUser['role'] != 'superadmin') {
-        array_push($users,$currentUser);
-      }
+      // if ($currentUser['role'] != 'superadmin') {
+      array_push($users,$u);
+      // }
     }
-    return $users;
+    return view('back.listeuser',compact("users","login"));
   }
 
   /**
@@ -126,9 +135,19 @@ class UserController extends Controller
   * @param  int  $id
   * @return \Illuminate\Http\Response
   */
-  public function destroy($id)
+  public function delete($id)
   {
-    //
+    $userRep = $this->em->getRepository(User::class);
+    $user = $userRep->findById($id);
+
+    try {
+      $this->em->remove($user[0]);
+      $this->em->flush();
+      return "ok";
+    } catch (\Exception $e) {
+      return $e->getMessage();
+    }
+
   }
 
   public static function isLogin(){
@@ -138,10 +157,10 @@ class UserController extends Controller
     if(isset($login)){
       switch ($type) {
         case 'superadmin':
-        $t="superadmin";
+        $t="back.superadmin";
         break;
         case 'admin':
-        $t="admin";
+        $t="back.admin";
         break;
         case 'encadreur':
         $t="encadreur";
@@ -188,6 +207,7 @@ class UserController extends Controller
     $user->setLogin($log);
     $user->setNom($nom);
     $user->setPrenom($prenom);
+    $user->setStatus("on");
     $pass = Hash::make($pass);
     $user->setPassword($pass);
     $this->em->persist($user);
@@ -195,8 +215,37 @@ class UserController extends Controller
     return "ok";
   }
 
+  public function changeStatusToON($id){
+    $id = $id;
+    $u = $this->em->getRepository(User::class);
+    $entity = $u->findById($id);
+    $entity[0]->setStatus("on");
 
-  public function find($idUser){
+    try {
+      $this->em->flush();
+      return "ok";
+    } catch (\Exception $e) {
+      return $e->getMessage();
+    }
+
+  }
+
+  public function changeStatusToOff($id){
+    $id = $id;
+    $u = $this->em->getRepository(User::class);
+    $entity = $u->findById($id);
+    $entity[0]->setStatus("off");
+
+    try {
+      $this->em->flush();
+      return "ok";
+    } catch (\Exception $e) {
+      return $e->getMessage();
+    }
+
+  }
+
+  public function controleRole($typeUser){
     echo $ididUser;
   }
 }

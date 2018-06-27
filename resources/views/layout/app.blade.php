@@ -8,11 +8,11 @@
   <title></title>
 </head>
 <body onload="listeActivite()">
-  <div class="ui secondary menu" id="menuAdmin">
+  <div class="ui secondary menu " id="menuAdmin">
     <div class="header item">
       Empire des Enfants
     </div>
-    <a class="active item" href="/administration">
+    <a class=" item" href="/administration">
       Accueil
     </a>
     <a class="item" href="/administration/Activites">
@@ -33,7 +33,29 @@
     </div>
   </div>
   @yield('header')
-  @yield('body')
+  <div class="ui grid fluid  ">
+    <div class="ui inverted vertical menu three wide column" >
+      <a class="ui header item">
+        <span id="titreGestionActivite" class="centered">Tableau de Bord </span>
+      </a>
+      <a class="item">
+        <span id="btnAddActivite"  class="green ui" name="button">Creer une Activite</span>
+      </a>
+      <a class="item">
+        <span id="btnShowActivites"  class=" green ui" name="button">Voir les Activites</span>
+      </a>
+      <a id="btnShowListeActivite"class="item">
+        Liste des Activites
+      </a>
+      <span class="center" id="aucuneActivite">Aucune Activite pour l'instant</span>
+      <ul id="activitesNotAdded" class="ui white relaxed divided list" hidden>
+        <button id="chooseDate" class='addToAgenda ui mini button primary ' onClick='addActiviteToAgenda()'>Choisir Date</button>
+      </ul>
+    </div>
+    <div class="twelve wide column">
+      @yield('body')
+    </div>
+  </div>
   @yield('footer')
   <script src="../js/semantic.min.js" charset="utf-8"></script>
   <script src="../js/empire.js" charset="utf-8"></script>

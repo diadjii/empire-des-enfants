@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping\DiscriminatorColumn;
 * @DiscriminatorColumn(name="user_type", type="string")
 */
 
-abstract class User{
+ class User{
   /**
   * @ORM\Id
   * @ORM\GeneratedValue
@@ -40,6 +40,13 @@ abstract class User{
   * @ORM\Column(type="string",nullable=true)
   */
   protected $prenom;
+
+  /**
+  * @ORM\Column(type="string",nullable=true)
+  */
+  protected $status;
+
+  protected $role;
 
   public function getId()
   {
@@ -97,6 +104,56 @@ abstract class User{
     $this->prenom = $prenom;
     return $this;
   }
+
+
+    /**
+     * Get the value of Role
+     *
+     * @return mixed
+     */
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+    /**
+     * Set the value of Role
+     *
+     * @param mixed role
+     *
+     * @return self
+     */
+    public function setRole($role)
+    {
+        $this->role = $role;
+
+        return $this;
+    }
+
+
+    /**
+     * Get the value of Status
+     *
+     * @return mixed
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set the value of Status
+     *
+     * @param mixed status
+     *
+     * @return self
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
 
 }
 ?>

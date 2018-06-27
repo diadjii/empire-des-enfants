@@ -27,14 +27,24 @@ class Activite{
   private $descActivite;
 
   /**
-  *@ORM\Column(type="string")
+  * @ORM\Column(type="string")
   */
   private $dateCreation;
 
   /**
-  *@ORM\Column(type="string",nullable=true)
+  * @ORM\Column(type="string")
   */
   private $dateActivite;
+
+  /**
+  * @ORM\Column(type="string")
+  */
+  private $color;
+
+  /**
+  * @ORM\Column(type="string")
+  */
+  private $bgColor;
 
   public function getIdActivite()
   {
@@ -140,6 +150,55 @@ class Activite{
     public function setDateActivite($dateActivite)
     {
         $this->dateActivite = $dateActivite;
+
+        return $this;
+    }
+
+
+    /**
+     * Get the value of Color
+     *
+     * @return mixed
+     */
+    public function getColor()
+    {
+        return $this->color;
+    }
+
+    /**
+     * Set the value of Color
+     *
+     * @param mixed color
+     *
+     * @return self
+     */
+    public function setColor($color)
+    {
+        $this->color = $color;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of Bg Color
+     *
+     * @return mixed
+     */
+    public function getBgColor()
+    {
+        return $this->bgColor;
+    }
+
+    /**
+     * Set the value of Bg Color
+     *
+     * @param mixed bgColor
+     *
+     * @return self
+     */
+    public function setBgColor($bgColor)
+    {
+        $this->bgColor = $bgColor;
 
         return $this;
     }

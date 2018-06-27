@@ -21,3 +21,16 @@
 #chooseDate{
   display: none;
 }
+
+.Activite{
+  color:white;
+}
+
+#titreGestionActivite{
+  color:white;
+  text-decoration: underline;
+}
+
+#bodyLogin{
+  background-image: url();
+}
