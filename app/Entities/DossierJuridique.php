@@ -21,10 +21,40 @@ class DossierJuridique {
     return $this->idDossierJuridique;
   }
 
+  /**
+  * @ORM\OneToOne(targetEntity = DossierEnfant::class)
+  */
+  private $dossierEnfant;
+
   public function setIdDossierJuridique($idDossierJuridique)
   {
     $this->idDossierJuridique = $idDossierJuridique;
     return $this;
   }
+
+
+    /**
+     * Get the value of Dossier Enfant
+     *
+     * @return mixed
+     */
+    public function getDossierEnfant()
+    {
+        return $this->dossierEnfant;
+    }
+
+    /**
+     * Set the value of Dossier Enfant
+     *
+     * @param mixed dossierEnfant
+     *
+     * @return self
+     */
+    public function setDossierEnfant($dossierEnfant)
+    {
+        $this->dossierEnfant = $dossierEnfant;
+
+        return $this;
+    }
 
 }

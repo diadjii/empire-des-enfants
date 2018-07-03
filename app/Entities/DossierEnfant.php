@@ -34,17 +34,12 @@ class DossierEnfant{
   /**
   * @ORM\Column(type="string")
   */
-  private $sexeEnfant;
-
-  /**
-  * @ORM\Column(type="string")
-  */
   private $dateNaissanceEnfant;
 
   /**
   * @ORM\Column(type="string")
   */
-  private $nationaliteEnfant;
+  private $origineEnfant;
 
   /**
   * @ORM\Column(type="string")
@@ -52,25 +47,34 @@ class DossierEnfant{
   private $dateAjoutDossierEnfant;
 
   /**
-  * @ORM\OneToOne(targetEntity = DossierMedicale::class)
+  * @ORM\Column(type="string")
   */
-  private $dossierMedicale;
+  private $lieuNaissance;
 
   /**
-  * @ORM\OneToOne(targetEntity = DossierJuridique::class)
+  * @ORM\Column(type="string")
   */
-  private $dossierJuridique;
+  private $photoEnfant;
 
   /**
-  * @ORM\OneToOne(targetEntity = DossierScolaire::class)
+  * @ORM\Column(type="string")
   */
-  private $dossierScolaire;
+  private $profil;
+
+  /**
+  * @ORM\Column(type="string")
+  */
+  private $description;
+
+  /**
+  * @ORM\Column(type="string")
+  */
+  private $adresse;
 
   public function getIdDossierEnfant()
   {
     return $this->idDossierEnfant;
   }
-
 
   public function setIdDossierEnfant($idDossierEnfant)
   {
@@ -83,7 +87,6 @@ class DossierEnfant{
     return $this->nomEnfant;
   }
 
-
   public function setNomEnfant($nomEnfant)
   {
     $this->nomEnfant = $nomEnfant;
@@ -95,7 +98,6 @@ class DossierEnfant{
   {
     return $this->prenomEnfant;
   }
-
 
   public function setPrenomEnfant($prenomEnfant)
   {
@@ -114,17 +116,6 @@ class DossierEnfant{
     return $this;
   }
 
-  public function getSexeEnfant()
-  {
-    return $this->sexeEnfant;
-  }
-
-  public function setSexeEnfant($sexeEnfant)
-  {
-    $this->sexeEnfant = $sexeEnfant;
-    return $this;
-  }
-
   public function getDateNaissanceEnfant()
   {
     return $this->dateNaissanceEnfant;
@@ -136,14 +127,14 @@ class DossierEnfant{
     return $this;
   }
 
-  public function getNationaliteEnfant()
+  public function getOrigineEnfant()
   {
-    return $this->nationaliteEnfant;
+    return $this->origineEnfant;
   }
 
-  public function setNationaliteEnfant($nationaliteEnfant)
+  public function setOrigineEnfant($origineEnfant)
   {
-    $this->nationaliteEnfant = $nationaliteEnfant;
+    $this->origineEnfant = $origineEnfant;
     return $this;
   }
 
@@ -152,12 +143,79 @@ class DossierEnfant{
     return $this->dateAjoutDossierEnfant;
   }
 
-  public function setDateAjoutDossierEnfant($dateAjoutDossierEnfant)
+  public function getLieuNaissance()
   {
-    $this->dateAjoutDossierEnfant = $dateAjoutDossierEnfant;
+    return $this->lieuNaissance;
+  }
+
+  public function setLieuNaissance($lieuNaissance)
+  {
+    $this->lieuNaissance = $lieuNaissance;
+
     return $this;
   }
 
+  public function getProfil()
+  {
+    return $this->profil;
+  }
+
+  public function setProfil($profil)
+  {
+    $this->profil = $profil;
+
+    return $this;
+  }
+
+  public function getDescription()
+  {
+    return $this->description;
+  }
+
+  public function setDescription($description)
+  {
+    $this->description = $description;
+
+    return $this;
+  }
+
+  public function setDateAjoutDossierEnfant($dateAjoutDossierEnfant)
+  {
+    $this->dateAjoutDossierEnfant = $dateAjoutDossierEnfant;
+
+    return $this;
+  }
+
+  public function getPhotoEnfant()
+  {
+    return $this->photoEnfant;
+  }
+
+  public function setPhotoEnfant($photoEnfant)
+  {
+    $this->photoEnfant = $photoEnfant;
+
+    return $this;
+  }
+
+
+    /**
+     * Get the value of Adresse
+     *
+     * @return mixed
+     */
+    public function getAdresse()
+    {
+        return $this->adresse;
+    }
+
+    public function setAdresse($adresse)
+    {
+        $this->adresse = $adresse;
+
+        return $this;
+    }
+
 }
 
- ?>
+?>

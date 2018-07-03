@@ -51,7 +51,14 @@ Route::get('/administration/listeActivites','ActiviteController@show');
 Route::get("/administration/editActivity/{idActivite}","ActiviteController@edit");
 Route::get("/administration/deleteActivite/{idActivite}","ActiviteController@destroy");
 Route::get('/administration/DossierDesEnfants','DossierEnfantController@index');
-Route::get('/administration/createDossierEnfant','DossierEnfantController@create');
+Route::get('/administration/ListeDossierEnfants','DossierEnfantController@listeDossierEnfant');
+Route::get('/administration/DossierEnfant/{id}/Details','DossierEnfantController@show');
+Route::get('/administration/DossierEnfant/{id}/DossierMedical','DossierMedicaleController@show');
+
+// Route::get('/administration/DetailDossier','DossierEnfantController@detailDossier');
+
+Route::post('/administration/DossierDesEnfants','DossierEnfantController@store');
+
 
 Route::get("/Admin",'UserController@isLogin');
 
@@ -59,3 +66,6 @@ Route::get("/Admin/ListeUser",'UserController@show');
 Route::get("/Admin/{id}/changeStatusToOn",'UserController@changeStatusToON');
 Route::get("/Admin/{id}/changeStatusToOff",'UserController@changeStatusToOff');
 Route::get("/Admin/{id}/deleteUser",'UserController@delete');
+
+Route::get('/Infirmier','InfirmierController@show');
+Route::post("/Infirmier/CreateDossierMedicale",'DossierMedicaleController@store');

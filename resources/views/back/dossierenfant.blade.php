@@ -15,9 +15,12 @@
               <div class="card-header">
                 <h3 class="card-title ">Creation Dossier Enfant</h3>
               </div>
+              @foreach ($errors->all() as $error)
+                <p class="alert alert-danger">{{ $error }}</p>
+              @endforeach
               <!-- /.card-header -->
               <!-- form start -->
-              <form role="form" action="/administration/createDossier" method="post">
+              <form role="form" action="/administration/DossierDesEnfants" method="post" enctype="multipart/form-data">
                 <div class="card-body">
                   {{-- Nom et Prenom --}}
                   <div class="row">
@@ -75,7 +78,7 @@
                   <div class="row">
                     <div class="col-6">
                       <label for="exampleInputEmail1">Nom M&eacutere</label>
-                      <input type="text" class="form-control" name="nomPere" placeholder="Nom du Mére" required>
+                      <input type="text" class="form-control" name="nomMere" placeholder="Nom du Mére" required>
                     </div>
                     <div class="col-6">
                       <label for="exampleInputEmail1">Numero T&eacutel&eacutephone</label>
@@ -115,7 +118,7 @@
                   <div class="row">
                     <div class="form-group">
                       <label>Description : </label>
-                      <textarea class="form-control" cols="90" rows="5" name="description" placeholder="Faite une decription ..."></textarea>
+                      <textarea class="form-control" cols="90" rows="5" name="description" placeholder="Faite une description ..."></textarea>
                     </div>
                   </div>
                 </div>
