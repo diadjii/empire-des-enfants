@@ -1,9 +1,6 @@
 <?php
 namespace App\Entities;
 
-use Doctrine\ORM\Mapping AS ORM;
-use Doctrine\Common\Collections\ArrayCollection;
-
 /**
 * @ORM\Entity
 * @ORM\Table(name="dossier_medicale")
@@ -24,27 +21,7 @@ class DossierMedicale {
   /**
    * @ORM\Column(type="string")
    */
-  private $typeConsultation;
-  
-  /**
-   * @ORM\Column(type="string")
-   */
-  private $prescription;
-
-  /**
-   * @ORM\Column(type="string")
-   */
-  private $analyseComplementaire;
-
-  /**
-   * @ORM\Column(type="string")
-   */
   private $groupeSanguin;
-
-  /**
-   * @ORM\Column(type="string")
-   */
-  private $diagnostique;
 
   /**
    * @ORM\Column(type="string",nullable=true)
@@ -60,7 +37,6 @@ class DossierMedicale {
   {
     return $this->idDossierMedicale;
   }
-
 
   public function setIdDossierMedicale($idDossierMedicale)
   {
@@ -93,42 +69,6 @@ class DossierMedicale {
     return $this;
   }
 
-  public function getTypeConsultation()
-  {
-    return $this->typeConsultation;
-  }
-
-  public function setTypeConsultation($typeConsultation)
-  {
-    $this->typeConsultation = $typeConsultation;
-
-    return $this;
-  }
-
-  public function getPrescription()
-  {
-    return $this->prescription;
-  }
-  
-  public function setPrescription($prescription)
-  {
-    $this->prescription = $prescription;
-
-    return $this;
-  }
-
-  public function getAnalyseComplementaire()
-  {
-    return $this->analyseComplementaire;
-  }
-  
-  public function setAnalyseComplementaire($analyseComplementaire)
-  {
-    $this->analyseComplementaire = $analyseComplementaire;
-
-    return $this;
-  }
-
   public function getGroupeSanguin()
   {
     return $this->groupeSanguin;
@@ -137,19 +77,6 @@ class DossierMedicale {
   public function setGroupeSanguin($groupeSanguin)
   {
     $this->groupeSanguin = $groupeSanguin;
-
-    return $this;
-  }
-
-  public function getDiagnostique()
-  {
-    return $this->diagnostique;
-  }
-
-  
-  public function setDiagnostique($diagnostique)
-  {
-    $this->diagnostique = $diagnostique;
 
     return $this;
   }

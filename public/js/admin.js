@@ -38,7 +38,7 @@ $(function(){
         buttonText: 'Jours'
       },
       month:{
-        buttonText :'Mois'
+          buttonText: 'Mois' / home / diadji
       }
     },
     schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',

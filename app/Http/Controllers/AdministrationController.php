@@ -16,7 +16,6 @@ class AdministrationController extends Controller
         UserController::isLogin();
     }
 
-
     public function accueil(){
       return view('admin')->with('login',session('login'));
     }

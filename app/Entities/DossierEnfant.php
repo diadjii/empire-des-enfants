@@ -1,9 +1,6 @@
 <?php
 namespace App\Entities;
 
-use Doctrine\ORM\Mapping AS ORM;
-use Doctrine\Common\Collections\ArrayCollection;
-
 /**
 * @ORM\Entity
 * @ORM\Table(name="dossier_enfant")
@@ -198,12 +195,6 @@ class DossierEnfant{
     return $this;
   }
 
-
-    /**
-     * Get the value of Adresse
-     *
-     * @return mixed
-     */
     public function getAdresse()
     {
         return $this->adresse;

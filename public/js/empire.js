@@ -58,10 +58,10 @@ $(function(){
     }).then(function(response){
       switch (response) {
         case 'ok':
-        alert("Compte Utilisateur créé avec success");
+            alert("Compte Utilisateur créé avec success");
         break;
         case 'exist':
-        alert("Ce compte d'utilisateur existe dejà");
+            alert("Ce compte d'utilisateur existe dejà");
         break;
         case "vide":
           alert("Champs requis");
@@ -91,7 +91,7 @@ $(function(){
       window.location.href="/Admin";
       break;
       case 'infirmier':
-      window.location.href="infirmier/accueil";
+          window.location.href = "Infirmier";
       break;
       case 'encadreur':
       window.location.href="encadreur/accueil";

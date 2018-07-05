@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\UserController;
-use Illuminate\Http\Request;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Entities\Activite;
 use App\Entities\DateActivite;
 use App\Http\Requests\ActiviteFormRequest;
+use Doctrine\ORM\EntityManagerInterface;
+use Illuminate\Http\Request;
 
 class ActiviteController extends Controller
 {
@@ -61,12 +60,6 @@ class ActiviteController extends Controller
     return "ok";
   }
 
-  /**
-  * Display the specified resource.
-  *
-  * @param  int  $id
-  * @return \Illuminate\Http\Response
-  */
   public function show()
   {
     $acrep = $this->em->getRepository(Activite::class);
@@ -182,7 +175,6 @@ class ActiviteController extends Controller
     $dateActivite->setDateDebut($date);
     $dateActivite->setDateFin('');
     $dateActivite->setDateActivite('');
-
 
     try {
       $this->em->persist($dateActivite);

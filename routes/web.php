@@ -1,21 +1,12 @@
 <?php
 
-use App\Entities\SuperAdmin;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
 */
 
-Route::get('/login', function () {
-    return view('login');
-});
-Route::post('/login','UserController@login');
 
-Route::get("/logOut",function(){
-  session()->flush();
-  return redirect("/login");
-});
 
 Route::get('/admin','UserController@isLogin');
 Route::get('/admin/accueil','UserController@accueil');
@@ -44,6 +35,16 @@ Route::get("/infirmier/accueil",'InfirmierController@accueil');
 *TEst de vue
 **/
 
+Route::get('/login', function () {
+    return view('login');
+});
+Route::post('/login', 'UserController@login');
+
+Route::get("/logOut", function () {
+    session()->flush();
+    return redirect("/login");
+});
+
 Route::get("/administration",'UserController@isLogin');
 
 Route::get("/administration/agendaActivites",'ActiviteController@agendaActivites');
@@ -55,17 +56,16 @@ Route::get('/administration/ListeDossierEnfants','DossierEnfantController@listeD
 Route::get('/administration/DossierEnfant/{id}/Details','DossierEnfantController@show');
 Route::get('/administration/DossierEnfant/{id}/DossierMedical','DossierMedicaleController@show');
 
-// Route::get('/administration/DetailDossier','DossierEnfantController@detailDossier');
-
 Route::post('/administration/DossierDesEnfants','DossierEnfantController@store');
 
-
 Route::get("/Admin",'UserController@isLogin');
-
 Route::get("/Admin/ListeUser",'UserController@show');
 Route::get("/Admin/{id}/changeStatusToOn",'UserController@changeStatusToON');
 Route::get("/Admin/{id}/changeStatusToOff",'UserController@changeStatusToOff');
 Route::get("/Admin/{id}/deleteUser",'UserController@delete');
 
 Route::get('/Infirmier','InfirmierController@show');
+Route::get("/Infirmier/DossierMedicale/{idDossierEnfant}/Consultation", 'DossierMedicaleController@showDetails');
+
 Route::post("/Infirmier/CreateDossierMedicale",'DossierMedicaleController@store');
+Route::post("/Infirmier/CreateConsultationMedicale", 'ConsultationMedicaleController@store');

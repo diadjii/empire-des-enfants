@@ -20,40 +20,29 @@
               <div class="row">
                   <div class="col-6">
                     <label for="exampleInputEmail1">Consultation</label>
-                    <input type="text" class="form-control"  name="consultation" value= >
+                      <input type="text" class="form-control" name="consultation" value="{{$d->getTypeConsultation()}}">
                     <input type="hidden" name="_token" value="{!! csrf_token() !!}">
                   </div>
                   <div class="col-6">
                     <label for="exampleInputEmail1">Prescription</label>
-                    <input type="text" class="form-control" name="prescription" >
+                      <input type="text" class="form-control" name="prescription" value="{{$d->getPrescription()}}">
                   </div>
-                </div> <div class="row">
-                  <div class="col-6">
-                    <label for="exampleInputEmail1">Nom</label>
-                    <input type="text" class="form-control"  name="nom" value= >
-                    <input type="hidden" name="_token" value="{!! csrf_token() !!}">
-                  </div>
-                  <div class="col-6">
-                    <label for="exampleInputEmail1">Prenom</label>
-                    <input type="text" class="form-control" name="prenom" >
-                  </div>
-                </div>
+              </div>
                 <div class="row">
                   <div class="col-6">
                     <label for="exampleInputEmail1">Analyse Complementaire</label>
-                    <input type="text" class="form-control"  name="analyseComplementiare" value= >
-                    <input type="hidden" name="_token" value="{!! csrf_token() !!}">
+                      <input type="text" class="form-control" name="analyseComplementiare"
+                             value="{{$d->getAnalyseComplementaire()}}">
                   </div>
                   <div class="col-6">
                     <label for="exampleInputEmail1">Groupe Sanguin</label>
-                    <input type="text" class="form-control" name="groupeSanguin" >
+                      <input type="text" class="form-control" name="groupeSanguin" value="{{$d->getGroupeSanguin()}}">
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-6">
                     <label for="exampleInputEmail1">Diagnostique</label>
-                    <input type="text" class="form-control"  name="diagnostique" value= >
-                    <input type="hidden" name="_token" value="{!! csrf_token() !!}">
+                      <input type="text" class="form-control" name="diagnostique" value="{{$d->getDiagnostique()}}">
                   </div>
                   <div class="col-6">
                     <label for="exampleInputEmail1">Date Derniere Visite</label>
