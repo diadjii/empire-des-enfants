@@ -33,7 +33,7 @@
                   <th>Prenom</th>
                   <th>Details</th>
                   <th>Dossier Medicale</th>
-                  <th>Dossier Juridique</th>
+
                 </tr>
                 {{-- Affichage de la liste des utilisateurs  --}}
                 @foreach ($liste as $dossier)
@@ -43,8 +43,8 @@
                     <td>{{$dossier->getPrenomEnfant()}} </td>
                     <td><form action="/administration/DossierEnfant/{{$dossier->getIdDossierEnfant()}}/Details"><button type="submit" class="btn btn-primary">Voir details</button></form></td>
                     <td><form action="/administration/DossierEnfant/{{$dossier->getIdDossierEnfant()}}/DossierMedical"><button type="submit" class="btn btn-success">Voir Dossier </button></form></td>
-                    <td><button type="button" class="btn btn-warning" onClick="viewDetailsDossier({{$dossier->getIdDossierEnfant()}})">Voir Dossier</button></td>
-
+                    {{--<td><form action="/administration/DossierEnfant/{{$dossier->getIdDossierEnfant()}}/DossierJuridique"><button type="button" class="btn btn-warning" >Voir Dossier</button></form></td>
+--}}
 
                     {{-- <td><span class="tag tag-success">{{$dossier->getRole()}}</span></td>
                     @if ($dossier->getStatus()==='on')

@@ -40,8 +40,8 @@ public function accueil(){
     public function show()
     {
         $dossierRep = $this->em->getRepository(DossierEnfant::class);
-        $liste = $dossierRep->findAll();
-        $login = session('login');
+        $liste      = $dossierRep->findAll();
+        $login      = session('login');
         
         return view('back.infirmier',compact("liste","login"));
     }

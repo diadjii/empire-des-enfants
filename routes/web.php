@@ -45,6 +45,7 @@ Route::get("/logOut", function () {
     return redirect("/login");
 });
 
+
 Route::get("/administration",'UserController@isLogin');
 
 Route::get("/administration/agendaActivites",'ActiviteController@agendaActivites');
@@ -53,8 +54,15 @@ Route::get("/administration/editActivity/{idActivite}","ActiviteController@edit"
 Route::get("/administration/deleteActivite/{idActivite}","ActiviteController@destroy");
 Route::get('/administration/DossierDesEnfants','DossierEnfantController@index');
 Route::get('/administration/ListeDossierEnfants','DossierEnfantController@listeDossierEnfant');
+
+Route::post("/administration/addActivite","ActiviteController@create");
+
 Route::get('/administration/DossierEnfant/{id}/Details','DossierEnfantController@show');
-Route::get('/administration/DossierEnfant/{id}/DossierMedical','DossierMedicaleController@show');
+Route::get('/administration/DossierEnfant/{id}/DossierMedical','DossierMedicaleController@showDetails');
+Route::get('/administration/DossierEnfant/{id}/DossierJuridique','DossierEnfantController@dossierJuridiquePDF');
+Route::get("/administration/DossierEnfant/{nom}/download-dossier-tribunal","DossierEnfantController@getDossierTribunal");
+
+Route::post('/administration/DossierEnfant/addDossierTribunal','DossierEnfantController@addDossierTribunal');
 
 Route::post('/administration/DossierDesEnfants','DossierEnfantController@store');
 
@@ -66,6 +74,8 @@ Route::get("/Admin/{id}/deleteUser",'UserController@delete');
 
 Route::get('/Infirmier','InfirmierController@show');
 Route::get("/Infirmier/DossierMedicale/{idDossierEnfant}/Consultation", 'DossierMedicaleController@showDetails');
+Route::get("/Infirmier/Download/{id}",'DossierMedicaleController@consultationPDF');
 
 Route::post("/Infirmier/CreateDossierMedicale",'DossierMedicaleController@store');
 Route::post("/Infirmier/CreateConsultationMedicale", 'ConsultationMedicaleController@store');
+Route::post("/Infirmierd/UpdateConsultationMedicale",'ConsultationMedicaleController@update');

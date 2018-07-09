@@ -15,6 +15,20 @@ $(function () {
       // store the Event Object in the DOM element so we can get to it later
       $(this).data('eventObject', eventObject)
 
+      $(this).click(function(){
+        let id = $(this).attr("id")
+        $("#deleteActiviteModal").modal("show")
+        $("#confirmDeleteActivite").click(function(){
+          $.get("administration/deleteActivite/"+id).then(function(response){
+              $("#deleteActiviteModal").modal("hide");
+              alert("L'activite a bien ete supprimée");
+              window.location = "/administration";
+
+          }).fail(function(r){
+              console.log(r);
+          })
+        } )
+      })
       // make the event draggable using jQuery UI
       $(this).draggable({
         zIndex        : 1070,
@@ -47,52 +61,7 @@ $(function () {
       day  : 'Jour'
     },
     //Random default events
-    events    : '/administration/agendaActivites',//[
-    // {
-    //   title          : 'All Day Event',
-    //   start          : new Date(y, m, 1),
-    //   backgroundColor: '#f56954', //red
-    //   borderColor    : '#f56954' //red
-    // },
-    // {
-    //   title          : 'Long Event',
-    //   start          : new Date(y, m, d - 5),
-    //   end            : new Date(y, m, d - 2),
-    //   backgroundColor: '#f39c12', //yellow
-    //   borderColor    : '#f39c12' //yellow
-    // },
-    // {
-    //   title          : 'Meeting',
-    //   start          : new Date(y, m, d, 10, 30),
-    //   allDay         : false,
-    //   backgroundColor: '#0073b7', //Blue
-    //   borderColor    : '#0073b7' //Blue
-    // },
-    // {
-    //   title          : 'Lunch',
-    //   start          : new Date(y, m, d, 12, 0),
-    //   end            : new Date(y, m, d, 14, 0),
-    //   allDay         : false,
-    //   backgroundColor: '#00c0ef', //Info (aqua)
-    //   borderColor    : '#00c0ef' //Info (aqua)
-    // },
-    // {
-    //   title          : 'Birthday Party',
-    //   start          : new Date(y, m, d + 1, 19, 0),
-    //   end            : new Date(y, m, d + 1, 22, 30),
-    //   allDay         : false,
-    //   backgroundColor: '#00a65a', //Success (green)
-    //   borderColor    : '#00a65a' //Success (green)
-    // },
-    // {
-    //   title          : 'Click for Google',
-    //   start          : new Date(y, m, 28),
-    //   end            : new Date(y, m, 29),
-    //   url            : 'http://google.com/',
-    //   backgroundColor: '#3c8dbc', //Primary (light-blue)
-    //   borderColor    : '#3c8dbc' //Primary (light-blue)
-    // }
-    // ],
+    events    : '/administration/agendaActivites',
     editable  : true,
     droppable : true, // this allows things to be dropped onto the calendar !!!
     drop      : function (date, allDay) { // this function is called when something is dropped
@@ -131,23 +100,18 @@ $(function () {
         fin = event.end._d.toISOString().split('.')[0];
         // console.log(event.end._i)
       }
-
-      console.log(debut);
-      console.log(fin);
       saveActivite(idActivite,debut,fin);
     },
     eventResize:function(event){
       var debut = event.start._d.toISOString().split(".")[0];
       var fin = "";
-      console.log(event)
+    
       var idActivite = event.id;
       if(event.end !=null){
         fin = event.end._d.toISOString().split('.')[0];
         // console.log(event.end._i)
       }
 
-      console.log(debut);
-      console.log(fin);
       saveActivite(idActivite,debut,fin);
     }
   })
@@ -171,6 +135,7 @@ $(function () {
     //Get value and make sure it is not null
     var val = $('#new-event').val()
     if (val.length == 0) {
+      //addNewActivite(val);
       return
     }
 
@@ -196,15 +161,16 @@ function getListeActivite(){
     for (var i = 0; i < response.length; i++) {
       console.log(response);
       var val = response[i].nomActivite;
-      var colors = ['#00c0ef','#3c8dbc','#00a65a','#f0b3b7','#f39c12','#f56954'];
+    
       var event = $('<div />')
       event.css({
-        'background-color': colors[i],
-        'border-color'    : colors[i],
-        'color'           : '#fff'
+        'background-color': response[i].color,
+        'border-color'    : response[i].color,
+        'color'           : '#000'
       }).addClass('external-event')
       event.html(val)
       event.attr("id",response[i].id);
+      //event.attr("class","activite");
       $('#external-events').prepend(event)
 
       //Add draggable funtionality
@@ -227,7 +193,7 @@ function getListeActivite(){
 }
 
 function addToAgenda(id,d){
-  token = $('input[name="_token"]').val();
+ let token = $('input[name="_token"]').val();
 
   $.post("/administration/saveToAgenda",{
     idActivite:id,
@@ -243,8 +209,8 @@ function addToAgenda(id,d){
 
 function saveActivite(idActivite,heureDebut,heureFin){
 
-  token = $('input[name="_token"]').val();
-  console.log(idActivite)
+ let  token = $('input[name="_token"]').val();
+  
   $.post("/administration/updateActivite",{
     idActivite:idActivite,
     heureDebut:heureDebut,
@@ -256,3 +222,43 @@ function saveActivite(idActivite,heureDebut,heureFin){
     console.log(r);
   });
 }
+
+var currColor;
+$('#color-chooser > li > a').click(function (e) {
+  e.preventDefault()
+  //Save color
+  currColor = $(this).css('color')
+  //Add color effect to button
+  $('#add-new-event').css({
+    'background-color': currColor,
+    'border-color'    : currColor
+  })
+})
+
+$("#add-new-activite").click(function(){
+  let activite  = $("#new-activite").val();
+  let  token    = $('input[name="_token"]').val();
+  let couleur   = $('#couleur').val();
+
+  if(activite == "" || couleur == ""){
+    alert("Vous devez choisir une couleur et donnez le nom de l'activite");
+  }else{
+
+    $.post("/administration/addActivite",{
+      nomActivite : activite,
+      _token      : token,
+      couleur     : couleur
+    }).then(function(response){
+      console.log(response);
+      window.location = "/administration";
+    }).fail(function(r){
+      console.log(r);
+    });
+  }
+})
+
+$("div.external-event").click(function(){
+  ///
+  //et t= $("this").attr("id").val();
+  alert("ok")
+})

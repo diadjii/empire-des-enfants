@@ -37,16 +37,8 @@
               <div class="card-body">
                 <!-- the events -->
                 <div id="external-events">
-                  {{-- <div class="external-event bg-success">Lunch</div>
-                  <div class="external-event bg-warning">Go home</div>
-                  <div class="external-event bg-info">Do homework</div>
-                  <div class="external-event bg-primary">Work on UI design</div>
-                  <div class="external-event bg-danger">Sleep tight</div> --}}
                   <div class="checkbox">
-                    <label for="drop-remove">
-                      <input type="checkbox" id="drop-remove">
-                      remove after drop
-                    </label>
+                   
                   </div>
                 </div>
               </div>
@@ -58,22 +50,16 @@
                 <h3 class="card-title">Creer une Activite</h3>
               </div>
               <div class="card-body">
-                <div class="btn-group" style="width: 100%; margin-bottom: 10px;">
-                  <!--<button type="button" id="color-chooser-btn" class="btn btn-info btn-block dropdown-toggle" data-toggle="dropdown">Color <span class="caret"></span></button>-->
-                  <ul class="fc-color-picker" id="color-chooser">
-                    <li><a class="text-primary" href="#"><i class="fa fa-square"></i></a></li>
-                    <li><a class="text-warning" href="#"><i class="fa fa-square"></i></a></li>
-                    <li><a class="text-success" href="#"><i class="fa fa-square"></i></a></li>
-                    <li><a class="text-danger" href="#"><i class="fa fa-square"></i></a></li>
-                    <li><a class="text-muted" href="#"><i class="fa fa-square"></i></a></li>
-                  </ul>
-                </div>
-                <!-- /btn-group -->
                 <div class="input-group">
-                  <input id="new-event" type="text" class="form-control" placeholder="Event Title">
-
+                  <label for="couleur">Choisir une Couleur :</label><hr>
+                  <input type="color" name="couleur" id="couleur" value="#ffffff" style="width: 40%;">
+                </div>
+                <br>
+                <div class="input-group">
+                  <input id="new-activite" type="text" class="form-control" placeholder="Nom Activite">
+                  <input type="hidden" name="_token" value="{!! csrf_token() !!}">
                   <div class="input-group-append">
-                    <button id="add-new-event" type="button" class="btn btn-primary btn-flat">Add</button>
+                    <button id="add-new-activite" type="button" class="btn btn-primary btn-flat">Ajouter</button>
                   </div>
                   <!-- /btn-group -->
                 </div>
@@ -95,6 +81,25 @@
           <!-- /.col -->
         </div>
         <!-- /.row -->
+        <div class="modal fade" id="deleteActiviteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Suppression Activite</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <strong>Voulez-vous supprimer l'activite ?</strong>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+                  <button type="button" id="confirmDeleteActivite" class="btn btn-success">Confirmer</button>
+                </div>
+              </div>
+            </div>
+          </div>
       </div><!-- /.container-fluid -->
     </section>
   @endsection
