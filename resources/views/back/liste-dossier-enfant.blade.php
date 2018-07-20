@@ -16,14 +16,17 @@
 
               <div class="card-tools">
                 <div class="input-group input-group-sm" style="width: 150px;">
-                  <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+                  
+                  <form action="/administration/DossierDesEnfants">
 
-                  <div class="input-group-append">
-                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
-                  </div>
+                    <div class="input-group-append">
+                      <button type="submit" class="btn btn-warning ">Creer Dossier Enfant</button>
+                    </div>
+                  </form>
                 </div>
               </div>
             </div>
+            <img src="{{ Storage::url('Maguette-Diagne-24/Maguette-Diagne-24.jpeg')}}" alt="" title=""></a>
             <!-- /.card-header -->
             <div class="card-body table-responsive p-0" onload="test()">
               <table ud="listeUser" class="table table-hover">
@@ -32,7 +35,8 @@
                   <th>Nom</th>
                   <th>Prenom</th>
                   <th>Details</th>
-                  <th>Dossier Medicale</th>
+                  <th>Dossier Medical</th>
+                  <th>Status</th>
 
                 </tr>
                 {{-- Affichage de la liste des utilisateurs  --}}
@@ -43,16 +47,7 @@
                     <td>{{$dossier->getPrenomEnfant()}} </td>
                     <td><form action="/administration/DossierEnfant/{{$dossier->getIdDossierEnfant()}}/Details"><button type="submit" class="btn btn-primary">Voir details</button></form></td>
                     <td><form action="/administration/DossierEnfant/{{$dossier->getIdDossierEnfant()}}/DossierMedical"><button type="submit" class="btn btn-success">Voir Dossier </button></form></td>
-                    {{--<td><form action="/administration/DossierEnfant/{{$dossier->getIdDossierEnfant()}}/DossierJuridique"><button type="button" class="btn btn-warning" >Voir Dossier</button></form></td>
---}}
-
-                    {{-- <td><span class="tag tag-success">{{$dossier->getRole()}}</span></td>
-                    @if ($dossier->getStatus()==='on')
-                      <td><button type="button" class="btn btn-primary" onClick="desactiveUser({{$dossier->getId()}})">Desactiver</button></td>
-                    @else
-                      <td><button type="button" class="btn btn-success"  onclick="activeUser({{$dossier->getId()}})">Activer</button></td>
-                    @endif --}}
-
+                    <td>{{$dossier->getStatutEnfant()}}</td>
                   </tr>
                 @endforeach
               </table>

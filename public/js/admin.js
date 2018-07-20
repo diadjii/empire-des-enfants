@@ -162,7 +162,7 @@ $("#editActivite").submit(function(e){
   var nomActivte = $("input[name='newNomActivite']").val();
   var descActivite = $("textarea[name='newDescActivite']").val();
   var idActivite = $("input[name='idActivite']").val();
-  token = $('input[name="_token"]').val();
+  let token = $('input[name="_token"]').val();
 
   $.post("/administration/updateActivite",{
     nomActivite:nomActivte,
@@ -210,8 +210,9 @@ function addActiviteToAgenda(id){
 
   //lors de la validation de la date pour une activite
   $("#saveActiviteInAgenda").click(function(){
-    token = $('input[name="_token"]').val();
-    dateActivite = $("#dateChoisie").text();
+    let token = $('input[name="_token"]').val();
+    let dateActivite = $("#dateChoisie").text();
+    
     if(dateActivite==null){
       $("#action").hide();
       $("#info").text("Vous n'avez pas choisi de date pour l'activite ");

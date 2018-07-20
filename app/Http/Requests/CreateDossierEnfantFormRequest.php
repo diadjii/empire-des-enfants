@@ -26,14 +26,8 @@ class CreateDossierEnfantFormRequest extends FormRequest
         return [
           'nom'           => 'required|min:2',
           'prenom'        => 'required|min:3',
-          'dateNaissance' => 'required',
-          'lieuNaissance' => 'required',
           'origine'       => 'required',
           'adresse'       => 'required',
-          'prenomPere'    => 'required',
-          'nomMere'       => 'required',
-          'prenomMere'    => 'required',
-          'numTel'        => 'required|size:9',
           'photoEnfant'   => 'mimes:jpeg,jpg,png',
           'profilEnfant'  => 'required',
           'description'   => 'required'

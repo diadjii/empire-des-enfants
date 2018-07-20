@@ -30,7 +30,7 @@ class DossierEnfant{
   private $ageEnfant;
 
   /**
-  * @ORM\Column(type="string")
+  * @ORM\Column(type="string",nullable=true)
   */
   private $dateNaissanceEnfant;
 
@@ -45,14 +45,9 @@ class DossierEnfant{
   private $dateAjoutDossierEnfant;
 
   /**
-  * @ORM\Column(type="string")
+  * @ORM\Column(type="string",nullable=true)
   */
   private $lieuNaissance;
-
-  /**
-  * @ORM\Column(type="string")
-  */
-  private $photoEnfant;
 
   /**
   * @ORM\Column(type="string")
@@ -65,9 +60,15 @@ class DossierEnfant{
   private $description;
 
   /**
-  * @ORM\Column(type="string")
+  * @ORM\Column(type="string",nullable=true)
   */
   private $adresse;
+
+
+  /**
+   * @ORM\Column(type="string")
+   */
+  private $statutEnfant = "present";
 
   public function getIdDossierEnfant()
   {
@@ -184,18 +185,6 @@ class DossierEnfant{
     return $this;
   }
 
-  public function getPhotoEnfant()
-  {
-    return $this->photoEnfant;
-  }
-
-  public function setPhotoEnfant($photoEnfant)
-  {
-    $this->photoEnfant = $photoEnfant;
-
-    return $this;
-  }
-
     public function getAdresse()
     {
         return $this->adresse;
@@ -208,6 +197,26 @@ class DossierEnfant{
         return $this;
     }
 
+
+  /**
+   * Get the value of statutEnfant
+   */ 
+  public function getStatutEnfant()
+  {
+    return $this->statutEnfant;
+  }
+
+  /**
+   * Set the value of statutEnfant
+   *
+   * @return  self
+   */ 
+  public function setStatutEnfant($statutEnfant)
+  {
+    $this->statutEnfant = $statutEnfant;
+
+    return $this;
+  }
 }
 
 ?>

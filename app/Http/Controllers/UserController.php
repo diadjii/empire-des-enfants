@@ -2,15 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Entities\User;
 use App\Entities\Admin;
-use App\Entities\Infirmier;
-use App\Entities\Encadreur;
+
 use App\Entities\Animateur;
-use App\Http\Requests\UserFormRequest;
+
+use App\Entities\Encadreur;
+use App\Entities\Infirmier;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\UserFormRequest;
+
+use Doctrine\ORM\EntityManagerInterface;
+use App\Http\Controllers\EventStoreController;
 
 class UserController extends Controller
 {
@@ -19,6 +23,13 @@ class UserController extends Controller
     public function __construct(EntityManagerInterface $em){
         $this->em = $em;
     }
+
+    public function index(){
+        $login = session("login");
+
+        return view("back.ajout-new-user",compact("login"));
+    }
+
 
     public function login(Request $request){
         $reponse = null;
@@ -48,6 +59,7 @@ class UserController extends Controller
         }else{
             $reponse = "noAccount";
         }
+
         return $reponse;
     }
 
@@ -68,11 +80,19 @@ class UserController extends Controller
                 $reponse =  'exist';
             }else{
                 $this->registreUser($login,$password,$typeUser,$nom,$prenom);
+                
+                $info = [
+                    "typeAction"    => "ajout utlisateur",
+                    "userId"        => session("id"),
+                ];
+            EventStoreController::store($this->em,$info);
+         
                 $reponse = "ok";
             }
         }else{
             $reponse ="vide";
         }
+
         return $reponse;
     }
 
@@ -98,14 +118,9 @@ class UserController extends Controller
             array_push($users,$u);
 
         }
+
         return view('back.listeuser',compact("users","login"));
     }
-
-    public function edit($id)
-    {
-        //
-    }
-
 
     public function update(Request $request, $id)
     {
@@ -113,14 +128,18 @@ class UserController extends Controller
     }
 
 
-    public function delete($id)
-    {
+    public function delete($id){
         $userRep    = $this->em->getRepository(User::class);
         $user       = $userRep->findById($id);
 
         try {
             $this->em->remove($user[0]);
             $this->em->flush();
+            $info = [
+                "typeAction"    => "suppression utlisateur",
+                "userId"        => session("id"),
+            ];
+            EventStoreController::store($this->em,$info);
             return "ok";
         } catch (\Exception $e) {
             return $e->getMessage();
@@ -145,11 +164,8 @@ class UserController extends Controller
                 case 'encadreur':
                     $t="back.encadreur";
                     break;
-
-                default:
-                    // code...
-                    break;
             }
+
             return view($t,compact('login'));
         }else{
             return view("login");
@@ -180,9 +196,6 @@ class UserController extends Controller
             case 'anim':
                 $user = new Animateur();
                 break;
-            default:
-                // code...
-                break;
         }
 
         $pass = Hash::make($pass);
@@ -200,14 +213,18 @@ class UserController extends Controller
     }
 
     public function changeStatusToON($id){
-        $id     = $id;
         $u      = $this->em->getRepository(User::class);
-
         $entity = $u->findById($id);
+
         $entity[0]->setStatus("on");
 
         try {
             $this->em->flush();
+            $info = [
+                "typeAction"    => "activation utlisateur",
+                "userId"        => session("id"),
+            ];
+            EventStoreController::store($this->em,$info);
             return "ok";
         } catch (\Exception $e) {
             return $e->getMessage();
@@ -216,13 +233,17 @@ class UserController extends Controller
     }
 
     public function changeStatusToOff($id){
-        $id = $id;
         $u  = $this->em->getRepository(User::class);
         $entity = $u->findById($id);
         $entity[0]->setStatus("off");
 
         try {
             $this->em->flush();
+            $info = [
+                "typeAction"    => "desactivation utlisateur",
+                "userId"        => session("id"),
+            ];
+            EventStoreController::store($this->em,$info);
             return "ok";
         } catch (\Exception $e) {
             return $e->getMessage();
@@ -230,7 +251,8 @@ class UserController extends Controller
 
     }
 
-    public function controleRole($typeUser){
-        echo $ididUser;
+    private function storeEvent($info){
+        $event = new EventStoreController($this->em);
+        $event->store($info);
     }
 }

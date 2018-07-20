@@ -19,17 +19,17 @@ class Parents {
   private $id;
 
   /**
-  * @ORM\Column(type="string")
+  * @ORM\Column(type="string",nullable=true)
   */
   private $prenomPere;
 
   /**
-  * @ORM\Column(type="string")
+  * @ORM\Column(type="string",nullable=true)
   */
   private $nomMere ;
 
   /**
-  * @ORM\Column(type="string")
+  * @ORM\Column(type="string",nullable=true)
   */
   private $prenomMere;
 
@@ -39,7 +39,7 @@ class Parents {
   private $idEnfant;
 
   /**
-  * @ORM\Column(type="string")
+  * @ORM\Column(type="string",nullable=true)
   */
   private $numTel;
 

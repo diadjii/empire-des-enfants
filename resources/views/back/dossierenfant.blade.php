@@ -90,8 +90,8 @@
                       <label for="exampleInputFile">Choisir Photo de l'Enfant</label>
                       <div class="input-group">
                         <div class="custom-file">
-                          <input type="file" class="custom-file-input" id="exampleInputFile" name="photoEnfant">
-                          <label class="custom-file-label" for="exampleInputFile">Choisir la photo</label>
+                          <input type="file" class="custom-file-input" id="exampleInputFile" name="photoEnfant" onchange="fileUploaded()">
+                          <label class="custom-file-label" id="info" for="exampleInputFile">Choisir la photo</label>
                         </div>
                         <div class="input-group-append">
                           <span class="input-group-text" id="">Ajouter</span>
@@ -131,5 +131,12 @@
         </div>
       </div>
     </section>
-
+    <script>
+     function fileUploaded(){
+       $("#info").text("La photo a ete ajoutee");
+       $("#info").css({
+         color :"green"
+       })
+     }
+    </script>
 @endsection

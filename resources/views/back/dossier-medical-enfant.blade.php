@@ -1,3 +1,8 @@
+{{-- 
+  *VUE du dossier medicale par l'administration 
+  * mais il n'a pas la possibilite de creer une consultation 
+--}}
+
 @extends('back.layoutAdmin')
 
 @section("content")
@@ -15,12 +20,10 @@
               @if($dossier == null)
                 <div class="card-body">
                   <h1>Le Dossier Medical est vide !!!</h1>
-                  <button class="btn btn-primary" id="createDossierMedicale">Creer Dossier Medical
-                  </button>
                 </div>
               @else
                 @if($infosConsultationEnfant == null)
-
+                  <br>
                   <div class="col-6 ">
                     <div class="alert alert-primary" role="alert">
                       Aucune Consultation pour l'instant !!!
@@ -28,11 +31,8 @@
                   </div>
                   <br>
                 @else
-
                   <div class="row align-self-center">
-                    <button class="btn btn-primary" id="createConsultationMedicale">Creer une
-                      Consultation
-                    </button>
+                   
                   </div>
                   <div class="row">
                     <div class="card-body table-responsive p-0" >
@@ -68,14 +68,14 @@
                                   </button>
                                 </div>
                                 <div class="modal-body">
-                                  <form action="/Infirmierd/UpdateConsultationMedicale" method="post">
+                                  <form action="/Infirmier/UpdateConsultationMedicale" method="post">
 
                                     <div class="row">
                                       <div class="col-12">
                                         <label for="exampleInputEmail1">Type
                                           Consultation</label>
                                         <input type="text" class="form-control"
-                                               name="consultation" value="{{$c['consultation']}}">
+                                               name="consultation" value="{{$c['consultation']}}" disabled>
                                         <input type="hidden" name="idConsultation"
                                                value="{{$c['id']}}">
                                         <input type="hidden" name="_token"
@@ -84,19 +84,19 @@
                                       <div class="col-12">
                                         <label for="exampleInputEmail1">Prescription</label>
                                         <textarea type="text" class="form-control"
-                                                  name="prescription">{{$c['prescription']}}</textarea>
+                                                  name="prescription" disabled>{{$c['prescription']}}</textarea>
                                       </div>
                                       <div class="col-12">
                                         <label for="exampleInputEmail1">Analyse
                                           Complementaire</label>
                                         <textarea type="text" class="form-control"
-                                                  name="analyseComplementaire">{{$c['analyse']}}
+                                                  name="analyseComplementaire" disabled>{{$c['analyse']}}
                                                                                 </textarea>
                                       </div>
                                       <div class="col-12">
                                         <label for="exampleInputEmail1">Diagnostique</label>
                                         <textarea type="text" class="form-control"
-                                                  name="diagnostique" >{{$c['diagnostique']}}</textarea>
+                                                  name="diagnostique" disabled>{{$c['diagnostique']}}</textarea>
                                       </div>
                                     </div>
 
@@ -104,9 +104,7 @@
                                       <button type="button" class="btn btn-danger"
                                               data-dismiss="modal">Fermer
                                       </button>
-                                      <button type="submit" class="btn btn-success">
-                                        Modifier
-                                      </button>
+                                      
                                     </div>
                                   </form>
                                 </div>
@@ -128,7 +126,7 @@
                             </button>
                           </div>
                           <div class="modal-body">
-                            <form action="/Infirmier/UpdateConsultationMedicale"
+                            <form action="/Infirmier/CreateConsultationMedicale"
                                   method="post">
 
                               <div class="row">

@@ -46,6 +46,8 @@ use Doctrine\ORM\Mapping\DiscriminatorColumn;
   */
   protected $status;
 
+  
+  //contient le role de l'utilisateur en courant
   protected $role;
 
   public function getId()
@@ -104,33 +106,6 @@ use Doctrine\ORM\Mapping\DiscriminatorColumn;
     $this->prenom = $prenom;
     return $this;
   }
-
-
-    /**
-     * Get the value of Role
-     *
-     * @return mixed
-     */
-    public function getRole()
-    {
-        return $this->role;
-    }
-
-    /**
-     * Set the value of Role
-     *
-     * @param mixed role
-     *
-     * @return self
-     */
-    public function setRole($role)
-    {
-        $this->role = $role;
-
-        return $this;
-    }
-
-
     /**
      * Get the value of Status
      *
@@ -155,5 +130,25 @@ use Doctrine\ORM\Mapping\DiscriminatorColumn;
         return $this;
     }
 
+
+  /**
+   * Get the value of role
+   */ 
+  public function getRole()
+  {
+    return $this->role;
+  }
+
+  /**
+   * Set the value of role
+   *
+   * @return  self
+   */ 
+  public function setRole($role)
+  {
+    $this->role = $role;
+
+    return $this;
+  }
 }
 ?>

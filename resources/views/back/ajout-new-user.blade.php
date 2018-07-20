@@ -1,4 +1,4 @@
-@extends('back.layoutSuperAdmin')
+@extends('back.layoutAdmin')
 @section("content")
   <div class="content-wrapper ">
     <section class="content">
@@ -6,6 +6,7 @@
         <div class="row align-items-center">
           <div class="col-sm-6">
             <h1>Gestion des Utilisateurs</h1>
+            
           </div>
         </div>
         <div class="row align-items-center">

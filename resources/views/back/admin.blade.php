@@ -41,6 +41,9 @@
                    
                   </div>
                 </div>
+                <div class="card-footer">
+                  <button class="btn btn-primary" onclick="showAllActiviteToDelete()"> Supprimer une Activite</button>
+                </div>
               </div>
               <!-- /.card-body -->
             </div>
@@ -81,6 +84,26 @@
           <!-- /.col -->
         </div>
         <!-- /.row -->
+        <div class="modal fade" id="deleteListeActiviteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Suppression Activite</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div id="testDelete" class="modal-body">
+                <ul id="listActivites" class="list-group">
+                </ul>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+                <button type="button" id="conf" class="btn btn-success">Confirmer</button>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="modal fade" id="deleteActiviteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content">

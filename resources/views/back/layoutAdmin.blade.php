@@ -1,15 +1,11 @@
 <!DOCTYPE html>
-<!--
-This is a starter template page. Use this page to start your new project from
-scratch. This page gets rid of all links and provides the needed markup only.
--->
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-  <title>AdminLTE 3 | Starter</title>
+  <title>Empire des Enfants</title>
 
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="/adminlte/plugins/font-awesome/css/font-awesome.min.css">
@@ -22,7 +18,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <body class="hold-transition sidebar-mini">
   @if (!isset($login))
     <script>
-    window.location.href = "/login"
+      window.location.href = "/login"
     </script>
 
   @endif
@@ -42,7 +38,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <a href="#" class="nav-link">Contact</a>
       </li>
     </ul>
-
+    
     <!-- SEARCH FORM -->
     <form class="form-inline ml-3">
       <div class="input-group input-group-sm">
@@ -168,7 +164,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <img src="/adminlte/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Alexander Pierce</a>
+          <a href="#" class="d-block">Administration</a>
         </div>
       </div>
 
@@ -177,52 +173,37 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-item has-treeview menu-open">
-            <a href="#" class="nav-link active">
-              <i class="nav-icon fa fa-dashboard"></i>
-              <p>
-                Starter Pages
-                <i class="right fa fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="#" class="nav-link active">
-                  <i class="fa fa-circle-o nav-icon"></i>
-                  <p>Active Page</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="fa fa-circle-o nav-icon"></i>
-                  <p>Inactive Page</p>
-                </a>
-              </li>
-            </ul>
-          </li>
           <li class="nav-item">
-            <a href="/administration" class="nav-link">
+            <a href="/Administration" class="nav-link">
               <i class="nav-icon fa fa-th"></i>
               <p>
-                Liste des Activites
+                Gestion des Activites
               </p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="/administration/DossierDesEnfants" class="nav-link">
+            <a href="/Administration/liste-des-dossier-enfants" class="nav-link">
               <i class="nav-icon fa fa-th"></i>
               <p>
-                Creer Dossier Enfants
+                Gestion Dossiers Enfants
               </p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="/administration/ListeDossierEnfants" class="nav-link">
-              <i class="nav-icon fa fa-th"></i>
-              <p>
-                Liste Dossiers Enfants
-              </p>
-            </a>
+              <a href="/Administration/liste-des-utilisateurs" class="nav-link">
+                <i class="nav-icon fa fa-th"></i>
+                <p>
+                  Gestion des Utilisateurs
+                </p>
+              </a>
+          </li>
+          <li class="nav-item">
+              <a href="/Admin" class="nav-link">
+                <i class="nav-icon fa fa-th"></i>
+                <p>
+                  Ajouter un Utilisateur
+                </p>
+              </a>
           </li>
         </ul>
       </nav>

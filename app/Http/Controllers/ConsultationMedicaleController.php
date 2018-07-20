@@ -42,6 +42,7 @@ class ConsultationMedicaleController extends Controller
         $analyseComplemantaire  = $request->get("analyseComplementaire");
         $diagnostique           = $request->get("diagnostique");
         $idDossierMedicale      = $request->get("idDossierMedicale");
+
         setlocale(LC_TIME, "fr_FR");
         $dateConsultation       = date('\L\e Y/m/d à  H\h:i\m\n');
 
@@ -61,6 +62,13 @@ class ConsultationMedicaleController extends Controller
         $this->em->persist($consultation);
         $this->em->flush();
         
+        $info = [
+            "typeAction"    => "Creation Consultation ",
+            "userId"        => session("id"),
+          ];
+          
+        EventStoreController::store($this->em,$info);
+
        return redirect()->back();
     }
 
@@ -85,7 +93,7 @@ class ConsultationMedicaleController extends Controller
         $idConsultation = $request->get("idConsultation");
 
         $consultationRep    = $this->em->getRepository(ConsultationMedicale::class);
-        $consultationResult       = $consultationRep->findByIdConsultation($idConsultation);
+        $consultationResult = $consultationRep->findByIdConsultation($idConsultation);
 
         if(isset($consultationResult)){
             $consultationResult[0]->setTypeConsultation($consultation);
@@ -94,6 +102,13 @@ class ConsultationMedicaleController extends Controller
             $consultationResult[0]->setPrescription($prescription);
 
             $this->em->flush();
+
+            $info = [
+                "typeAction"    => "Modification Consltation",
+                "userId"        => session("id"),
+              ];
+              
+            EventStoreController::store($this->em,$info);
 
             return redirect()->back()->with('ok',['Modification enregistrée avec succés']);
         }

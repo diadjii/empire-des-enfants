@@ -14,22 +14,6 @@ $(function () {
 
       // store the Event Object in the DOM element so we can get to it later
       $(this).data('eventObject', eventObject)
-
-      $(this).click(function(){
-        let id = $(this).attr("id")
-        $("#deleteActiviteModal").modal("show")
-        $("#confirmDeleteActivite").click(function(){
-          $.get("administration/deleteActivite/"+id).then(function(response){
-              $("#deleteActiviteModal").modal("hide");
-              alert("L'activite a bien ete supprimée");
-              window.location = "/administration";
-
-          }).fail(function(r){
-              console.log(r);
-          })
-        } )
-      })
-      // make the event draggable using jQuery UI
       $(this).draggable({
         zIndex        : 1070,
         revert        : true, // will cause the event to go back to its
@@ -81,6 +65,7 @@ $(function () {
       // render the event on the calendar
       // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
       $('#calendar').fullCalendar('renderEvent', copiedEventObject, true)
+      
       // console.log(idActivite)
       console.log(copiedEventObject.start._d.toISOString().split('.')[0])
       addToAgenda(copiedEventObject.id,copiedEventObject.start._d.toISOString().split('.')[0])
@@ -111,15 +96,15 @@ $(function () {
         fin = event.end._d.toISOString().split('.')[0];
         // console.log(event.end._i)
       }
-
       saveActivite(idActivite,debut,fin);
-    }
+    },
+    
   })
 
   /* ADDING EVENTS */
   var currColor = '#3c8dbc' //Red by default
   //Color chooser button
-  var colorChooser = $('#color-chooser-btn')
+  
   $('#color-chooser > li > a').click(function (e) {
     e.preventDefault()
     //Save color
@@ -130,6 +115,7 @@ $(function () {
       'border-color'    : currColor
     })
   })
+  
   $('#add-new-event').click(function (e) {
     e.preventDefault()
     //Get value and make sure it is not null
@@ -158,8 +144,9 @@ $(function () {
 
 function getListeActivite(){
   $.get("/administration/listeActivites").then(function(response){
+    listeActToDelete(response);
     for (var i = 0; i < response.length; i++) {
-      console.log(response);
+      
       var val = response[i].nomActivite;
     
       var event = $('<div />')
@@ -171,7 +158,7 @@ function getListeActivite(){
       event.html(val)
       event.attr("id",response[i].id);
       //event.attr("class","activite");
-      $('#external-events').prepend(event)
+      $('#external-events').prepend(event);
 
       //Add draggable funtionality
       ini_events(event)
@@ -196,9 +183,9 @@ function addToAgenda(id,d){
  let token = $('input[name="_token"]').val();
 
   $.post("/administration/saveToAgenda",{
-    idActivite:id,
-    dateDebut:d,
-    _token:token
+    idActivite  : id,
+    dateDebut   : d,
+    _token      : token
   }).then(function(response){
     console.log(response);
   }).fail(function(r){
@@ -209,13 +196,13 @@ function addToAgenda(id,d){
 
 function saveActivite(idActivite,heureDebut,heureFin){
 
- let  token = $('input[name="_token"]').val();
+  let  token = $('input[name="_token"]').val();
   
   $.post("/administration/updateActivite",{
-    idActivite:idActivite,
-    heureDebut:heureDebut,
-    heureFin:heureFin,
-    _token:token
+    idActivite: idActivite,
+    heureDebut: heureDebut,
+    heureFin  : heureFin,
+    _token    : token
   }).then(function(response){
     console.log(response);
   }).fail(function(r){
@@ -250,15 +237,52 @@ $("#add-new-activite").click(function(){
       couleur     : couleur
     }).then(function(response){
       console.log(response);
-      window.location = "/administration";
+      window.location = "/Administration";
     }).fail(function(r){
       console.log(r);
     });
   }
 })
 
-$("div.external-event").click(function(){
-  ///
-  //et t= $("this").attr("id").val();
-  alert("ok")
+function showAllActiviteToDelete(){
+  $("#deleteListeActiviteModal").modal('show');
+}
+
+function listeActToDelete(response){
+  for (let i = 0; i < response.length; i++) {
+    //const element = array[response];
+    var val = response[i].nomActivite;
+    var event = $('<div />')
+    let v = "<li class='list-group-item'><input class='form-check-input ' type='checkbox' value="+response[i].id+"/>"+response[i].nomActivite+"</li>";
+    // event.css({
+    //   'background-color': response[i].color,
+    //   'border-color'    : response[i].color,
+    //   'color'           : '#000'
+    // }).addClass('external-event acti')
+    // event.html(val)
+    // event.attr("id",response[i].id);
+    // $('#testDelete').prepend(event);
+    $("#listActivites").append(v);
+    
+  }
+}
+
+$("#conf").click(function(){
+    let t =  $("input[type='checkbox']:checked");
+    let id ="";
+
+    for (let i = 0; i < t.length-1; i++) {
+      const el = t[i];
+      id +=el.value.split('/');
+    }
+
+    console.log(id);
+    //envoi de la liste des id des activites à supprimer
+    $.get("administration/deleteActivite/"+id).then(function(response){
+          $("#deleteActiviteModal").modal("hide");
+          alert("L'activite a bien ete supprimée");
+          window.location = "/Administration";
+      }).fail(function(r){
+          console.log(r);
+      })
 })

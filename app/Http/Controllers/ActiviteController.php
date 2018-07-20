@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 class ActiviteController extends Controller
 {
   private $em;
-
+  
   public function __construct(EntityManagerInterface $em){
     UserController::isLogin();
     $this->em = $em;
@@ -49,6 +49,13 @@ class ActiviteController extends Controller
 
     $this->em->persist($activite);
     $this->em->flush();
+    
+    $info = [
+      "typeAction"    => "creation activite",
+      "userId"        => session("id"),
+    ];
+    
+    EventStoreController::store($this->em,$info);
 
     return "ok";
   }
@@ -99,7 +106,7 @@ class ActiviteController extends Controller
     $activite = $acrep->findByIdActivite($idActivite);
     
     $act      = array(
-      "idActivite"    =>$activite[0]->getIdActivite(),
+      IDA    =>$activite[0]->getIdActivite(),
       "nomActivite"   =>$activite[0]->getNomActivite(),
       "descActivite"  =>$activite[0]->getDescActivite()
     );
@@ -126,13 +133,35 @@ class ActiviteController extends Controller
 
   public function destroy($id)
   {
-    $acrep = $this->em->getRepository(Activite::class);
-    $activite = $acrep->findByIdActivite($id);
+    $ids = explode(',',$id);
+  
+    $acrep  = $this->em->getRepository(Activite::class);
+    $dacrep = $this->em->getRepository(DateActivite::class);
 
-    $this->em->remove($activite[0]);
-    $this->em->flush();
+    if(count($ids) > 0 ){
 
-    return "ok";
+      for ($i=0; $i <count($ids) ; $i++) { 
+        
+        if(($ids[$i] !="")){
+          $activite = $acrep->findByIdActivite($ids[$i]);
+          
+          $this->em->remove($activite[0]);
+          $this->em->flush();
+          
+        }
+      }
+      
+      $info = [
+        "typeAction"    => "suppression activite",
+        "userId"        => session("id"),
+      ];
+      
+      EventStoreController::store($this->em,$info);
+      
+      return "ok";
+    }
+
+
   }
 
 
@@ -205,6 +234,5 @@ class ActiviteController extends Controller
     } catch (\Exception $e) {
       return   $e->getMessage();
     }
-     // return   $idActivite;
   }
 }

@@ -41,12 +41,12 @@ $(function(){
   $('#formAddUser').submit(function(e){
     e.preventDefault();
 
-    login = $("input[name='login']").val();
-    password = $("input[name='password']").val();
-    typeUser = $("select[name='typeUser']").val();
-    nom = $("input[name='nom']").val();
-    prenom = $("input[name='prenom']").val();
-    token = $('input[name="_token"]').val();
+    let login = $("input[name='login']").val();
+    let password = $("input[name='password']").val();
+    let typeUser = $("select[name='typeUser']").val();
+    let nom = $("input[name='nom']").val();
+    let prenom = $("input[name='prenom']").val();
+    let token = $('input[name="_token"]').val();
 
     $.post("/addUser",{
       login:login,
@@ -68,16 +68,16 @@ $(function(){
         break;
       }
     }).fail(function(a,b){
-
-      var infoLogin = a.responseJSON.errors.login;
-      var infoPassword = a.responseJSON.errors.password;
-      var typeUser = a.responseJSON.errors.typeUser;
-      var message ="<ul>";
-      message +="<li>"+infoLogin+"</li>";
-      message +="<li>"+infoPassword+"</li>";
-      message +="<li>"+typeUser+"</li></ul>";
-      $("#message").html(message);
-      $("#message").show();
+      console.log(a);
+     // var infoLogin = a.responseJSON.errors.login;
+      // var infoPassword = a.responseJSON.errors.password;
+      // var typeUser = a.responseJSON.errors.typeUser;
+      // var message ="<ul>";
+      // message +="<li>"+infoLogin+"</li>";
+      // message +="<li>"+infoPassword+"</li>";
+      // message +="<li>"+typeUser+"</li></ul>";
+      // $("#message").html(message);
+      // $("#message").show();
     })
   })
   //
@@ -142,11 +142,11 @@ function desactiveUser(idUser){
 function deleteUser(idUser){
   // alert(idUser);
   $('#exampleModal').modal('toggle');
-  $(".modal-body").text("Voulez-vous vraiment supprimer cette utilisateur");
+  $(".modal-body").text("Voulez-vous vraiment supprimer cet utilisateur");
   $("#btnConfirmDeleteUser").click(function(){
     $.get("/Admin/"+idUser+"/deleteUser").then(function(response){
-      alert("Suppression ok ");
       $('#exampleModal').modal('toggle');
+      window.location.href="/Admin/ListeUser";
     }).fail(function(r){
       console.log(r);
     })
@@ -154,7 +154,9 @@ function deleteUser(idUser){
 }
 
 function generate(l){
-  if (typeof l==='undefined'){var l=8;}
+  if (typeof l==='undefined'){
+    var l=8;
+  }
   /* c : chaîne de caractères alphanumérique */
   var c='abcdefghijknopqrstuvwxyzACDEFGHJKLMNPQRSTUVWXYZ12345679',
   n=c.length,

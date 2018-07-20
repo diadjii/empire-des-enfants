@@ -44,6 +44,13 @@ class DossierMedicaleController extends Controller
         $this->em->persist($dossierMedicale);
         $this->em->flush();
 
+        $info = [
+            "typeAction"    => "Creation Dossier Medical",
+            "userId"        => session("id"),
+          ];
+          
+        EventStoreController::store($this->em,$info);
+
         return redirect()->back();
     }
 
