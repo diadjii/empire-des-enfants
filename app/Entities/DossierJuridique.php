@@ -22,8 +22,8 @@ class DossierJuridique {
   }
 
   /**
-  * @ORM\OneToOne(targetEntity = DossierEnfant::class)
-  */
+   * @ORM\Column(type="string")
+   */
   private $dossierEnfant;
 
   public function setIdDossierJuridique($idDossierJuridique)

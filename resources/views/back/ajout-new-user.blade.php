@@ -30,6 +30,7 @@
               <form role="form" id="formAddUser">
                 <div class="card-body">
                   {{-- Nom et Prenom --}}
+                 
                   <div class="row">
                     <div class="col-6">
                       <label for="exampleInputEmail1">Nom</label>

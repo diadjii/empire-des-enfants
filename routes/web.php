@@ -38,39 +38,42 @@ Route::get("/logOut", function () {
     return redirect("/login");
 });
 
-Route::post('/login', 'UserController@login');
-Route::post("/addUser", 'UserController@store');
+Route::post('/login',           'UserController@login');
+Route::post("/addUser",         'UserController@store');
 
-Route::get("/Administration", 'UserController@isLogin');
+Route::get("/Administration",   'UserController@isLogin');
 
 Route::get("/administration/agendaActivites", 'ActiviteController@agendaActivites');
 Route::get('/administration/listeActivites', 'ActiviteController@show');
 Route::get("/administration/editActivity/{idActivite}", "ActiviteController@edit");
 Route::get("/administration/deleteActivite/{idActivite}", "ActiviteController@destroy");
-Route::get('/administration/DossierDesEnfants', 'DossierEnfantController@index');
-Route::get('/Administration/liste-des-dossier-enfants', 'DossierEnfantController@listeDossierEnfant');
+Route::get('/administration/DossierDesEnfants',             'DossierEnfantController@index');
+Route::get('/Administration/liste-des-dossier-enfants',     'DossierEnfantController@listeDossierEnfant');
 
 Route::post("/administration/addActivite", "ActiviteController@create");
 
-Route::get('/administration/DossierEnfant/{id}/Details', 'DossierEnfantController@show');
-Route::get('/administration/DossierEnfant/{id}/DossierMedical', 'DossierMedicaleController@showDetails');
-Route::get('/administration/DossierEnfant/{id}/DossierJuridique', 'DossierEnfantController@dossierJuridiquePDF');
-Route::get("/administration/DossierEnfant/{nom}/zoneTelechargement", "DossierEnfantController@getDossierTribunal");
+Route::get('/administration/DossierEnfant/{id}/Details',                'DossierEnfantController@show');
+Route::get('/administration/DossierEnfant/{id}/DossierMedical',         'DossierMedicaleController@showDetails');
+Route::get('/administration/DossierEnfant/{id}/DossierJuridique',       'DossierEnfantController@dossierJuridiquePDF');
+// Route::get("/administration/DossierEnfant/{nom}/zoneTelechargement",    'DossierEnfantController@getDossierTribunal');
+Route::get("/administration/DossierEnfant/{id}/zoneTelechargement",     'DossierEnfantController@viewAllDocuments');
 
-Route::post("/administration/DossierEnfant/{id}/EditDossierEnfant", "DossierEnfantController@update");
-Route::post('/administration/DossierEnfant/addDossierTribunal', 'DossierEnfantController@addDossierTribunal');
-Route::post('/administration/DossierDesEnfants', 'DossierEnfantController@store');
+Route::post("/administration/DossierEnfant/zoneTelechargement/download",     'DossierEnfantController@downloadDocument');
 
-Route::get("/Admin", 'UserController@index');
-Route::get("/Administration/liste-des-utilisateurs", 'UserController@show');
-Route::get("/Admin/{id}/changeStatusToOn", 'UserController@changeStatusToON');
-Route::get("/Admin/{id}/changeStatusToOff", 'UserController@changeStatusToOff');
-Route::get("/Admin/{id}/deleteUser", 'UserController@delete');
+Route::post("/administration/DossierEnfant/{id}/EditDossierEnfant",     'DossierEnfantController@update');
+Route::post('/administration/DossierEnfant/addDocument',         'DossierEnfantController@addDocument');
+Route::post('/administration/DossierDesEnfants',                        'DossierEnfantController@store');
+Route::get('/administration/supervision-operations', 'EventStoreController@index');
+Route::get("/Admin",                                    'UserController@index');
+Route::get("/Administration/liste-des-utilisateurs",    'UserController@show');
+Route::get("/Admin/{id}/changeStatusToOn",              'UserController@changeStatusToON');
+Route::get("/Admin/{id}/changeStatusToOff",             'UserController@changeStatusToOff');
+Route::get("/Admin/{id}/deleteUser",                    'UserController@delete');
 
 Route::get('/Infirmier', 'InfirmierController@show');
 Route::get("/Infirmier/DossierMedicale/{idDossierEnfant}/Consultation", 'DossierMedicaleController@showDetails');
 Route::get("/Infirmier/Download/{id}", 'DossierMedicaleController@consultationPDF');
 
-Route::post("/Infirmier/CreateDossierMedicale", 'DossierMedicaleController@store');
-Route::post("/Infirmier/CreateConsultationMedicale", 'ConsultationMedicaleController@store');
-Route::post("/Infirmier/UpdateConsultationMedicale", 'ConsultationMedicaleController@update');
+Route::post("/Infirmier/CreateDossierMedicale",         'DossierMedicaleController@store');
+Route::post("/Infirmier/CreateConsultationMedicale",    'ConsultationMedicaleController@store');
+Route::post("/Infirmier/UpdateConsultationMedicale",    'ConsultationMedicaleController@update');

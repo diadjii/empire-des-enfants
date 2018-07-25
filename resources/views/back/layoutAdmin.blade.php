@@ -128,7 +128,7 @@
           <div class="dropdown-divider"></div>
           <a href="#" class="dropdown-item">
             <i class="fa fa-users mr-2"></i> 8 friend requests
-            <span class="float-right text-muted text-sm">12 hours</span>
+            <span class="float-right text-muted text-sm">12 hours</span>/download
           </a>
           <div class="dropdown-divider"></div>
           <a href="#" class="dropdown-item">
@@ -202,6 +202,14 @@
                 <i class="nav-icon fa fa-th"></i>
                 <p>
                   Ajouter un Utilisateur
+                </p>
+              </a>
+          </li>
+          <li class="nav-item">
+              <a href="/administration/supervision-operations" class="nav-link">
+                <i class="nav-icon fa fa-th"></i>
+                <p>
+                  Supervision des Operations
                 </p>
               </a>
           </li>

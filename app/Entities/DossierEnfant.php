@@ -20,6 +20,10 @@ class DossierEnfant{
   private $nomEnfant;
 
   /**
+   *  @ORM\Column(type="string")
+   */
+  private $identifiantEnfant;
+  /**
   * @ORM\Column(type="string")
   */
   private $prenomEnfant;
@@ -214,6 +218,26 @@ class DossierEnfant{
   public function setStatutEnfant($statutEnfant)
   {
     $this->statutEnfant = $statutEnfant;
+
+    return $this;
+  }
+
+  /**
+   * Get the value of identifiant
+   */ 
+  public function getIdentifiantEnfant()
+  {
+    return $this->identifiantEnfant;
+  }
+
+  /**
+   * Set the value of identifiant
+   *
+   * @return  self
+   */ 
+  public function setIdentifiantEnfant($identifiant)
+  {
+    $this->identifiantEnfant = $identifiant;
 
     return $this;
   }

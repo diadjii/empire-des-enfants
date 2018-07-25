@@ -28,6 +28,12 @@
                   </div>
                   <hr>
                   <div class="row">
+                      <div class="col-6">
+                          <label for="exampleInputEmail1">Identfiant de l'Enfant</label>
+                          <input type="text" class="form-control"  name="idEnfant" placeholder="Identifiant de l'Enfant" required>
+                        </div>
+                  </div>
+                  <div class="row">
                     <div class="col-6">
                       <label for="exampleInputEmail1">Nom</label>
                       <input type="text" class="form-control"  name="nom" placeholder="Nom" required>

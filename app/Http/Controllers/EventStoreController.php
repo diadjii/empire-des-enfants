@@ -22,7 +22,11 @@ class EventStoreController extends Controller
      */
     public function index()
     {
-        //
+        $eventRep = $this->em->getRepository(EventStore::class);
+        $liste      = $dossierRep->findAll();
+        $login      = session('login');
+        
+        return view("back.liste-dossier-enfant",compact('liste','login'));
     }
 
     /**
