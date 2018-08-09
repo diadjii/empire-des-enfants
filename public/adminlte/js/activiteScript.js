@@ -1,3 +1,6 @@
+/**
+ * Fichier JS pour la gestion des activites Create,Update,Delete
+ */
 $(function () {
 
   /* initialize the external events
@@ -162,13 +165,6 @@ function getListeActivite(){
 
       //Add draggable funtionality
       ini_events(event)
-
-      // var td= "<div class='four wide column'><div class='ui card'>"+
-      // "<div class='content'>"+
-      // "<div class='header'>"+response[i].nomActivite+"</div>"+
-      // "<p><strong>Description</strong> :"+response[i].descActivite+"</p>"+
-      // "</div></div></div>";
-      // $("#activites").append(td);
     }
     //recuperation de la liste des activites
 
@@ -245,7 +241,7 @@ $("#add-new-activite").click(function(){
 })
 
 function showAllActiviteToDelete(){
-  $("#deleteListeActiviteModal").modal('show');
+  $("#deleteListeActiviteModal").show();
 }
 
 function listeActToDelete(response){
@@ -254,14 +250,6 @@ function listeActToDelete(response){
     var val = response[i].nomActivite;
     var event = $('<div />')
     let v = "<li class='list-group-item'><input class='form-check-input ' type='checkbox' value="+response[i].id+"/>"+response[i].nomActivite+"</li>";
-    // event.css({
-    //   'background-color': response[i].color,
-    //   'border-color'    : response[i].color,
-    //   'color'           : '#000'
-    // }).addClass('external-event acti')
-    // event.html(val)
-    // event.attr("id",response[i].id);
-    // $('#testDelete').prepend(event);
     $("#listActivites").append(v);
     
   }

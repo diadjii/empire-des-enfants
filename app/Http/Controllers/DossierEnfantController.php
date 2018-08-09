@@ -6,6 +6,7 @@ use PDF;
 
 use App\Entities\Parents;
 use App\Entities\DossierEnfant;
+use App\Entities\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\DossierEnfantController;
@@ -30,7 +31,7 @@ class DossierEnfantController extends Controller{
     public function index(){
         $login = session('login');
 
-        return view("back.dossierenfant",compact("login"));
+        return view("new.create-dossier-enfant",compact("login"));
     }
     
     public function store(CreateDossierEnfantFormRequest $request){
@@ -42,21 +43,32 @@ class DossierEnfantController extends Controller{
             $this->em->persist($dossierEnfant);
             $this->em->flush();
             
-            $idEnfant   = $dossierEnfant->getIdDossierEnfant();
-            $directory  = $idEnfant;
-           
-            Storage::makeDirectory($directory);
-            
-            $request->file('photoEnfant')->storeAs($directory,$dossierEnfant->getPrenomEnfant().'-'.$dossierEnfant->getNomEnfant().'-'.$idEnfant);
+            try{
+
+                $idEnfant   = $dossierEnfant->getIdDossierEnfant();
+                $directory  = $idEnfant;
+                
+                Storage::makeDirectory($directory);
+                
+                $request->file('photoEnfant')->storeAs($directory,$dossierEnfant->getPrenomEnfant().'-'.$dossierEnfant->getNomEnfant().'-'.$idEnfant);
+            }catch(\ErrorException $e){
+                echo $e->getMessage();
+            }
             
             $infoParent = $this->createEntityParents($request,$idEnfant);
            
             $this->em->persist($infoParent);
             $this->em->flush();
 
+            $idCurrentUser  = session('id');
+            $u              = $this->em->getRepository(User::class);
+            $currentUser    = $u->findById($idCurrentUser);
+
             $info = [
                 "typeAction"    => "Creation Dossier Enfant",
                 "userId"        => session("id"),
+                "typeUser"      => session('typeCurrentUser'),
+                "description"   => "Creation dossier de ".$dossierEnfant->getPrenom()." ".$dossierEnfant->getNom()." par ".$currentUser[0]->getPrenom()." ".$currentUser[0]->getNom()
               ];
               
             EventStoreController::store($this->em,$info);
@@ -72,7 +84,7 @@ class DossierEnfantController extends Controller{
         $liste      = $dossierRep->findAll();
         $login      = session('login');
         
-        return view("back.liste-dossier-enfant",compact('liste','login'));
+        return view("new.dossier-enfants",compact('liste','login'));
     }
     
     //voir les details du dossier d'un enfant
@@ -97,8 +109,27 @@ class DossierEnfantController extends Controller{
         }
         
         $login = session('login');
+        $profil = $enfant->getProfil(); 
+        $evt = "";
+        $ep  = "";
+        $erf = "";
 
-        return view("back.detail-dossier-enfant",compact("enfant","parent","login","img"));
+        switch ($profil) {
+            case 'evt':
+                $evt = 'checked';
+                break;
+            case 'ep':
+                $ep = 'checked';
+                break;
+            case 'erf':
+                $erf = 'checked';   
+                    break;
+            default:
+                break;
+        }
+        
+
+        return view("new.edit-dossier-enfant",compact("enfant","parent","login","img","evt","ep","erf"));
     }
     
 
@@ -133,7 +164,7 @@ class DossierEnfantController extends Controller{
         $ext        = explode('/',$extension)[1];
         
         $request->file('doc')->storeAs($idEnfant,$nom.'.'.$ext);
-
+        
         // if(\File::isDirectory($directory)){
         //     //$img = Storage::url("document/".$directory."/".$directory);
         //     $request->file('photoEnfant')->storeAs($directory,$prenomEnfant.'-'.$nomEnfant.'-'.$id);
@@ -148,13 +179,20 @@ class DossierEnfantController extends Controller{
         // die();
 
         $message    = "Document ajouté avec succes !!";
+        
+        $idCurrentUser  = session('id');
+        $u              = $this->em->getRepository(User::class);
+        $currentUser    = $u->findById($idCurrentUser);
 
         $info = [
-            "typeAction"    => "Ajout de  Document dans le dossier de ".$idEnfant,
+            "typeAction"    => "Ajout de  Document ",
             "userId"        => session("id"),
+            "typeUser"      => session('typeCurrentUser'),
+            "description"   => "Ajout du document ".$nom." par ".$currentUser[0]->getPrenom()." ".$currentUser[0]->getNom()
           ];
           
         EventStoreController::store($this->em,$info);
+
         return redirect()->back()->withErrors([$message]);
     }
     
@@ -267,9 +305,16 @@ class DossierEnfantController extends Controller{
                 $request->file('photoEnfant')->storeAs($directory,$prenomEnfant.'-'.$nomEnfant.'-'.$id);
             }
         }    
+
+        $idCurrentUser  = session('id');
+        $u              = $this->em->getRepository(User::class);
+        $currentUser    = $u->findById($idCurrentUser);
+
         $info = [
             "typeAction"    => "Modification Dossier Enfant",
             "userId"        => session("id"),
+            "typeUser"      => session('typeCurrentUser'),
+            "description"   => "Modification du dossier de  ".$nomEnfant." ".$prenomEnfant." par ".$currentUser[0]->getPrenom()." ".$currentUser[0]->getNom()
           ];
           
         EventStoreController::store($this->em,$info);
@@ -336,36 +381,36 @@ class DossierEnfantController extends Controller{
         
         foreach ($documents as $value) {
             # code...
-            $d = Storage::url("document/".$value);
-            $ext =explode('.',$d);
-            $nom = explode('/',$ext[0]);
-            print_r($nom[4]);
-            $type = "img";
+            $document      = Storage::url("document/".$value);
+            $ext    = explode('.',$document);
+            $nom    = explode('/',$ext[0]);
+            
+            $type   = "img";
 
             $path = $nom[3]."/".$nom[4];
-            if(isset($ext[1])){
+            if(isset($ext[1]) && $ext[1] == "pdf"){
                 $type ="pdf";
             }
 
+            echo $ext[1];
             $allDocuments[$i] = [
                 "type" => $type,
                 "nom"  => $nom[4],
-                "p"    => $path,
-                "document" => $d
+                "p"    => $path.".".$ext[1],
+                "document" => $document
             ];
             $i++;
         }
-    
-        $login = session('login');
-
         
-        return view('back.zone-telechargement', compact('allDocuments','login','idDossier'));
+      
+        $login = session('login');
+        
+        return view('new.zone-telechargement', compact('allDocuments','login','idDossier'));
     }
 
     public function downloadDocument(Request $request){
         $n = $request->get("nomDocument");
         
-        // $d = Storage::url("document/24/Designsanstitre.pdf");
         return Storage::download($n);
     }
 }

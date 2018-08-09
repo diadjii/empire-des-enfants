@@ -33,6 +33,11 @@ class EventStore
     private  $dateTime;
     
     /**
+     * @ORM\Column(type="string")
+     */
+    private $typeUser;
+
+    /**
      * @ORM\Column(type="text",nullable=true)
      */
     private $description;
@@ -131,6 +136,16 @@ class EventStore
     {
         $this->description = $description;
 
+        return $this;
+    }
+
+    public function getTypeUser(){
+        return $this->typeUser;
+    }
+
+    public function setTypeUser($typeUser){
+        $this->typeUser = $typeUser;
+        
         return $this;
     }
 }

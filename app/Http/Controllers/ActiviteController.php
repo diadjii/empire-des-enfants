@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Entities\User;
 use App\Entities\Activite;
-use App\Entities\DateActivite;
-use App\Http\Requests\ActiviteFormRequest;
-use Doctrine\ORM\EntityManagerInterface;
 use Illuminate\Http\Request;
+use App\Entities\DateActivite;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Http\Requests\ActiviteFormRequest;
 
 class ActiviteController extends Controller
 {
@@ -32,15 +33,12 @@ class ActiviteController extends Controller
   *
   * @return \Illuminate\Http\Response
   */
-  public function create(Request $request)
-  {
-      $nomActivite      = $request->get("nomActivite"); 
-      $couleurActivite  = $request->get('couleur');
-      echo $nomActivite;
-
-    
+  public function create(Request $request){
+    $nomActivite      = $request->get("nomActivite"); 
+    $couleurActivite  = $request->get('couleur');
 
     $activite = new Activite();
+
     $activite->setNomActivite($nomActivite);
     $activite->setDescActivite("");
     $activite->setDateCreation("");
@@ -50,10 +48,15 @@ class ActiviteController extends Controller
     $this->em->persist($activite);
     $this->em->flush();
     
+    $u            = $this->em->getRepository(User::class);
+    $currentUser  = $u->findById(session("id"));
+
     $info = [
-      "typeAction"    => "creation activite",
+      "typeAction"    => "Création Activite",
       "userId"        => session("id"),
-    ];
+      "typeUser"      => session('typeCurrentUser'),
+      "description"   => "Création de l'Activite ". $nomActivite." par ".$currentUser[0]->getPrenom()." ".$currentUser[0]->getNom()
+  ];
     
     EventStoreController::store($this->em,$info);
 
@@ -61,8 +64,7 @@ class ActiviteController extends Controller
   }
 
 
-  public function store(Request $request)
-  {
+  public function store(Request $request){
     $nomActivite  = $request->get('nomActivite');
     $descActivite = $request->get('descActivite');
 
@@ -99,14 +101,12 @@ class ActiviteController extends Controller
     return $activites;
   }
 
-  public function edit($idActivite)
-  {
-    //
+  public function edit($idActivite){
     $acrep    = $this->em->getRepository(Activite::class);
     $activite = $acrep->findByIdActivite($idActivite);
     
     $act      = array(
-      IDA    =>$activite[0]->getIdActivite(),
+      "idActivite"    =>$activite[0]->getIdActivite(),
       "nomActivite"   =>$activite[0]->getNomActivite(),
       "descActivite"  =>$activite[0]->getDescActivite()
     );
@@ -114,14 +114,13 @@ class ActiviteController extends Controller
   }
 
 
-  public function update(Request $request)
-  {
+  public function update(Request $request){
     $idActivite    = $request->get('idActivite');
     $nomActivite   = $request->get('nomActivite');
     $descActivite  = $request->get('descActivite');
 
-    $acrep          = $this->em->getRepository(Activite::class);
-    $activite       = $acrep->findByIdActivite($idActivite);
+    $acrep         = $this->em->getRepository(Activite::class);
+    $activite      = $acrep->findByIdActivite($idActivite);
 
     $activite[0]->setNomActivite($nomActivite);
     $activite[0]->setDescActivite($descActivite);
@@ -131,15 +130,16 @@ class ActiviteController extends Controller
   }
 
 
-  public function destroy($id)
-  {
-    $ids = explode(',',$id);
+  public function destroy($id){
+    $ids    = explode(',',$id);
   
     $acrep  = $this->em->getRepository(Activite::class);
     $dacrep = $this->em->getRepository(DateActivite::class);
 
     if(count($ids) > 0 ){
 
+      $u            = $this->em->getRepository(User::class);
+      $currentUser  = $u->findById(session("id"));
       for ($i=0; $i <count($ids) ; $i++) { 
         
         if(($ids[$i] !="")){
@@ -149,26 +149,25 @@ class ActiviteController extends Controller
           $this->em->flush();
           
         }
-      }
-      
-      $info = [
-        "typeAction"    => "suppression activite",
-        "userId"        => session("id"),
+
+        $info = [
+          "typeAction"    => "Suppression Activite",
+          "userId"        => session("id"),
+          "typeUser"      => session('typeCurrentUser'),
+          "description"   => "Suppression de l'Activite ".$activite[0]->getNomActivite()." par ".$currentUser[0]->getPrenom()." ".$currentUser[0]->getNom()
       ];
-      
-      EventStoreController::store($this->em,$info);
+        
+        EventStoreController::store($this->em,$info);
+      }
       
       return "ok";
     }
-
-
   }
 
-
   function agendaActivites(){
+    $activites    = array();
     $acrep        = $this->em->getRepository(Activite::class);
     $liste        = $acrep->findAll();
-    $activites    = array();
     $dateActiRep  = $this->em->getRepository(DateActivite::class);
 
     //recuperation de la liste des activites
@@ -201,6 +200,7 @@ class ActiviteController extends Controller
     $date       = $request->get('dateDebut');
 
     $dateActivite = new DateActivite();
+    
     $dateActivite->setIdActivite($idActivite);
     $dateActivite->setDateDebut($date);
     $dateActivite->setDateFin('');
@@ -230,8 +230,10 @@ class ActiviteController extends Controller
 
     try {
       $this->em->flush();
+
       return "ok";
     } catch (\Exception $e) {
+      
       return   $e->getMessage();
     }
   }

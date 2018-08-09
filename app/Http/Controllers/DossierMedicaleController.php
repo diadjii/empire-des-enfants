@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Entities\ConsultationMedicale;
+use PDF;
+use App\Entities\User;
+use Illuminate\Http\Request;
+
 use App\Entities\DossierEnfant;
 use App\Entities\DossierMedicale;
+use App\Entities\ConsultationMedicale;
 use Doctrine\ORM\EntityManagerInterface;
-use Illuminate\Http\Request;
-use PDF;
+
 class DossierMedicaleController extends Controller
 {
     private $em;
@@ -44,13 +47,21 @@ class DossierMedicaleController extends Controller
         $this->em->persist($dossierMedicale);
         $this->em->flush();
 
-        $info = [
-            "typeAction"    => "Creation Dossier Medical",
-            "userId"        => session("id"),
-          ];
-          
-        EventStoreController::store($this->em,$info);
+        $nom    = $dossierEnfant[0]->getNomEnfant();
+        $prenom = $dossierEnfant[0]->getPrenomEnfant();
 
+         
+        $u            = $this->em->getRepository(User::class);
+        $currentUser  = $u->findById(session("id"));
+        
+      
+            $info = [
+                "typeAction"    => "Creation Dossier Medical",
+                "userId"        => session("id"),
+                "typeUser"      => session('typeCurrentUser'),
+                "description"   => "Creation dossier medical ".$nom." ".$prenom." par ".$currentUser[0]->getPrenom()." ".$currentUser[0]->getNom()
+            ];
+            EventStoreController::store($this->em,$info);
         return redirect()->back();
     }
 
@@ -58,12 +69,12 @@ class DossierMedicaleController extends Controller
     public function show($id)
     {
         //recuperation du dossier de l'enfant concerne
-        $dossierRep = $this->em->getRepository(DossierEnfant::class);
-        $dossierEnfant = $dossierRep->findByIdDossierEnfant($id);
+        $dossierRep     = $this->em->getRepository(DossierEnfant::class);
+        $dossierEnfant  = $dossierRep->findByIdDossierEnfant($id);
 
         //recuperation dossier medicale
-        $dossierRep = $this->em->getRepository(DossierMedicale::class);
-        $dossierMedicale = $dossierRep->findByIdDossierEnfant($dossierEnfant[0]);
+        $dossierRep         = $this->em->getRepository(DossierMedicale::class);
+        $dossierMedicale    = $dossierRep->findByIdDossierEnfant($dossierEnfant[0]);
         $d = null;
 
         try{
@@ -81,31 +92,31 @@ class DossierMedicaleController extends Controller
     public function showDetails($id)
     {
         //recuperation du dossier de l'enfant
-        $dossierRepEnfant     = $this->em->getRepository(DossierEnfant::class);
-        $dossierEnfant  = $dossierRepEnfant->findByIdDossierEnfant($id);
-        $enfant         = $dossierEnfant[0];
-
-        //recuperation dossier medicale
-        $dossierRepMedical      = $this->em->getRepository(DossierMedicale::class);
-        $dossierMedicale = $dossierRepMedical->findByIdDossierEnfant($dossierEnfant[0]);
-
-        $dossier                 = null;
+        $dossierRepEnfant   = $this->em->getRepository(DossierEnfant::class);
+        $dossierEnfant      = $dossierRepEnfant->findByIdDossierEnfant($id);
+        $enfant             = $dossierEnfant[0];
+        
+        $dossierRepMedical  = $this->em->getRepository(DossierMedicale::class);
+        $dossierMedicale    = $dossierRepMedical->findByIdDossierEnfant($dossierEnfant[0]);
+        
+        $dossier            = null;
         $infosConsultationEnfant = [];
-
-
+        
         try {
             $dossier = $dossierMedicale[0];
-
+            
         } catch (\ErrorException $e) {
             $dossier = null;
         }
+        
         if ($dossier != null) {
+            $idDossierMedical   = $dossierMedicale[0]->getIdDossierMedicale();
             try {
                 $consultationRep        = $this->em->getRepository(ConsultationMedicale::class);
                 $consultationsEnfant    = $consultationRep->findByIdDossierMedicale($dossierMedicale[0]);
-
+                
                 foreach ($consultationsEnfant as $consul) {
-
+                    
                     $c = [
                         'id'                => $consul->getIdConsultation(),
                         'consultation'      => $consul->getTypeConsultation(),
@@ -114,58 +125,37 @@ class DossierMedicaleController extends Controller
                         'diagnostique'      => $consul->getDiagnostique(),
                         'dateConsultation'  => $consul->getDateVisite()
                     ];
-
+                    
                     array_push($infosConsultationEnfant, $c);
                 }
             } catch (\ErrorException $e) {
                 $consultationsEnfant = null;
             }
         }
-
-        $login = session('login');
-
-        $typeUser       = session('typeCurrentUser');
         
+        $login          = session('login');
+        $typeUser       = session('typeCurrentUser');
         $redirection    = '';
-
+        
         switch ($typeUser){
             case("admin"):
-                $redirection = 'dossier-medical-enfant';
+                $redirection = 'liste-consultations-enfant';
                 break;
             case ("infirmier"):
-                $redirection = 'detail-dossier-medical';
+                $redirection = 'details-dossier-medical';
         }
-
-        return view("back.$redirection", compact("login", "dossier", "enfant", "infosConsultationEnfant"));
-
+        //  echo $type;
+        //  die();
+        return view("new.$redirection", compact("login", "dossier", "enfant", "infosConsultationEnfant","idDossierMedical"));
     }
-
-
-    public function edit($id)
-    {
-        //
-    }
-
-
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
 
     public function consultationPDF($idDossier)
     {
-        /*$dossierRepEnfant   = $this->em->getRepository(DossierEnfant::class);
-        $dossierEnfant      = $dossierRepEnfant->findByIdDossierEnfant($idDossier);
-        $enfant             = $dossierEnfant[0];*/
-
         //recuperation dossier medicale
         $dossierRepMedical  = $this->em->getRepository(DossierMedicale::class);
-        $dossierMedical    = $dossierRepMedical->findByIdDossierMedicale($idDossier);
-
-        $dossier        = null;
-        $listeConsultations  = [];
-
+        $dossierMedical     = $dossierRepMedical->findByIdDossierMedicale($idDossier);
+        $dossier            = null;
+        $listeConsultations = [];
 
         try {
             $dossier = $dossierMedical[0];
@@ -176,8 +166,8 @@ class DossierMedicaleController extends Controller
         if ($dossier != null) {
 
             try {
-                $consultationRep        = $this->em->getRepository(ConsultationMedicale::class);
-                $consultations    = $consultationRep->findByIdDossierMedicale($dossierMedical[0]);
+                $consultationRep    = $this->em->getRepository(ConsultationMedicale::class);
+                $consultations      = $consultationRep->findByIdDossierMedicale($dossierMedical[0]);
 
                 foreach ($consultations as $consul) {
 
@@ -189,7 +179,6 @@ class DossierMedicaleController extends Controller
                         'diagnostique'      => $consul->getDiagnostique(),
                         'dateConsultation'  => $consul->getDateVisite()
                     ];
-
                     array_push($listeConsultations, $c);
                 }
             } catch (\ErrorException $e) {
@@ -197,12 +186,9 @@ class DossierMedicaleController extends Controller
             }
         }
 
-        $login = session('login');
-
-        $pdf = PDF::loadView('back.consultation-template-pdf', compact("login", "dossier", "enfant", "listeConsultations"));
+        $login  = session('login');
+        $pdf    = PDF::loadView('back.consultation-template-pdf', compact("login", "dossier", "enfant", "listeConsultations"));
 
         return $pdf->download('consultation.pdf');
-
-        //return view("back.consultation-template-pdf", compact("login", "dossier", "enfant", "listeConsultations"));
     }
 }
