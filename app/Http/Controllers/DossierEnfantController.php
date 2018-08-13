@@ -50,7 +50,10 @@ class DossierEnfantController extends Controller{
                 
                 Storage::makeDirectory($directory);
                 
-                $request->file('photoEnfant')->storeAs($directory,$dossierEnfant->getPrenomEnfant().'-'.$dossierEnfant->getNomEnfant().'-'.$idEnfant);
+                $extension  = $request->file('photoEnfant')->getMimeType(); 
+                $ext        = explode('/',$extension)[1];
+                
+                $request->file('photoEnfant')->storeAs($directory,'profil-'.$idEnfant.$ext);
             }catch(\ErrorException $e){
                 echo $e->getMessage();
             }
@@ -68,12 +71,12 @@ class DossierEnfantController extends Controller{
                 "typeAction"    => "Creation Dossier Enfant",
                 "userId"        => session("id"),
                 "typeUser"      => session('typeCurrentUser'),
-                "description"   => "Creation dossier de ".$dossierEnfant->getPrenom()." ".$dossierEnfant->getNom()." par ".$currentUser[0]->getPrenom()." ".$currentUser[0]->getNom()
+                "description"   => "Creation dossier de ".$dossierEnfant->getPrenomEnfant()." ".$dossierEnfant->getNomEnfant()." par ".$currentUser[0]->getPrenom()." ".$currentUser[0]->getNom()
               ];
               
             EventStoreController::store($this->em,$info);
             
-            return redirect("/Administration/liste-des-dossier-enfants");
+            return redirect("/liste-dossier-des-enfants");
         } catch (\Exception $e) {
             echo $e->getMessage();
         }
@@ -392,7 +395,6 @@ class DossierEnfantController extends Controller{
                 $type ="pdf";
             }
 
-            echo $ext[1];
             $allDocuments[$i] = [
                 "type" => $type,
                 "nom"  => $nom[4],

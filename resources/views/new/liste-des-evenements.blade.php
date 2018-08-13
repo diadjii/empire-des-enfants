@@ -1,4 +1,7 @@
 @extends("new.layout-admin")
+@section("titreSection")
+<h2>Evenements</h2>
+@endsection
 @section("content")
 <div class="col-md-12 thumbnails">
     <div class="card">

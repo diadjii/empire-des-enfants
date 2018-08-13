@@ -137,15 +137,11 @@ class DossierMedicaleController extends Controller
         $typeUser       = session('typeCurrentUser');
         $redirection    = '';
         
-        switch ($typeUser){
-            case("admin"):
-                $redirection = 'liste-consultations-enfant';
-                break;
-            case ("infirmier"):
-                $redirection = 'details-dossier-medical';
+        if($typeUser != "infirmier"){
+            $redirection = 'liste-consultations-enfant';
+        }else{
+            $redirection = 'details-dossier-medical';
         }
-        //  echo $type;
-        //  die();
         return view("new.$redirection", compact("login", "dossier", "enfant", "infosConsultationEnfant","idDossierMedical"));
     }
 

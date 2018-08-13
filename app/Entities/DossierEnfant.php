@@ -72,7 +72,7 @@ class DossierEnfant{
   /**
    * @ORM\Column(type="string")
    */
-  private $statutEnfant = "present";
+  private $statutEnfant = "Enfant Présent";
 
   public function getIdDossierEnfant()
   {

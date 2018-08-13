@@ -16,6 +16,11 @@
   <!-- CSS Files -->
   <link href="/css/material-dashboard.css?v=2.0.2" rel="stylesheet" />
   <link href="/css/demo.css" rel="stylesheet" />
+  <style>
+    .acti:hover{
+      cursor: move;
+    }
+  </style>
 </head>
 
 <body class="">
@@ -33,39 +38,27 @@
         Tip 2: you can also add an image using data-image tag
     -->
     <div class="logo">
-        <a href="http://www.creative-tim.com" class="simple-text logo-mini">
-          CT
-        </a>
+        
         <a href="http://www.creative-tim.com" class="simple-text logo-normal">
-          Creative Tim
+          Empire des Enfants
         </a>
       </div>
       <div class="sidebar-wrapper">
         <div class="user">
           <div class="photo">
-            <img src="assets/img/Anta-Mbow.jpg" />
+            <img src="/images/boss.png" />
           </div>
           <div class="user-info">
-            <a data-toggle="collapse" href="#collapseExample" class="username">
+            <a  href="/user/{{session("login")}}/profil" class="username">
               <span>
-                Anta MBOW
-                <b class="caret"></b>
+                {{session("login")}}
               </span>
             </a>
-            <div class="collapse" id="collapseExample">
-              <ul class="nav">
-                <li class="nav-item">
-                  <a class="nav-link" href="AdminProfil.html">
-                    <span class="sidebar-mini"> MP </span>
-                    <span class="sidebar-normal"> Mon Profil </span>
-                  </a>
-                </li>
-              </ul>
-            </div>
+          
           </div>
         </div>
         <ul class="nav">
-          @if(session("typeCurrentUser") =="admin")
+          @if(session("typeCurrentUser") =="admin" || session("typeCurrentUser") == "encadreur")
             <li class="nav-item ">
                 <a class="nav-link" href="/administration">
                   <i class="material-icons">touch_app</i>
@@ -73,51 +66,52 @@
                 </a>
             </li>
               <li class="nav-item ">
-                <a class="nav-link" href="/administration/liste-dossier-des-enfants">
+                <a class="nav-link" href="/liste-dossier-des-enfants">
                   <i class="material-icons">child_care</i>
                   <p> Gestion dossier enfants </p>
                 </a>
               </li>
               <li class="nav-item ">
-                  <a class="nav-link" href="/administration/liste-des-utilisateurs">
+                  <a class="nav-link" href="/liste-des-utilisateurs">
                     <i class="material-icons">how_to_reg</i>
                     <p> Gestion des utilisateurs </p>
                   </a>
               </li>
               <li class="nav-item ">
-                  <a class="nav-link" href="/administration/liste-des-evenements">
+                  <a class="nav-link" href="/liste-des-evenements">
                     <i class="material-icons">visibility</i>
                     <p> Gestion des évenements </p>
                   </a>
               </li>
+              <li class="nav-item ">
+                  <a class="nav-link" href="/statistiques">
+                    <i class="material-icons">timeline</i>
+                    <p> Voir les Statistiques</p>
+                  </a>
+              </li>
           @else
             <li class="nav-item ">
-                <a class="nav-link" href="/administration">
+                <a class="nav-link" href="/liste-des-activites">
                   <i class="material-icons">touch_app</i>
                   <p> Gestion des activités </p>
                 </a>
             </li>
               <li class="nav-item ">
-                <a class="nav-link" href="/administration/liste-dossier-des-enfants">
+                <a class="nav-link" href="/liste-dossiers-des-enfants">
                   <i class="material-icons">child_care</i>
                   <p> Gestion dossier enfants </p>
                 </a>
               </li>
-              {{-- <li class="nav-item ">
-                  <a class="nav-link" href="/administration/liste-des-utilisateurs">
-                    <i class="material-icons">how_to_reg</i>
-                    <p> Gestion des utilisateurs </p>
-                  </a>
-              </li> --}}
+             
               <li class="nav-item ">
-                <a class="nav-link" href="/administration/liste-dossiers-medicals">
+                <a class="nav-link" href="/liste-dossiers-medicals">
                   <i class="material-icons">local_hospital</i>
                   <p> Dossier Médical </p>
                 </a>
             </li>
             
               {{-- <li class="nav-item ">
-                  <a class="nav-link" href="/administration/liste-des-evenements">
+                  <a class="nav-link" href="/liste-des-evenements">
                     <i class="material-icons">visibility</i>
                     <p> Gestion des évenements </p>
                   </a>
@@ -147,7 +141,7 @@
             <span class="navbar-toggler-icon icon-bar"></span>
           </button>
           <div class="collapse navbar-collapse justify-content-end">
-            <form class="navbar-form">
+            {{-- <form class="navbar-form">
               <div class="input-group no-border">
                 <input type="text" value="" class="form-control" placeholder="Search...">
                 <button type="submit" class="btn btn-white btn-round btn-just-icon">
@@ -155,38 +149,14 @@
                   <div class="ripple-container"></div>
                 </button>
               </div>
-            </form>
+            </form> --}}
             <ul class="navbar-nav">
+              
               <li class="nav-item">
-                <a class="nav-link" href="#pablo">
-                  <i class="material-icons">dashboard</i>
-                  <p class="d-lg-none d-md-block">
-                    Stats
-                  </p>
-                </a>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <i class="material-icons">notifications</i>
-                  <span class="notification">5</span>
-                  <p class="d-lg-none d-md-block">
-                    Some Actions
-                  </p>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                  <a class="dropdown-item" href="#">Mike John responded to your email</a>
-                  <a class="dropdown-item" href="#">You have 5 new tasks</a>
-                  <a class="dropdown-item" href="#">You're now friend with Andrew</a>
-                  <a class="dropdown-item" href="#">Another Notification</a>
-                  <a class="dropdown-item" href="#">Another One</a>
-                </div>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/logOut">
-                  <i class="material-icons">person</i>
-                  <p class="d-lg-none d-md-block">
-                    Account
-                  </p>
+                <a class="nav-link btn btn-rounded btn-primary text-white" href="/logOut">
+                 
+                  <i class="material-icons">directions_run</i>
+                  Se Deconnecter
                 </a>
               </li>
             </ul>
@@ -197,60 +167,7 @@
       <div class="content">
         <div class="container-fluid">
           <div class="row">
-          
               @yield("content")
-              {{-- <div class="card">
-                <div class="card-header card-header-primary card-header-icon">
-                  <div class="card-icon">
-                    <i class="material-icons">assignment</i>
-                  </div>
-                  <h4 class="card-title">Liste des Enfants</h4>
-                </div>
-                <div class="card-body">
-                  <div class="toolbar">
-                    <!--        Here you can write extra buttons/actions for the toolbar              -->
-                  </div>
-                  <div class="material-datatables">
-                    <table id="datatables" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
-                      <thead>
-                        <tr>
-                          <th>Id</th>
-                          <th>Nom</th>
-                          <th>Prenom</th>
-                          <th>Détails</th>
-                          <th>Dossier Médical</th>
-                          <th class="disabled-sorting text-right">Status</th>
-                        </tr>
-                      </thead>
-                      <tfoot>
-                        <tr>
-                          <th>Id</th>
-                          <th>Nom</th>
-                          <th>Prenom</th>
-                          <th>Détails</th>
-                          <th>Dossier Médical</th>
-                          <th class="disabled-sorting text-right">Status</th>
-                        </tr>
-                      </tfoot>
-                      <tbody>
-                        <tr>
-                          <td>12Empire</td>
-                          <td>Brici</td>
-                          <td>GBagbo</td>
-                          <td><a href="#" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">dvr</i></a></td>
-                          <td><a href="#" class="btn btn-link btn-danger btn-just-icon edit"><i class="material-icons">local_hospital</i></a></td>
-                          <td class="text-right">
-                            <a href="#" class="btn btn-link btn-info btn-just-icon like"><i class="material-icons">favorite</i></a>
-                            <a href="#" class="btn btn-link btn-danger btn-just-icon remove"><i class="material-icons">close</i></a>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-                <!-- end content-->
-              </div> --}}
-
             <!-- end col-md-12 -->
           </div>
           <!-- end row -->
@@ -404,7 +321,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
   
   <!--  Notifications Plugin    -->
-  <script src="/js/plugins/demo.js"></script>
+  <script src="/js/demo.js"></script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="/js/material-dashboard.min.js?v=2.0.2" type="text/javascript"></script>
   @yield("script")

@@ -7,7 +7,7 @@
         <!--      Wizard container        -->
         <div class="wizard-container">
           <div class="card card-wizard" data-color="rose" id="wizardProfile">
-            <form action="/administration/save-user" method="post">
+            <form action="/save-user" method="post">
               <!--        You can switch " data-color="primary" "  with one of the next bright colors: "green", "orange", "red", "blue"       -->
               <div class="card-header text-center">
                 <h3 class="card-title">
@@ -178,20 +178,5 @@
                 $('.card.card-wizard').addClass('active');
             }, 600);
         });
-        
-        // $("#createDossier").submit(function(e){
-        //     e.preventDefault();
-        //     f = $( this ).serialize() ;
-        //     // console.log( $( this ).serialize() );
-          
-        //     $.post("/administration/DossierDesEnfants",{
-        //         nom 
-        //         }
-        //     ).then(function (response) {
-        //         alert("ok")
-        //     }).fail(function(r){
-        //         console.log(r);
-        //     })
-        // })
     </script>
     @endsection

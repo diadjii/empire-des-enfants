@@ -1,6 +1,6 @@
 @extends("new.layout-admin")
 @section("titreSection")
-  <h2>Consultation des Notes de Nom Prenom</h2>
+  <h2>Consultation Notes</h2>
 @endsection
 @section("content")
 <div class="col-md-12">
@@ -60,7 +60,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form action="/administration/DossierEnfant/add-note" method="post">
+      <form action="/DossierEnfant/add-note" method="post">
         <div class="modal-body">
             <div class="form-group">
               <label for="" class="bmd-label-floating">Object Note</label>

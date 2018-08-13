@@ -5,11 +5,11 @@
 @endsection
 @section("content")
 <div class="col-md-10 col-12 mr-auto ml-auto">
-    <form id="createDossier" action="/administration/DossierEnfant/{{$enfant->getIdDossierEnfant()}}/EditDossierEnfant" method="post" enctype="multipart/form-data">
+    <form id="createDossier" action="/DossierEnfant/{{$enfant->getIdDossierEnfant()}}/EditDossierEnfant" method="post" enctype="multipart/form-data">
         {{-- <div class="col-md-8"> --}}
             <div class="card card-profile">
                 <div class="card-avatar">
-                    <img class="img" src="{{$img}}" />
+                    <img class="img" src="{{Storage::url("document/".$enfant->getIdDossierEnfant()."/profil-".$enfant->getIdDossierEnfant())}}" />
                 </div>
                 <div class="card-body">
                     <h3 class="card-category text-gray">Dossier de <strong>{{$enfant->getPrenomEnfant()}} {{$enfant->getNomEnfant()}}</strong></h3>
@@ -147,50 +147,7 @@
                                 </div>
                             </div>
                         </div>
-                        {{-- <div class="row">
-                            <div class="col">
-                                <input type="text" class="form-control" placeholder="Code Enfant" value="{{$enfant->getIdentifiantEnfant()}}">
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col">
-                                <input type="text" class="form-control" placeholder="Nom" value="{{$enfant->getPrenomEnfant()}}">
-                            </div>
-                            <div class="col">
-                                
-                                <input type="text" class="form-control" placeholder="Prenom" value="{{$enfant->getNomEnfant()}}">
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col">
-                                <input type="text" class="form-control" placeholder="Date Naissance" value="{{$enfant->getDateNaissanceEnfant()}}">
-                            </div>
-                            <div class="col">
-                                <input type="text" class="form-control" placeholder="Lieu Naissance" value="{{$enfant->getLieuNaissance()}}">
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col">
-                                <input type="text" class="form-control" placeholder="Origine" value="{{$enfant->getOrigineEnfant()}}">
-                            </div>
-                            <div class="col">
-                                <input type="text" class="form-control" placeholder="Adresse" value="{{$enfant->getAdresse()}}">
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col">
-                                <input type="text" class="form-control" placeholder="Prenom Pere" value="{{$parent->getPrenomMere()}}">
-                            </div>
-                            <div class="col">
-                                <input type="text" class="form-control" placeholder="Nom Mere" value="{{$parent->getNomMere()}}" >
-                            </div>
-                        </div>
-                        <br>
-                        --}}
+                        @if(session("typeCurrentUser") == "admin" || session("typeCurrentUser") == "encadreur")
                         <button type="submit" class="btn btn-lg btn-primary" >Mettre à jour</button>
                     </form>
                     <div class="row"> 
@@ -202,7 +159,7 @@
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <button class="btn btn-success" ><a class="text-white" href="/Infirmier/DossierMedicale/{{$enfant->getIdDossierEnfant()}}/Consultation">En savoir plus</a></button>
+                                    <button class="btn btn-success" ><a class="text-white" href="/DossierMedicale/{{$enfant->getIdDossierEnfant()}}/Consultation">En savoir plus</a></button>
                                 </div>
                             </div>
                         </div>
@@ -214,11 +171,12 @@
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <button class="btn btn-warning"><a class="text-white" href="/administration/DossierEnfant/{{$enfant->getIdDossierEnfant()}}/zoneTelechargement">En savoir plus</a></button>
+                                    <button class="btn btn-warning"><a class="text-white" href="/DossierEnfant/{{$enfant->getIdDossierEnfant()}}/zoneTelechargement">En savoir plus</a></button>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    @endif
                 </div>
                 {{-- </div> --}}
             </div>
@@ -233,20 +191,5 @@
                     $('.card.card-wizard').addClass('active');
                 }, 600);
             });
-            
-            // $("#createDossier").submit(function(e){
-                //     e.preventDefault();
-                //     f = $( this ).serialize() ;
-                //     // console.log( $( this ).serialize() );
-                
-                //     $.post("/administration/DossierDesEnfants",{
-                    //         nom 
-                    //         }
-                    //     ).then(function (response) {
-                        //         alert("ok")
-                        //     }).fail(function(r){
-                            //         console.log(r);
-                            //     })
-                            // })
                         </script>
                         @endsection

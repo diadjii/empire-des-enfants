@@ -1,21 +1,6 @@
-
 $(function(){
   $("#message").alert('close')
 })
-//   $.get("allUser").then(function(response){
-//     for (var i = 0; i < response.length; i++) {
-//       var tr = "<tr>"+
-//       "<td>"+response[i].id+"</td>"+
-//       "<td>"+response[i].nom+"</td>"+
-//       "<td>"+response[i].prenom+"</td>"+
-//       "<td>"+response[i].role.toUpperCase()+"</td>"
-//       // "<td><button onClick='editUser("+response[i].id+")' class='ui red button'>Supprimer</button></td>";
-//       $("#listeUtilisateurs").append(tr);
-//     }
-//     console.log(response);
-//   })
-// })
-//
 
 //recuperation des infos lors de la connexion de l'utilisateur
 $("#login").submit(function(e){
@@ -31,7 +16,12 @@ $("#login").submit(function(e){
     password:inputPassword,
     _token:token
   }).then(function(response){
-    redirectUser(response);
+    if(response == "error" ){
+      $("#messageError").html("Veillez verifier votre login ou mot de passe.<br><small>Si le probleme persiste consulter l'administrateur.</small>" );
+      $("#exampleModal").modal("show");
+    }else{
+      redirectUser(response);
+    }
   }).fail(function(a,b){
     console.log(a)
   })
@@ -68,16 +58,7 @@ $('#formAddUser').submit(function(e){
       break;
     }
   }).fail(function(a,b){
-    console.log(a);
-    // var infoLogin = a.responseJSON.errors.login;
-    // var infoPassword = a.responseJSON.errors.password;
-    // var typeUser = a.responseJSON.errors.typeUser;
-    // var message ="<ul>";
-    // message +="<li>"+infoLogin+"</li>";
-    // message +="<li>"+infoPassword+"</li>";
-    // message +="<li>"+typeUser+"</li></ul>";
-    // $("#message").html(message);
-    // $("#message").show();
+    alert("Ouuppps une erreur c'est produite lorss de la creation du compte");
   })
 })
 //
@@ -88,40 +69,25 @@ function redirectUser(role){
     window.location.href="/administration";
     break;
     case 'infirmier':
-    window.location.href = "Infirmier";
+    window.location.href = "/Infirmier";
     break;
     case 'encadreur':
-    window.location.href="encadreur/accueil";
+    window.location.href="/encadreur";
     break;
     case 'animateur':
-    window.location.href="animateur/accueil";
+    window.location.href="/animateur";
     break;
     default:
     console.log(role);
     
   }
 }
-//
-// $("#logOut").click(function(){
-//   // e.preventDefault();
-//   // var token = $("input[name='_token']").val();
-//   $.get("logOut")
-//   .then(function(response){
-//     window.location.href = "login";
-//   })
-//   .fail(function(a,b){
-//     console.log(a);
-//     console.log(b);
-//   })
-// })
-//
-// $('.menu .item').tab();
-//
+
 //Voir les infos d'un utilisateur
 function activeUser(idUser){
   // alert(idUser)
-  $.get("/Admin/"+idUser+"/changeStatusToOn").then(function(){
-    window.location.href="/administration/liste-des-utilisateurs";
+  $.get("/administrateur/"+idUser+"/changeStatusToOn").then(function(){
+    window.location.href="/liste-des-utilisateurs";
   }).fail(function(r){
     console.log(r);
   })
@@ -129,8 +95,8 @@ function activeUser(idUser){
 
 function desactiveUser(idUser){
   // alert(idUser)
-  $.get("/Admin/"+idUser+"/changeStatusToOff").then(function(){
-    window.location.href="/administration/liste-des-utilisateurs";
+  $.get("/administrateur/"+idUser+"/changeStatusToOff").then(function(){
+    window.location.href="/liste-des-utilisateurs";
   }).fail(function(r){
     console.log(r);
   })
@@ -141,9 +107,9 @@ function deleteUser(idUser){
   $('#exampleModal').modal('toggle');
   $(".modal-body").text("Voulez-vous vraiment supprimer cet utilisateur");
   $("#btnConfirmDeleteUser").click(function(){
-    $.get("/Admin/"+idUser+"/deleteUser").then(function(response){
+    $.get("/administrateur/"+idUser+"/deleteUser").then(function(response){
       $('#exampleModal').modal('toggle');
-      window.location.href="/administration/liste-des-utilisateurs";
+      window.location.href="/liste-des-utilisateurs";
     }).fail(function(r){
       console.log(r);
     })
@@ -208,7 +174,7 @@ function resetPassword(idUser){
       var token     = $("input[name='_token']").val();
 
       console.log(password+" "+token)
-      $.post("/administration/user/reset-password",{
+      $.post("/user/reset-password",{
         idUser:idUser,
         newPassword:password,
         _token:token

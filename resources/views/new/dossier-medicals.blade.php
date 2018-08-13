@@ -38,7 +38,7 @@
                              <td>{{$dossier->getNomEnfant()}} </td>
                              <td>{{$dossier->getPrenomEnfant()}} </td>
                               <td>
-                                  <form action="/Infirmier/DossierMedicale/{{$dossier->getIdDossierEnfant()}}/Consultation">
+                                  <form action="/DossierMedicale/{{$dossier->getIdDossierEnfant()}}/Consultation">
                                       <button type="submit" class="btn btn-info">Voir Dossier</button>
                                   </form>
                               </td>
@@ -54,7 +54,7 @@
             </div>
             <!-- end col-md-12 -->
       @endsection
-    
+{{--     
     </div>
   </div>
   <div class="fixed-plugin">
@@ -442,4 +442,4 @@ Propagation) {
   </script>
 </body>
 
-</html>
+</html> --}}

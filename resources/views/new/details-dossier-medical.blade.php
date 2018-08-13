@@ -79,7 +79,7 @@
                         <h4 class="card-title">Details Consultation</h4>
                       </div>
                     </div>
-                    <form method="post" action="/Infirmier/UpdateConsultationMedicale" class="form-horizontal">
+                    <form method="post" action="/UpdateConsultationMedicale" class="form-horizontal">
                       <div class="card-body ">
                         <div class="row">
                           <label class="col-sm-4 col-form-label">Type de Consultation</label>
@@ -149,7 +149,7 @@
                   <h4 class="card-title">Ajouter une nouvelle consultation</h4>
                 </div>
               </div>
-              <form method="post" action="/Infirmier/CreateConsultationMedicale" class="form-horizontal">
+              <form method="post" action="/CreateConsultationMedicale" class="form-horizontal">
                 <div class="card-body ">
                   <div class="row">
                     <label class="col-sm-4 col-form-label">Type de Consultation</label>
@@ -215,7 +215,7 @@
                     <h4 class="card-title">Creation Dossier Medical</h4>
                   </div>
                 </div>
-                <form method="post" action="/Infirmier/CreateDossierMedicale" class="form-horizontal">
+                <form method="post" action="/CreateDossierMedicale" class="form-horizontal">
                   <div class="card-body ">
                     <div class="row">
                       <label class="col-sm-4 col-form-label">Groupe Sanguin</label>

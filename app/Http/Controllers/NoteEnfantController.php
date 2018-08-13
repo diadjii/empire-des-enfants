@@ -49,8 +49,6 @@ class NoteEnfantController extends Controller
      */
     public function store(Request $request)
     {
-        $noteRep    = $this->em->getRepository(NoteEnfant::class);
-
         $id         = $request->get("idDossierEnfant");
         $objetNote  = $request->get("objet");
         $note       = $request->get("note");

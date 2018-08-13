@@ -1,4 +1,7 @@
 @extends("new.layout-admin")
+@section("titreSection")
+<h2>Gestion Utilisateurs</h2>
+@endsection
      @section('content')
               <div class="col-md-12">
                 <div class="card">
@@ -11,7 +14,7 @@
                   <div class="card-body">
                     <div class="toolbar">
                         <ul class="nav justify-content-end">
-                          <a class="btn btn-primary" href="/administration/create-utilisateur">Nouveau utilisateur</a>
+                          <a class="btn btn-primary" href="/create-utilisateur">Nouveau utilisateur</a>
                             {{-- <button type="button"  class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
                                 
                               </button> --}}
@@ -46,7 +49,11 @@
                             @endif
                             {{-- <td><span class="btn btn-sm btn-success" onclick="editUser({{$user->getId()}})">Modifier</span></td> --}}
                             <th><span class="btn btn-sm btn-secondary" onclick="resetPassword({{$user->getId()}})">Reinitialiser</span></th>
-                            <td><span class="btn btn-sm btn-danger u" id="{{$user->getId()}}" onclick="deleteUser({{$user->getId()}})" >Supprimer</span></td>
+                            @if(session("typeCurrentUser") == "admin")
+                              <td><span class="btn btn-sm btn-danger u" id="{{$user->getId()}}" onclick="deleteUser({{$user->getId()}})" >Supprimer</span></td>
+                            @else
+                            <td><span class="btn btn-sm btn-danger u" id="{{$user->getId()}}" disabled >Supprimer</span></td>
+                            @endif
                           </tr>
                         @endforeach
                           
