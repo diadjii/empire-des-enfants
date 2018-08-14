@@ -40,10 +40,10 @@
       <div class="sidebar-wrapper">
         <div class="user">
           <div class="photo">
-            <img src="/images/boss.png" />
+            <img src="/images/{{session("typeCurrentUser")}}.png" />
           </div>
           <div class="user-info">
-            <a href="/user/{{session(" login ")}}/profil" class="username">
+            <a href="/user/{{session("login")}}/profil" class="username">
               <span>
                   {{session("login")}}
               </span>
@@ -129,12 +129,8 @@
       <div class="content">
         <div class="container-fluid">
           <div class="row">
-
             @yield("content")
-
-            <!-- end col-md-12 -->
           </div>
-          <!-- end row -->
         </div>
       </div>
       <footer class="footer">

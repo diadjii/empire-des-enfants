@@ -11,7 +11,7 @@ $("#login").submit(function(e){
   var inputPassword = $("#inputPassword").val();
   var token = $('input[name="_token"]').val();
   // alert(login+" "+password)
-  $.post("login",{
+  $.post("/login",{
     login:inputLogin,
     password:inputPassword,
     _token:token
@@ -38,7 +38,7 @@ $('#formAddUser').submit(function(e){
   let prenom = $("input[name='prenom']").val();
   let token = $('input[name="_token"]').val();
   
-  $.post("/addUser",{
+  $.post("/add-user",{
     login:login,
     password:password,
     typeUser:typeUser,
@@ -56,7 +56,8 @@ $('#formAddUser').submit(function(e){
       case "vide":
       alert("Champs requis");
       break;
-    }
+    }mActivite;
+    // var event = $('<div />')
   }).fail(function(a,b){
     alert("Ouuppps une erreur c'est produite lorss de la creation du compte");
   })
@@ -69,7 +70,7 @@ function redirectUser(role){
     window.location.href="/administration";
     break;
     case 'infirmier':
-    window.location.href = "/Infirmier";
+    window.location.href = "/infirmier";
     break;
     case 'encadreur':
     window.location.href="/encadreur";
@@ -107,7 +108,7 @@ function deleteUser(idUser){
   $('#exampleModal').modal('toggle');
   $(".modal-body").text("Voulez-vous vraiment supprimer cet utilisateur");
   $("#btnConfirmDeleteUser").click(function(){
-    $.get("/administrateur/"+idUser+"/deleteUser").then(function(response){
+    $.get("/administrateur/"+idUser+"/delete-user").then(function(response){
       $('#exampleModal').modal('toggle');
       window.location.href="/liste-des-utilisateurs";
     }).fail(function(r){

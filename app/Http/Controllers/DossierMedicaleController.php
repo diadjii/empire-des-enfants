@@ -35,7 +35,6 @@ class DossierMedicaleController extends Controller
         $groupe = $request->get("groupeSanguin");
         $id     = $request->get("idEnfant");
 
-      //  $u = $this->em->getRepository(DossierMedicale::class);
         $dossierRep     = $this->em->getRepository(DossierEnfant::class);
         $dossierEnfant  = $dossierRep->findByIdDossierEnfant($id);
 

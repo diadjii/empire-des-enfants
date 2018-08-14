@@ -26,7 +26,7 @@
                     @foreach ($liste as $event)
                         
                     <tr>
-                        <td class="text-center">{{$event->getUserId()}}</td>
+                        <td class="text-center">{{$loop->iteration}}</td>
                         <td>
                             @if($event->getDescription() ==null )
                                 <strong class="text-danger">Aucune description</strong>
@@ -34,7 +34,7 @@
                                 {{$event->getDescription()}}
                             @endif
                         </td>
-                        <td class=""><strong>{{$event->getTypeAction()}}</strong></td>
+                        <td ><strong>{{$event->getTypeAction()}}</strong></td>
                         <td><i class="material-icons">date_range</i> {{$event->getDateTime()}}</td>
                     </tr>
                     @endforeach

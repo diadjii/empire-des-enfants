@@ -60,7 +60,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form action="/DossierEnfant/add-note" method="post">
+      <form action="/dossier-enfant/add-note" method="post">
         <div class="modal-body">
             <div class="form-group">
               <label for="" class="bmd-label-floating">Object Note</label>

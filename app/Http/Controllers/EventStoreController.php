@@ -23,9 +23,10 @@ class EventStoreController extends Controller
     public function index()
     {
         $eventRep   = $this->em->getRepository(EventStore::class);
-        $liste      = $eventRep->findAll();
+        $liste      = $eventRep->findAll("ASC");
         $login      = session('login');
         
+        $liste = array_reverse($liste);
         return view("new.liste-des-evenements",compact('liste','login'));
     }
     /**

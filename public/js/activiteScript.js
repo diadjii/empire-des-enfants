@@ -46,7 +46,7 @@ $(function () {
       day  : 'Jour'
     },
     //Random default events
-    events    : '/agendaActivites',
+    events    : '/agenda-activites',
     editable  : true,
     droppable : true, // this allows things to be dropped onto the calendar !!!
     drop      : function (date, allDay) { // this function is called when something is dropped
@@ -144,7 +144,7 @@ $(function () {
   })
   
   function getListeActivite(){
-    $.get("/listeActivites").then(function(response){
+    $.get("/liste-activites").then(function(response){
       listeActToDelete(response);
       for (var i = 0; i < response.length; i++) {
         
@@ -176,7 +176,7 @@ $(function () {
   function addToAgenda(id,d){
     let token = $('input[name="_token"]').val();
     
-    $.post("/saveToAgenda",{
+    $.post("/save-to-agenda",{
       idActivite  : id,
       dateDebut   : d,
       _token      : token
@@ -192,7 +192,7 @@ function saveActivite(idActivite,heureDebut,heureFin){
   
   let  token = $('input[name="_token"]').val();
   
-  $.post("/updateActivite",{
+  $.post("/update-activite",{
     idActivite: idActivite,
     heureDebut: heureDebut,
     heureFin  : heureFin,
@@ -225,7 +225,7 @@ $("#add-new-activite").click(function(){
     alert("Vous devez choisir une couleur et donnez le nom de l'activite");
   }else{
     
-    $.post("/addActivite",{
+    $.post("/add-activite",{
       nomActivite : activite,
       _token      : token,
       couleur     : couleur
@@ -244,8 +244,8 @@ function showAllActiviteToDelete(){
 function listeActToDelete(response){
   for (let i = 0; i < response.length; i++) {
     //const element = array[response];
-    var val = response[i].nomActivite;
-    var event = $('<div />')
+    // var val = response[i].nomActivite;
+    // var event = $('<div />')
     let v = "<li class='list-group-item'><input class='form-check-input ' type='checkbox' value="+response[i].id+"/>"+response[i].nomActivite+"</li>";
       $("#listActivites").append(v);
       
@@ -253,16 +253,21 @@ function listeActToDelete(response){
   }
   
   $("#conf").click(function(){
-    let t =  $("input[type='checkbox']:checked");
-    let id ="";
+    var t   = $("input[type='checkbox']:checked");
+    var id  = "";
     
     for (let i = 0; i < t.length; i++) {
-      const el = t[i];
-      id +=el.value.split('/');
+      var el = t[i];
+
+      if(el.value.split('/') !="on"){
+
+        id +=el.value.split('/');
+        console.log(id);
+      }
     }
     
     //envoi de la liste des id des activites à supprimer
-    $.get("/deleteActivite/"+id).then(function(response){
+    $.get("/delete-activite/"+id).then(function(response){
       $("#deleteActiviteModal").modal("hide");
       alert("L'activite a bien ete supprimée");
       window.location = "/administration";

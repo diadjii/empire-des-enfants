@@ -48,10 +48,10 @@
                             <td>{{$loop->iteration}}</td>
                             <td>{{$dossier->getNomEnfant()}} </td>
                             <td>{{$dossier->getPrenomEnfant()}} </td>
-                            <td><a href="/DossierEnfant/{{$dossier->getIdDossierEnfant()}}/Details" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">dvr</i></a>
+                            <td><a href="/dossier-enfant/{{$dossier->getIdDossierEnfant()}}/details" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">dvr</i></a>
                             </td>
-                            <td> <a href="/DossierEnfant/{{$dossier->getIdDossierEnfant()}}/DossierMedical" ><i class="material-icons btn-success">local_hospital</i></a></td>
-                            <td><a href="/DossierEnfant/{{$dossier->getIdDossierEnfant()}}/liste-des-notes" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">event_note</i></a>
+                            <td> <a href="/dossier-enfant/{{$dossier->getIdDossierEnfant()}}/dossier-medical" ><i class="material-icons btn-success">local_hospital</i></a></td>
+                            <td><a href="/dossier-enfant/{{$dossier->getIdDossierEnfant()}}/liste-des-notes" class="btn btn-link btn-warning btn-just-icon edit"><i class="material-icons">event_note</i></a>
                             </td>
                             <td>{{$dossier->getStatutEnfant()}}</td>
                           </tr>

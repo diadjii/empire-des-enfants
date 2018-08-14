@@ -7,9 +7,12 @@ use App\Entities\Animateur;
 use App\Entities\Encadreur;
 use App\Entities\Infirmier;
 use App\Entities\User;
+
 use App\Http\Controllers\EventStoreController;
 use App\Http\Requests\UserFormRequest;
+
 use Doctrine\ORM\EntityManagerInterface;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -31,23 +34,24 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
-        $reponse = null;
-        $login = $request->get('login');
-        $password = $request->get('password');
+        $reponse    = null;
+        $login      = $request->get('login');
+        $password   = $request->get('password');
 
-        $u = $this->em->getRepository(User::class);
+        $u      = $this->em->getRepository(User::class);
         $entity = $u->findByLogin($login);
 
         if (count($entity) > 0) {
             $mdp = $entity[0]->getPassword();
             $status = $entity[0]->getStatus();
+
             if (Hash::check($password, $mdp) || $status == "on") {
                 $type = $this->getTypeUser($entity[0]);
 
                 session([
-                    'login' => $entity[0]->getLogin(),
-                    'id' => $entity[0]->getId(),
-                    'typeCurrentUser' => $type,
+                    'login'             => $entity[0]->getLogin(),
+                    'id'                => $entity[0]->getId(),
+                    'typeCurrentUser'   => $type,
                 ]);
 
                 $reponse = $type;
@@ -55,7 +59,7 @@ class UserController extends Controller
                 $reponse = "error";
             }
         } else {
-            $reponse = "error";
+            $reponse     = "error";
         }
 
         return $reponse;
@@ -63,17 +67,17 @@ class UserController extends Controller
 
     public function store(UserFormRequest $request)
     {
-        $idCurrentUser = session('id');
+        $idCurrentUser  = session('id');
 
-        $login = $request->get('login');
-        $password = $request->get('password');
-        $typeUser = $request->get('typeUser');
-        $nom = $request->get('nom');
-        $prenom = $request->get('prenom');
+        $login          = $request->get('login');
+        $password       = $request->get('password');
+        $typeUser       = $request->get('typeUser');
+        $nom            = $request->get('nom');
+        $prenom         = $request->get('prenom');
 
-        $u = $this->em->getRepository(User::class);
-        $entity = $u->findByLogin($login);
-        $currentUser = $u->findById($idCurrentUser);
+        $userRepository = $this->em->getRepository(User::class);
+        $entity         = $userRepository->findByLogin($login);
+        $currentUser    = $userRepository->findById($idCurrentUser);
 
         if (count($entity) > 0) {
             return redirect()->back()->withErrors(["Ce compte d'utilisateur existe dejà."]);
@@ -81,10 +85,10 @@ class UserController extends Controller
             $this->registreUser($login, $password, $typeUser, $nom, $prenom);
 
             $info = [
-                "typeAction" => "Creation Compte Utlisateur",
-                "userId" => session("id"),
-                "typeUser" => session('typeCurrentUser'),
-                "description" => "Creation compte utilisateur " . $nom . " " . $prenom . " par " . $currentUser[0]->getPrenom() . " " . $currentUser[0]->getNom(),
+                "typeAction"    => "Creation Compte Utlisateur",
+                "userId"        => session("id"),
+                "typeUser"      => session('typeCurrentUser'),
+                "description"   => "Creation compte utilisateur " . $nom . " " . $prenom . " par " . $currentUser[0]->getPrenom() . " " . $currentUser[0]->getNom(),
             ];
 
             EventStoreController::store($this->em, $info);
@@ -96,10 +100,10 @@ class UserController extends Controller
 
     public function show()
     {
-        $urep = $this->em->getRepository(User::class);
-        $liste = $urep->findAll();
-        $users = array();
-        $login = session('login');
+        $urep   = $this->em->getRepository(User::class);
+        $liste  = $urep->findAll();
+        $users  = array();
+        $login  = session('login');
 
         //recuperation de la liste des utilisateurs
         foreach ($liste as $user) {
@@ -117,29 +121,24 @@ class UserController extends Controller
         return view('new.liste-utilisateurs', compact("users", "login"));
     }
 
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
     public function delete($id)
     {
         $idCurrentUser = session('id');
 
         if (session("typeCurrentUser") == "admin") {
 
-            $userRep = $this->em->getRepository(User::class);
-            $user = $userRep->findById($id);
-            $currentUser = $userRep->findById($idCurrentUser);
+            $userRep        = $this->em->getRepository(User::class);
+            $user           = $userRep->findById($id);
+            $currentUser    = $userRep->findById($idCurrentUser);
 
             try {
                 $this->em->remove($user[0]);
                 $this->em->flush();
                 $info = [
-                    "typeAction" => "Suppression Compte Utlisateur",
-                    "userId" => session("id"),
-                    "typeUser" => session('typeCurrentUser'),
-                    "description" => "Suppression de l'utilisateur " . $user[0]->getNom() . " " . $user[0]->getPrenom() . " par " . $currentUser[0]->getPrenom() . " " . $currentUser[0]->getNom(),
+                    "typeAction"    => "Suppression Compte Utlisateur",
+                    "userId"        => session("id"),
+                    "typeUser"      => session('typeCurrentUser'),
+                    "description"   => "Suppression de l'utilisateur " . $user[0]->getNom() . " " . $user[0]->getPrenom() . " par " . $currentUser[0]->getPrenom() . " " . $currentUser[0]->getNom(),
                 ];
                 EventStoreController::store($this->em, $info);
                 return "ok";
@@ -152,25 +151,10 @@ class UserController extends Controller
 
     public static function isLogin()
     {
-        $login = session('login');
-        $type = session('typeCurrentUser');
-
-        $t = null;
-        $reponse = null;
+        $login  = session('login');
         if (isset($login)) {
-            switch ($type) {
-                case 'superadmin':
-                    $t = "back.superadmin";
-                    break;
-                case 'admin':
-                    $t = "back.admin";
-                    break;
-                case 'encadreur':
-                    $t = "back.encadreur";
-                    break;
-            }
 
-            return view($t, compact('login'));
+            return view("new.gestion-activite", compact('login'));
         } else {
             return view("new.login");
         }
@@ -178,14 +162,11 @@ class UserController extends Controller
 
     public function getTypeUser($myObject)
     {
-        $typeUser = $this->em->getClassMetadata(get_class($myObject))->discriminatorValue;
-
-        return $typeUser;
+        return  $this->em->getClassMetadata(get_class($myObject))->discriminatorValue;
     }
 
     public function registreUser($log, $pass, $us, $nom, $prenom)
     {
-        $type = null;
         $user = null;
 
         switch ($us) {
@@ -219,21 +200,22 @@ class UserController extends Controller
 
     public function changeStatusToON($id)
     {
-        $idCurrentUser = session('id');
+        $userRep        = $this->em->getRepository(User::class);
+        
+        $idCurrentUser  = session('id');
+        $user           = $userRep->findById($id);
+        $currentUser    = $userRep->findById($idCurrentUser);
 
-        $userRep = $this->em->getRepository(User::class);
-        $user = $userRep->findById($id);
-        $currentUser = $userRep->findById($idCurrentUser);
         $user[0]->setStatus("on");
 
         try {
             $this->em->flush();
 
             $info = [
-                "typeAction" => "Activation Compte Utilisateur",
-                "userId" => session("id"),
-                "typeUser" => session('typeCurrentUser'),
-                "description" => "Activation du compte de " . $user[0]->getNom() . " " . $user[0]->getPrenom() . " par " . $currentUser[0]->getPrenom() . " " . $currentUser[0]->getNom(),
+                "typeAction"    => "Activation Compte Utilisateur",
+                "userId"        => session("id"),
+                "typeUser"      => session('typeCurrentUser'),
+                "description"   => "Activation du compte de " . $user[0]->getNom() . " " . $user[0]->getPrenom() . " par " . $currentUser[0]->getPrenom() . " " . $currentUser[0]->getNom(),
             ];
 
             EventStoreController::store($this->em, $info);
@@ -246,10 +228,10 @@ class UserController extends Controller
 
     public function changeStatusToOff($id)
     {
-        $idCurrentUser = session('id');
+        $userRep        = $this->em->getRepository(User::class);
+        $idCurrentUser  = session('id');
+        $user           = $userRep->findById($id);
 
-        $userRep = $this->em->getRepository(User::class);
-        $user = $userRep->findById($id);
         $user[0]->setStatus("off");
 
         $currentUser = $userRep->findById($idCurrentUser);
@@ -258,10 +240,10 @@ class UserController extends Controller
             $this->em->flush();
 
             $info = [
-                "typeAction" => "Desactivation Compte Utlisateur",
-                "userId" => session("id"),
-                "typeUser" => session('typeCurrentUser'),
-                "description" => "Desactivation compte de " . $user[0]->getNom() . " " . $user[0]->getPrenom() . " par " . $currentUser[0]->getPrenom() . " " . $currentUser[0]->getNom(),
+                "typeAction"    => "Desactivation Compte Utlisateur",
+                "userId"        => session("id"),
+                "typeUser"      => session('typeCurrentUser'),
+                "description"   => "Desactivation compte de " . $user[0]->getNom() . " " . $user[0]->getPrenom() . " par " . $currentUser[0]->getPrenom() . " " . $currentUser[0]->getNom(),
             ];
 
             EventStoreController::store($this->em, $info);
@@ -275,26 +257,26 @@ class UserController extends Controller
     //reinitialisation du mot de passe utilisateur
     public function resetPassword(Request $request)
     {
-        $password = $request->get("newPassword");
-        $password = Hash::make($password);
-        $idUser = $request->get("idUser");
+        $idUser         = $request->get("idUser");
+        $password       = $request->get("newPassword");
+        $password       = Hash::make($password);
 
-        $idCurrentUser = session('id');
+        $idCurrentUser  = session('id');
 
-        $userRep = $this->em->getRepository(User::class);
-        $user = $userRep->findById($idUser);
+        $userRep        = $this->em->getRepository(User::class);
+        $user           = $userRep->findById($idUser);
 
-        $currentUser = $userRep->findById($idCurrentUser);
+        $currentUser    = $userRep->findById($idCurrentUser);
 
         if (isset($user)) {
             $user[0]->setPassword($password);
             $this->em->flush();
 
             $info = [
-                "typeAction" => "Reinitialisation mot de passe utlisateur",
-                "userId" => session("id"),
-                "typeUser" => session('typeCurrentUser'),
-                "description" => "Reinitialisation du mot de passe de " . $user[0]->getNom() . " " . $user[0]->getPrenom() . " par " . $currentUser[0]->getPrenom() . " " . $currentUser[0]->getNom(),
+                "typeAction"    => "Reinitialisation mot de passe utlisateur",
+                "userId"        => session("id"),
+                "typeUser"      => session('typeCurrentUser'),
+                "description"   => "Reinitialisation du mot de passe de " . $user[0]->getNom() . " " . $user[0]->getPrenom() . " par " . $currentUser[0]->getPrenom() . " " . $currentUser[0]->getNom(),
             ];
 
             EventStoreController::store($this->em, $info);
@@ -303,36 +285,30 @@ class UserController extends Controller
 
     }
 
-    public function showNotes()
-    {
-        $login = session('login');
-
-        return view("new.liste-des-notes-enfant", compact("login"));
-    }
-
     public function showProfil($login)
     {
-        $userRep = $this->em->getRepository(User::class);
-        $user = $userRep->findByLogin($login);
+        $userRep    = $this->em->getRepository(User::class);
+        $user       = $userRep->findByLogin($login);
+        $infoUser   = null;
+        $login      = session('login');
 
-        $infoUser = null;
         if (isset($user)) {
             $infoUser = $user[0];
-
         }
-        $login = session('login');
+
+
         return view("new.view-profil", compact("login", "infoUser"));
     }
 
     public function editProfil(Request $request)
     {
-        $login = $request->get("login");
-        $nom = $request->get("nom");
-        $prenom = $request->get("prenom");
-        $newPassword = $request->get("new-password");
+        $login          = $request->get("login");
+        $nom            = $request->get("nom");
+        $prenom         = $request->get("prenom");
+        $newPassword    = $request->get("new-password");
 
-        $userRep = $this->em->getRepository(User::class);
-        $user = $userRep->findByLogin($login);
+        $userRep        = $this->em->getRepository(User::class);
+        $user           = $userRep->findByLogin($login);
 
         $user[0]->setNom($nom);
         $user[0]->setPrenom($prenom);
@@ -342,6 +318,7 @@ class UserController extends Controller
         }
 
         $this->em->flush();
+
         return redirect()->back()->with('ok', 'Modification enregistrée avec succés');
     }
 }

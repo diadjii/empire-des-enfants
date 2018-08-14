@@ -15,7 +15,7 @@
       <div class="toolbar">
         <!--        Here you can write extra buttons/actions for the toolbar              -->
       </div>
-      <form action="/DossierEnfant/addDocument" method="post" enctype="multipart/form-data">
+      <form action="/dossier-enfant/add-document" method="post" enctype="multipart/form-data">
         <div class="form-row">
           <div class="col">
             <input type="text" class="form-control" value="{{$idDossier}}" name="id" hidden required>
@@ -56,7 +56,7 @@
                     <img class="card-img-top" src="{{asset($document['document'])}}" alt="Card image cap">
                     <div class="card-body">
                       <p class="card-text" href="{{asset($document['document'])}}"> 
-                        <form  action=/DossierEnfant/zoneTelechargement/download method='post'> 
+                        <form  action=/dossier-enfant/zone-telechargement/download method='post'> 
                           <input type="hidden" name="_token" value="{!! csrf_token() !!}">
                           <input name="nomDocument" hidden type="text" value="{{$document['p']}}">
                           <span class="text-primary">{{$document['nom']}}</span>
