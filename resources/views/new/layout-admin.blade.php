@@ -9,31 +9,33 @@
   <title>
     Gestion des enfants Empire
   </title>
-  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport'
+  />
   <!--     Fonts and icons     -->
-  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons"
+  />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
   <!-- CSS Files -->
   <link href="/css/material-dashboard.css?v=2.0.2" rel="stylesheet" />
   <link href="/css/demo.css" rel="stylesheet" />
   <style>
-    .acti:hover{
+    .acti:hover {
       cursor: move;
     }
   </style>
 </head>
 
 <body class="">
-    @if (!isset($login))
-    <script>
-      window.location.href = "/login"
-    </script>
+  @if (!isset($login))
+  <script>
+    window.location.href = "/login"
+  </script>
 
   @endif
   <div class="wrapper ">
     <div class="sidebar" data-color="rose" data-background-color="black" data-image="assets/img/sidebar-1.jpg">
-    <div class="logo">
-        
+      <div class="logo">
+
         <a href="http://www.creative-tim.com" class="simple-text logo-normal">
           Empire des Enfants
         </a>
@@ -41,77 +43,77 @@
       <div class="sidebar-wrapper">
         <div class="user">
           <div class="photo">
-            <img src="/images/{{session("typeCurrentUser")}}.png" />
+            <img src="/images/{{session(" typeCurrentUser ")}}.png" />
           </div>
           <div class="user-info">
-            <a  href="/user/{{session("login")}}/profil" class="username">
+            <a href="/user/{{session(" login ")}}/profil" class="username">
               <span>
                 {{session("login")}}
               </span>
             </a>
-          
+
           </div>
         </div>
         <ul class="nav">
           @if(session("typeCurrentUser") =="admin" || session("typeCurrentUser") == "encadreur")
-            <li class="nav-item ">
-                <a class="nav-link" href="/administration">
+          <li class="nav-item ">
+            <a class="nav-link" href="/administration">
                   <i class="material-icons">touch_app</i>
                   <p> Gestion des activités </p>
                 </a>
-            </li>
-              <li class="nav-item ">
-                <a class="nav-link" href="/liste-dossier-des-enfants">
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="/liste-dossier-des-enfants">
                   <i class="material-icons">child_care</i>
                   <p> Gestion dossier enfants </p>
                 </a>
-              </li>
-              <li class="nav-item ">
-                  <a class="nav-link" href="/liste-des-utilisateurs">
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="/liste-des-utilisateurs">
                     <i class="material-icons">how_to_reg</i>
                     <p> Gestion des utilisateurs </p>
                   </a>
-              </li>
-              <li class="nav-item ">
-                  <a class="nav-link" href="/liste-des-evenements">
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="/liste-des-evenements">
                     <i class="material-icons">visibility</i>
                     <p> Gestion des évenements </p>
                   </a>
-              </li>
-              <li class="nav-item ">
-                  <a class="nav-link" href="/statistiques">
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="/statistiques">
                     <i class="material-icons">timeline</i>
                     <p> Voir les Statistiques</p>
                   </a>
-              </li>
+          </li>
           @else
-            <li class="nav-item ">
-                <a class="nav-link" href="/liste-des-activites">
+          <li class="nav-item ">
+            <a class="nav-link" href="/liste-des-activites">
                   <i class="material-icons">touch_app</i>
                   <p> Gestion des activités </p>
                 </a>
-            </li>
-              <li class="nav-item ">
-                <a class="nav-link" href="/liste-dossiers-des-enfants">
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="/liste-dossiers-des-enfants">
                   <i class="material-icons">child_care</i>
                   <p> Gestion dossier enfants </p>
                 </a>
-              </li>
-             
-              <li class="nav-item ">
-                <a class="nav-link" href="/liste-dossiers-medicals">
+          </li>
+
+          <li class="nav-item ">
+            <a class="nav-link" href="/liste-dossiers-medicals">
                   <i class="material-icons">local_hospital</i>
                   <p> Dossier Médical </p>
                 </a>
-            </li>
-            
-              {{-- <li class="nav-item ">
-                  <a class="nav-link" href="/liste-des-evenements">
+          </li>
+
+          {{--
+          <li class="nav-item ">
+            <a class="nav-link" href="/liste-des-evenements">
                     <i class="material-icons">visibility</i>
                     <p> Gestion des évenements </p>
                   </a>
-              </li> --}}
-          @endif
+          </li> --}} @endif
 
         </ul>
       </div>
@@ -129,14 +131,16 @@
             </div>
             <a class="navbar-brand" href="#pablo">@yield("titreSection")</a>
           </div>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation" data-target="#navigation-example">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false"
+            aria-label="Toggle navigation" data-target="#navigation-example">
             <span class="sr-only">Toggle navigation</span>
             <span class="navbar-toggler-icon icon-bar"></span>
             <span class="navbar-toggler-icon icon-bar"></span>
             <span class="navbar-toggler-icon icon-bar"></span>
           </button>
           <div class="collapse navbar-collapse justify-content-end">
-            {{-- <form class="navbar-form">
+            {{--
+            <form class="navbar-form">
               <div class="input-group no-border">
                 <input type="text" value="" class="form-control" placeholder="Search...">
                 <button type="submit" class="btn btn-white btn-round btn-just-icon">
@@ -146,7 +150,7 @@
               </div>
             </form> --}}
             <ul class="navbar-nav">
-              
+
               <li class="nav-item">
                 <a class="nav-link btn btn-rounded btn-primary text-white" href="/logOut">
                  
@@ -162,7 +166,7 @@
       <div class="content">
         <div class="container-fluid">
           <div class="row">
-              @yield("content")
+            @yield("content")
             <!-- end col-md-12 -->
           </div>
           <!-- end row -->
@@ -221,67 +225,69 @@
                   <input type="checkbox">
                   <span class="toggle"></span>
                 </label>
-              </div>
-            </label>
-            <div class="clearfix"></div>
-          </a>
-        </li>
-        <li class="adjustments-line">
-          <a href="javascript:void(0)" class="switch-trigger">
-            <p>Sidebar Images</p>
-            <label class="switch-mini ml-auto">
+    </div>
+    </label>
+    <div class="clearfix"></div>
+    </a>
+    </li>
+    <li class="adjustments-line">
+      <a href="javascript:void(0)" class="switch-trigger">
+        <p>Sidebar Images</p>
+        <label class="switch-mini ml-auto">
               <div class="togglebutton switch-sidebar-image">
                 <label>
                   <input type="checkbox" checked="">
                   <span class="toggle"></span>
                 </label>
-              </div>
-            </label>
-            <div class="clearfix"></div>
-          </a>
-        </li>
-        <li class="header-title">Images</li>
-        <li class="active">
-          <a class="img-holder switch-trigger" href="javascript:void(0)">
+  </div>
+  </label>
+  <div class="clearfix"></div>
+  </a>
+  </li>
+  <li class="header-title">Images</li>
+  <li class="active">
+    <a class="img-holder switch-trigger" href="javascript:void(0)">
             <img src="assets/img/sidebar-1.jpg" alt="">
           </a>
-        </li>
-        <li>
-          <a class="img-holder switch-trigger" href="javascript:void(0)">
+  </li>
+  <li>
+    <a class="img-holder switch-trigger" href="javascript:void(0)">
             <img src="assets/img/sidebar-2.jpg" alt="">
           </a>
-        </li>
-        <li>
-          <a class="img-holder switch-trigger" href="javascript:void(0)">
+  </li>
+  <li>
+    <a class="img-holder switch-trigger" href="javascript:void(0)">
             <img src="assets/img/sidebar-3.jpg" alt="">
           </a>
-        </li>
-        <li>
-          <a class="img-holder switch-trigger" href="javascript:void(0)">
+  </li>
+  <li>
+    <a class="img-holder switch-trigger" href="javascript:void(0)">
             <img src="assets/img/sidebar-4.jpg" alt="">
           </a>
-        </li>
-        <li class="button-container">
-          <a href="https://www.creative-tim.com/product/material-dashboard-pro" target="_blank" class="btn btn-rose btn-block btn-fill">Buy Now</a>
-          <a href="https://demos.creative-tim.com/material-dashboard-pro/docs/2.0/getting-started/introduction.html" target="_blank" class="btn btn-default btn-block">
+  </li>
+  <li class="button-container">
+    <a href="https://www.creative-tim.com/product/material-dashboard-pro" target="_blank" class="btn btn-rose btn-block btn-fill">Buy Now</a>
+    <a href="https://demos.creative-tim.com/material-dashboard-pro/docs/2.0/getting-started/introduction.html" target="_blank"
+      class="btn btn-default btn-block">
             Documentation
           </a>
-          <a href="https://www.creative-tim.com/product/material-dashboard" target="_blank" class="btn btn-info btn-block">
+    <a href="https://www.creative-tim.com/product/material-dashboard" target="_blank" class="btn btn-info btn-block">
             Get Free Demo!
           </a>
-        </li>
-        <li class="button-container github-star">
-          <a class="github-button" href="https://github.com/creativetimofficial/ct-material-dashboard-pro" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star ntkme/github-buttons on GitHub">Star</a>
-        </li>
-        <li class="header-title">Thank you for 95 shares!</li>
-        <li class="button-container text-center">
-          <button id="twitter" class="btn btn-round btn-twitter"><i class="fa fa-twitter"></i> &middot; 45</button>
-          <button id="facebook" class="btn btn-round btn-facebook"><i class="fa fa-facebook-f"></i> &middot; 50</button>
-          <br>
-          <br>
-        </li>
-      </ul>
-    </div>
+  </li>
+  <li class="button-container github-star">
+    <a class="github-button" href="https://github.com/creativetimofficial/ct-material-dashboard-pro" data-icon="octicon-star"
+      data-size="large" data-show-count="true" aria-label="Star ntkme/github-buttons on GitHub">Star</a>
+  </li>
+  <li class="header-title">Thank you for 95 shares!</li>
+  <li class="button-container text-center">
+    <button id="twitter" class="btn btn-round btn-twitter"><i class="fa fa-twitter"></i> &middot; 45</button>
+    <button id="facebook" class="btn btn-round btn-facebook"><i class="fa fa-facebook-f"></i> &middot; 50</button>
+    <br>
+    <br>
+  </li>
+  </ul>
+  </div>
   </div>
   <!--   Core JS Files   -->
   <script src="/js/core/jquery.min.js" type="text/javascript"></script>
@@ -314,13 +320,13 @@
   <script src="/js/plugins/nouislider.min.js"></script>
   <!-- Include a polyfill for ES6 Promises (optional) for IE11, UC Browser and Android browser support SweetAlert -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
-  
+
   <!--  Notifications Plugin    -->
   <script src="/js/demo.js"></script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="/js/material-dashboard.min.js?v=2.0.2" type="text/javascript"></script>
   @yield("script")
-  
+
 </body>
 
 </html>
