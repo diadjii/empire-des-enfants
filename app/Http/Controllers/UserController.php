@@ -43,6 +43,8 @@ class UserController extends Controller
 
         }catch(\Exception $e){
             $reponse ="db error";
+            return $reponse;
+
         }
 
         $entity = $u->findByLogin($login);
