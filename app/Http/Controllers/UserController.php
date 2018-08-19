@@ -42,7 +42,7 @@ class UserController extends Controller
             $u      = $this->em->getRepository(User::class);
 
         }catch(\Exception $e){
-            $reponse ="db error";
+            $reponse =$e->getMessage();
             return $reponse;
 
         }
