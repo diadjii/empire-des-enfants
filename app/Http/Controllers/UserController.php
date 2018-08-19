@@ -38,31 +38,38 @@ class UserController extends Controller
         $login      = $request->get('login');
         $password   = $request->get('password');
 
-        $u      = $this->em->getRepository(User::class);
-        $entity = $u->findByLogin($login);
+        try{
+            $u      = $this->em->getRepository(User::class);
 
-        if (count($entity) > 0) {
-            $mdp = $entity[0]->getPassword();
-            $status = $entity[0]->getStatus();
-
-            if (Hash::check($password, $mdp) || $status == "on") {
-                $type = $this->getTypeUser($entity[0]);
-
-                session([
-                    'login'             => $entity[0]->getLogin(),
-                    'id'                => $entity[0]->getId(),
-                    'typeCurrentUser'   => $type,
-                ]);
-
-                $reponse = $type;
-            } else {
-                $reponse = "error";
-            }
-        } else {
-            $reponse     = "error";
+        }catch(\Exception $e){
+            $reponse ="db error";
+            die();
         }
 
-        return $reponse;
+        // $entity = $u->findByLogin($login);
+
+        // if (count($entity) > 0) {
+        //     $mdp = $entity[0]->getPassword();
+        //     $status = $entity[0]->getStatus();
+
+        //     if (Hash::check($password, $mdp) || $status == "on") {
+        //         $type = $this->getTypeUser($entity[0]);
+
+        //         session([
+        //             'login'             => $entity[0]->getLogin(),
+        //             'id'                => $entity[0]->getId(),
+        //             'typeCurrentUser'   => $type,
+        //         ]);
+
+        //         $reponse = $type;
+        //     } else {
+        //         $reponse = "error";
+        //     }
+        // } else {
+        //     $reponse     = "error";
+        // }
+
+        // return $reponse;
     }
 
     public function store(UserFormRequest $request)
