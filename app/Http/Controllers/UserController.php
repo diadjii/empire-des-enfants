@@ -46,30 +46,30 @@ class UserController extends Controller
             die();
         }
 
-        // $entity = $u->findByLogin($login);
+        $entity = $u->findByLogin($login);
 
-        // if (count($entity) > 0) {
-        //     $mdp = $entity[0]->getPassword();
-        //     $status = $entity[0]->getStatus();
+        if (count($entity) > 0) {
+            $mdp = $entity[0]->getPassword();
+            $status = $entity[0]->getStatus();
 
-        //     if (Hash::check($password, $mdp) || $status == "on") {
-        //         $type = $this->getTypeUser($entity[0]);
+            if (Hash::check($password, $mdp) || $status == "on") {
+                $type = $this->getTypeUser($entity[0]);
 
-        //         session([
-        //             'login'             => $entity[0]->getLogin(),
-        //             'id'                => $entity[0]->getId(),
-        //             'typeCurrentUser'   => $type,
-        //         ]);
+                session([
+                    'login'             => $entity[0]->getLogin(),
+                    'id'                => $entity[0]->getId(),
+                    'typeCurrentUser'   => $type,
+                ]);
 
-        //         $reponse = $type;
-        //     } else {
-        //         $reponse = "error";
-        //     }
-        // } else {
-        //     $reponse     = "error";
-        // }
+                $reponse = $type;
+            } else {
+                $reponse = "error";
+            }
+        } else {
+            $reponse     = "error";
+        }
 
-        // return $reponse;
+        return $reponse;
     }
 
     public function store(UserFormRequest $request)
