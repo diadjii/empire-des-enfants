@@ -38,13 +38,12 @@ class UserController extends Controller
         $login      = $request->get('login');
         $password   = $request->get('password');
 
-        // try{
+        try{
             $u      = $this->em->getRepository(User::class);
 
-        // }catch(\Exception $e){
-        //     $reponse ="db error";
-        //     die();
-        // }
+        }catch(\Exception $e){
+            $reponse ="db error";
+        }
 
         $entity = $u->findByLogin($login);
 
