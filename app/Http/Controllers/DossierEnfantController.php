@@ -53,7 +53,7 @@ class DossierEnfantController extends Controller{
                 $extension  = $request->file('photoEnfant')->getMimeType(); 
                 $ext        = explode('/',$extension)[1];
                 
-                $request->file('photoEnfant')->storeAs($directory,'profil-'.$idEnfant.$ext);
+                $request->file('photoEnfant')->storeAs($directory,'profil-'.$idEnfant);
             }catch(\ErrorException $e){
                 echo $e->getMessage();
             }
@@ -102,6 +102,27 @@ class DossierEnfantController extends Controller{
          
         $img            = Storage::url("document/".$dossierEnfant[0]->getIdDossierEnfant()."/".$directory);
        
+        $statu          = $dossierEnfant[0]->getStatutEnfant();  
+
+        $enfantPresent  = "";
+        $enfantPresAPartir  = "";
+        $enfantParti    = "";
+
+        switch ($statu) {
+            case 'Enfant Présent':
+                $enfantPresent      = "selected";
+                break;
+            case 'Enfant près à Partir':
+                $enfantPresAPartir  = "selected";
+                break;
+            case 'Enfant Parti':
+                $enfantParti        = "selected";
+                break;
+            default:
+                $enfantPresent      = "selected";
+                break;
+        }   
+
         $enfant         = $dossierEnfant[0];
         $parent         = null;
         
@@ -113,6 +134,7 @@ class DossierEnfantController extends Controller{
         
         $login = session('login');
         $profil = $enfant->getProfil(); 
+
         $evt = "";
         $ep  = "";
         $erf = "";
@@ -132,7 +154,7 @@ class DossierEnfantController extends Controller{
         }
         
 
-        return view("new.edit-dossier-enfant",compact("enfant","parent","login","img","evt","ep","erf"));
+        return view("new.edit-dossier-enfant",compact("enfant","parent","login","img","evt","ep","erf","enfantPresent","enfantPresAPartir","enfantParti"));
     }
     
 
@@ -300,7 +322,6 @@ class DossierEnfantController extends Controller{
         $directory = $id;
 
         if(\File::isDirectory($directory)){
-            //$img = Storage::url("document/".$directory."/".$directory);
             $request->file('photoEnfant')->storeAs($directory,$prenomEnfant.'-'.$nomEnfant.'-'.$id);
         }else{
             Storage::makeDirectory($directory);
@@ -391,14 +412,24 @@ class DossierEnfantController extends Controller{
             $type   = "img";
 
             $path = $nom[3]."/".$nom[4];
+
             if(isset($ext[1]) && $ext[1] == "pdf"){
                 $type ="pdf";
+            }
+
+            $p = "";
+
+            try{
+                $p =  $path.".".$ext[1];
+
+            }catch(\Exception $e){
+                $p = "";
             }
 
             $allDocuments[$i] = [
                 "type" => $type,
                 "nom"  => $nom[4],
-                "p"    => $path.".".$ext[1],
+                "p"    =>$p,
                 "document" => $document
             ];
             $i++;

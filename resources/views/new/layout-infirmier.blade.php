@@ -146,7 +146,7 @@
       </footer>
     </div>
   </div>
-  <div class="fixed-plugin">
+  {{-- <div class="fixed-plugin">
     <div class="dropdown show-dropdown">
       <a href="#" data-toggle="dropdown">
         <i class="fa fa-cog fa-2x"> </i>
@@ -200,7 +200,7 @@
                   <input type="checkbox" checked="">
                   <span class="toggle"></span>
                 </label>
-  </div>
+  </div> --}}
   </label>
   <div class="clearfix"></div>
   </a>

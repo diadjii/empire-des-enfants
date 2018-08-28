@@ -1,4 +1,7 @@
 @extends("new.layout-admin") 
+@section("titreSection")
+<h2>Création Dossier Enfant</h2>
+@endsection
 @section("content")
 <div class="col-md-8 col-12 mr-auto ml-auto">
     <!--      Wizard container        -->
@@ -8,7 +11,7 @@
             <form id="createDossier" action="/add-dossier-enfant" method="post" enctype="multipart/form-data">
                 <div class="card-header text-center">
                     <h3 class="card-title">
-                        Création dossier enfant
+                        Nouveau Dossier Enfant
                     </h3>
                     <h5 class="card-description">Tous les informations concernant l'enfant.</h5>
                 </div>

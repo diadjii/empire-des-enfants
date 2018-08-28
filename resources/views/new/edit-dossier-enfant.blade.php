@@ -10,8 +10,7 @@
         <div class="col-md-8"> --}}
             <div class="card card-profile">
                 <div class="card-avatar">
-                    <img class="img" src="{{Storage::url("document/ ".$enfant->getIdDossierEnfant()."/profil-
-                        ".$enfant->getIdDossierEnfant())}}" />
+                    <img class="img" src="{{Storage::url("document/".$enfant->getIdDossierEnfant()."/profil-".$enfant->getIdDossierEnfant())}}" />
                 </div>
                 <div class="card-body">
                     <h3 class="card-category text-gray">Dossier de <strong>{{$enfant->getPrenomEnfant()}} {{$enfant->getNomEnfant()}}</strong></h3>
@@ -105,6 +104,15 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="row">
+                            <div class="col-md-12">
+                                    <select class="form-control selectpicker" name="statu" data-style="btn btn-link" id="exampleFormControlSelect1">
+                                        <option value="0" {{$enfantPresent}}>Enfant Présent</option>
+                                        <option value="1" {{$enfantPresAPartir}}>Enfant près à Partir</option>
+                                        <option value="2" {{$enfantParti}}>Enfant Parti</option>
+                                    </select>
+                                </div>
                     </div>
                     <div class="wizard-container">
                         <div class="row justify-content-center">

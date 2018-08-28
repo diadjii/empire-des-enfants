@@ -63,10 +63,7 @@
   <!--  end card  -->
 </div>
 <!-- end col-md-12 -->
-</div>
-<!-- end row -->
-</div>
-</div>
+
 
 <!-- modal -->
 <div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
