@@ -70,11 +70,6 @@ $(function () {
       // console.log(idActivite)
       console.log(copiedEventObject.start._d.toISOString().split('.')[0])
       addToAgenda(copiedEventObject.id,copiedEventObject.start._d.toISOString().split('.')[0])
-      // is the "remove after drop" checkbox checked?
-      if ($('#drop-remove').is(':checked')) {
-        // if so, remove the element from the "Draggable Events" list
-        $(this).remove()
-      }
       
     },
     eventDrop:function(event){
@@ -84,7 +79,7 @@ $(function () {
       var idActivite = event.id;
       if(event.end !=null){
         fin = event.end._d.toISOString().split('.')[0];
-        // console.log(event.end._i)
+        console.log(event.end._i)
       }
       saveActivite(idActivite,debut,fin);
     },
@@ -175,13 +170,13 @@ $(function () {
   
   function addToAgenda(id,d){
     let token = $('input[name="_token"]').val();
-    
     $.post("/save-to-agenda",{
-      idActivite  : id,
+      idActivite  : parseInt(id),
       dateDebut   : d,
       _token      : token
     }).then(function(response){
       console.log(response);
+      window.location.href="/liste-des-activites"
     }).fail(function(r){
       console.log(r);
     });
@@ -191,17 +186,22 @@ $(function () {
 function saveActivite(idActivite,heureDebut,heureFin){
   
   let  token = $('input[name="_token"]').val();
-  
+  var i = 0;
+  console.log(idActivite);
   $.post("/update-activite",{
     idActivite: idActivite,
     heureDebut: heureDebut,
     heureFin  : heureFin,
     _token    : token
   }).then(function(response){
-    console.log(response);
+    
+    //console.log(response);
+    i = response;
   }).fail(function(r){
     console.log(r);
   });
+
+  //return i;
 }
 
 var currColor;

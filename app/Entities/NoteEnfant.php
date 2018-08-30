@@ -20,7 +20,6 @@ class NoteEnfant
 
   /**
   * @ORM\ManyToOne(targetEntity = DossierEnfant::class)
-  *@ORM\Column(type="integer")
   */
   private $idDossierEnfant;
 

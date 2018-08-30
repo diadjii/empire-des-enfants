@@ -10,9 +10,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 */
 class Activite{
     /**
-     * @ORM\Id
+    * @ORM\Id
     * @ORM\GeneratedValue
-    * @ORM\Column(type="integer")
+    * @ORM\Column(name="id", type="integer")
     */
     private $idActivite;
 

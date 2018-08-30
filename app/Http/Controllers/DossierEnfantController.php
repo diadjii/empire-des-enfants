@@ -58,7 +58,7 @@ class DossierEnfantController extends Controller{
                 echo $e->getMessage();
             }
             
-            $infoParent = $this->createEntityParents($request,$idEnfant);
+            $infoParent = $this->createEntityParents($request,$dossierEnfant);
            
             $this->em->persist($infoParent);
             $this->em->flush();
@@ -381,7 +381,7 @@ class DossierEnfantController extends Controller{
     * @param Request var prend l'objet request en parametre et retourne une 
     * instance de parents 
     */
-    public function createEntityParents($request,$idEnfant){
+    public function createEntityParents($request,$dossierEnfant){
         $prenomPere     = $request->get('prenomPere');
         $prenomMere     = $request->get('prenomMere');
         $nomMere        = $request->get('nomMere');
@@ -393,7 +393,7 @@ class DossierEnfantController extends Controller{
         $infoParent->setNomMere($nomMere);
         $infoParent->setPrenomMere($prenomMere);
         $infoParent->setNumTel($numTel);
-        $infoParent->setIdEnfant($idEnfant);
+        $infoParent->setIdEnfant($dossierEnfant);
         
         return $infoParent;
     }

@@ -14,18 +14,18 @@ class DateActivite{
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\Column(name="id",type="integer")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity = Activite::class, inversedBy="date_activite")
+     * @ORM\JoinColumn(name="id_activite", referencedColumnName="id", onDelete="CASCADE")
      */
     private $idActivite;
 
     /**
      * @ORM\Column(type="string")
-     * @ORM\ManyToOne(targetEntity=Activite::class)
      */
     private $dateActivite;
 

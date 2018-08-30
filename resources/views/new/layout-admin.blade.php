@@ -57,7 +57,7 @@
         <ul class="nav">
           @if(session("typeCurrentUser") =="admin" || session("typeCurrentUser") == "encadreur")
           <li class="nav-item ">
-            <a class="nav-link" href="/administration">
+            <a class="nav-link" href="/liste-des-activites">
                   <i class="material-icons">touch_app</i>
                   <p> Gestion des activités </p>
                 </a>

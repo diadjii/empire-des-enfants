@@ -151,11 +151,14 @@ class ActiviteController extends Controller
   public function saveToAgenda(Request $request)
   {
     $idActivite = $request->get('idActivite');
+
+    $acrep = $this->em->getRepository(Activite::class);
+    $activite = $acrep->findByIdActivite($idActivite);
     $date       = $request->get('dateDebut');
     
     $dateActivite = new DateActivite();
     
-    $dateActivite->setIdActivite($idActivite);
+    $dateActivite->setIdActivite($activite[0]);
     $dateActivite->setDateDebut($date);
     $dateActivite->setDateFin('');
     $dateActivite->setDateActivite('');
@@ -163,8 +166,8 @@ class ActiviteController extends Controller
     try {
       $this->em->persist($dateActivite);
       $this->em->flush();
-      return "ok";
-    } catch (\Exception $e) {
+      return $dateActivite->getId();
+    } catch (\Exception $e) { 
       return $e->getMessage();
     }
     
@@ -184,8 +187,8 @@ class ActiviteController extends Controller
     
     try {
       $this->em->flush();
-      
-      return "ok";
+      return $activite[0]->getId();
+    
     } catch (\Exception $e) {
       return $e->getMessage();
     }

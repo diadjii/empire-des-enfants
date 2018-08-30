@@ -34,7 +34,7 @@ class Parents {
   private $prenomMere;
 
   /**
-  * @ORM\Column(type="integer")
+  *  @ORM\ManyToOne(targetEntity = DossierEnfant::class)
   */
   private $idEnfant;
 

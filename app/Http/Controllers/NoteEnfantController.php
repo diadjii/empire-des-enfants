@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Entities\NoteEnfant;
+use App\Entities\DossierEnfant;
 
 use Illuminate\Http\Request;
+
 use Doctrine\ORM\EntityManagerInterface;
 
 class NoteEnfantController extends Controller
@@ -33,9 +35,12 @@ class NoteEnfantController extends Controller
         $note           = $request->get("note");
         $dateAjoutNote  = date('\A\j\o\u\t\e\r\ \l\e Y/m/d à  H\h:i\m\n');
 
+        $dossierRep    = $this->em->getRepository(DossierEnfant::class);
+        $dossierEnfant  = $dossierRep->findByIdDossierEnfant($id);
+
         $noteEnfant = new NoteEnfant();
 
-        $noteEnfant->setIdDossierEnfant($id);
+        $noteEnfant->setIdDossierEnfant($dossierEnfant[0]);
         $noteEnfant->setObjet($objetNote);
         $noteEnfant->setNote($note);
         $noteEnfant->setDateAjoutNote($dateAjoutNote);

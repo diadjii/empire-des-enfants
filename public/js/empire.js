@@ -67,7 +67,7 @@ $('#formAddUser').submit(function(e){
 function redirectUser(role){
   switch (role) {
     case 'admin':
-    window.location.href="/administration";
+    window.location.href="/liste-des-activites";
     break;
     case 'infirmier':
     window.location.href = "/infirmier";
