@@ -24,10 +24,11 @@ class NoteEnfant
   private $idDossierEnfant;
 
   /**
+        $noteEnfant->set
    * @ORM\Column(type="string")
    */
   private $objet;
-  
+
   /**
    * @ORM\Column(type="string")
    */
@@ -39,8 +40,12 @@ class NoteEnfant
   private $dateAjoutNote;
 
   /**
+  * @ORM\ManyToOne(targetEntity = User::class)
+  */
+  private $idUser;
+  /**
    * Get the value of idNote
-   */ 
+   */
   public function getIdNote()
   {
     return $this->idNote;
@@ -50,7 +55,7 @@ class NoteEnfant
    * Set the value of idNote
    *
    * @return  self
-   */ 
+   */
   public function setIdNote($idNote)
   {
     $this->idNote = $idNote;
@@ -60,7 +65,7 @@ class NoteEnfant
 
   /**
    * Get the value of idDossierEnfant
-   */ 
+   */
   public function getIdDossierEnfant()
   {
     return $this->idDossierEnfant;
@@ -70,7 +75,7 @@ class NoteEnfant
    * Set the value of idDossierEnfant
    *
    * @return  self
-   */ 
+   */
   public function setIdDossierEnfant($idDossierEnfant)
   {
     $this->idDossierEnfant = $idDossierEnfant;
@@ -80,7 +85,7 @@ class NoteEnfant
 
   /**
    * Get the value of note
-   */ 
+   */
   public function getNote()
   {
     return $this->note;
@@ -90,7 +95,7 @@ class NoteEnfant
    * Set the value of note
    *
    * @return  self
-   */ 
+   */
   public function setNote($note)
   {
     $this->note = $note;
@@ -100,7 +105,7 @@ class NoteEnfant
 
   /**
    * Get the value of dateAjoutNote
-   */ 
+   */
   public function getDateAjoutNote()
   {
     return $this->dateAjoutNote;
@@ -110,7 +115,7 @@ class NoteEnfant
    * Set the value of dateAjoutNote
    *
    * @return  self
-   */ 
+   */
   public function setDateAjoutNote($dateAjoutNote)
   {
     $this->dateAjoutNote = $dateAjoutNote;
@@ -120,7 +125,7 @@ class NoteEnfant
 
   /**
    * Get the value of objet
-   */ 
+   */
   public function getObjet()
   {
     return $this->objet;
@@ -130,11 +135,36 @@ class NoteEnfant
    * Set the value of objet
    *
    * @return  self
-   */ 
+   */
   public function setObjet($objet)
   {
     $this->objet = $objet;
 
     return $this;
   }
+
+    /**
+     * Get the value of Id User
+     *
+     * @return mixed
+     */
+    public function getIdUser()
+    {
+        return $this->idUser;
+    }
+
+    /**
+     * Set the value of Id User
+     *
+     * @param mixed idUser
+     *
+     * @return self
+     */
+    public function setIdUser($idUser)
+    {
+        $this->idUser = $idUser;
+
+        return $this;
+    }
+
 }

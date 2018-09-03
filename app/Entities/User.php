@@ -2,9 +2,10 @@
 namespace App\Entities;
 
 use Doctrine\ORM\Mapping AS ORM;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping\InheritanceType;
 use Doctrine\ORM\Mapping\DiscriminatorColumn;
+
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
 * @ORM\Entity
@@ -46,7 +47,7 @@ use Doctrine\ORM\Mapping\DiscriminatorColumn;
   */
   protected $status;
 
-  
+
   //contient le role de l'utilisateur en courant
   protected $role;
 
@@ -133,7 +134,7 @@ use Doctrine\ORM\Mapping\DiscriminatorColumn;
 
   /**
    * Get the value of role
-   */ 
+   */
   public function getRole()
   {
     return $this->role;
@@ -143,7 +144,7 @@ use Doctrine\ORM\Mapping\DiscriminatorColumn;
    * Set the value of role
    *
    * @return  self
-   */ 
+   */
   public function setRole($role)
   {
     $this->role = $role;
