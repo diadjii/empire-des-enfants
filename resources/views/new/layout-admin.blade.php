@@ -18,7 +18,8 @@
   <!-- CSS Files -->
   <link href="/css/material-dashboard.css?v=2.0.2" rel="stylesheet" />
   <link href="/css/demo.css" rel="stylesheet" />
-  <style>
+  @yield("link")
+<style>
     .acti:hover {
       cursor: move;
     }

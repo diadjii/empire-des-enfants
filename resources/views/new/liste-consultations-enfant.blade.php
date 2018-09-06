@@ -42,10 +42,10 @@
             <td>{{$c['consultation']}}</td>
             <td>{{$c['dateConsultation']}}</td>
             <td>
-              <input type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong" value="Details"/>
+            <input type="button" class="btn btn-primary" data-toggle="modal" data-target="#{{$c['id']}}" value="Details"/>
             </td>
           </tr>
-          <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+          <div class="modal fade" id="{{$c['id']}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">

@@ -43,7 +43,7 @@
             @if($document['type'] == 'pdf')
               <div class="col-md-3">
                 <div class="card" style="width: 10rem;">
-                  <img class="card-img-top" src="{{asset('images/icon-pdf.png')}}"  href="{{asset($document['document'])}}" alt="Card image cap">
+                  <img class="card-img-top" src="{{asset('images/icon-pdf.png')}}"  href="{{asset($document['document'])}}" >
                   <div class="card-body">
                     <a class="card-text" href="{{asset($document['document'])}}">{{$document['nom']}}
                       <i  class="material-icons">get_app</i></a>
@@ -53,7 +53,7 @@
             @else
               <div class="col-md-3">
                   <div class="card" style="width: 10rem;">
-                    <img class="card-img-top" src="{{asset($document['document'])}}" alt="Card image cap">
+                    <img class="card-img-top" src="{{asset($document['document'])}}" >
                     <div class="card-body">
                       <p class="card-text" href="{{asset($document['document'])}}"> 
                         <form  action=/dossier-enfant/zone-telechargement/download method='post'> 
@@ -70,6 +70,13 @@
                 </div>
             @endif
           @endforeach
+        @else
+        <div class="col-md-12">
+
+          <div class="alert alert-info alert-dismissible fade show" role="alert">
+            <h3>Aucun Documents à télécharger !!!</h3>
+          </div>
+        </div>
         @endif 
       </div>
       <!-- end content-->

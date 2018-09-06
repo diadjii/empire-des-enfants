@@ -45,14 +45,16 @@ Route::get("/dossier-enfant/{id}/zoneTelechargement",     "DossierEnfantControll
 Route::get("/dossier-enfant/{id}/details",                "DossierEnfantController@show");
 Route::get("/dossier-enfant/{id}/dossier-medical",         "DossierMedicaleController@showDetails");
 Route::get("/dossier-enfant/{id}/liste-des-notes", "NoteEnfantController@index");
-
-Route::get("/edit-activity/{idActivite}", "ActiviteController@edit");
-Route::get("/encadreur", "UserController@index");
+Route::get("/dossier-enfant/note/{id}/get-note", "NoteEnfantController@getNote");
+Route::post("/dossier-enfant/note/{id}/edit-note", "NoteEnfantController@edit");
 
 Route::post("/dossier-enfant/zone-telechargement/download",     "DossierEnfantController@downloadDocument");
 Route::post("/dossier-enfant/{id}/edit-dossier-enfant",     "DossierEnfantController@update");
 Route::post("/dossier-enfant/add-document",         "DossierEnfantController@addDocument");
 Route::post("/dossier-enfant/add-note", "NoteEnfantController@store");
+
+Route::get("/edit-activity/{idActivite}", "ActiviteController@edit");
+Route::get("/encadreur", "UserController@index");
 
 Route::get("/infirmier", "InfirmierController@show");
 

@@ -60,7 +60,7 @@ class DossierMedicale {
 
   public function getDossierEnfant()
   {
-    return $this->dossierEnfant;
+    return $this->idDossierEnfant;
   }
 
   public function setDossierEnfant($idDossierEnfant)

@@ -24,7 +24,6 @@ class NoteEnfant
   private $idDossierEnfant;
 
   /**
-        $noteEnfant->set
    * @ORM\Column(type="string")
    */
   private $objet;

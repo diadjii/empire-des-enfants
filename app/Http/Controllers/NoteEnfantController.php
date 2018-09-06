@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Entities\User;
 use App\Entities\NoteEnfant;
-use App\Entities\DossierEnfant;
-
-
 use Illuminate\Http\Request;
+
+
+use App\Entities\DossierEnfant;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Http\Controllers\EventStoreController;
 
 class NoteEnfantController extends Controller
 {
@@ -83,5 +84,45 @@ class NoteEnfantController extends Controller
             return 0;
         }
     
+    }
+
+    public function getNote($id){
+        $noteRep    = $this->em->getRepository(NoteEnfant::class);
+        $note       = $noteRep->findByIdNote($id);
+
+        $infosNote = [
+            "idNote"        => $note[0]->getIdNote(),
+            "objectNote"    => $note[0]->getObjet(),
+            "descNote"      => $note[0]->getNote()
+        ];
+
+        return json_encode($infosNote);
+    }
+
+
+    public function edit(Request $request){
+        $idNote     = $request->get("idNote");
+        $objetNote  = $request->get("objetNote");
+        $descNote   = $request->get("descNote"); 
+
+        $noteRep    = $this->em->getRepository(NoteEnfant::class);
+        $note       = $noteRep->findByIdNote($idNote);
+
+        $note[0]->setObjet($objetNote);
+        $note[0]->setNote($descNote);
+
+        $this->em->flush();
+
+        $u              = $this->em->getRepository(User::class);
+        $currentUser    = $u->findById(session("id"));
+        
+        $info = [
+            "typeAction"    => "Modification note Enfant",
+            "userId"        => session("id"),
+            "typeUser"      => session('typeCurrentUser'),
+            "description"   => "Modification de la note (".$objetNote.") par ".$currentUser[0]->getPrenom()." ".$currentUser[0]->getNom()
+          ];
+          
+        EventStoreController::store($this->em,$info);
     }
 }

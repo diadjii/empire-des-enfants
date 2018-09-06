@@ -295,7 +295,7 @@ class DossierEnfantController extends Controller{
         $this->em->flush();
 
         $parentRep      = $this->em->getRepository(Parents::class);
-        $infoParent     = $parentRep->findByIdEnfant($id);
+        $infoParent     = $parentRep->findByIdEnfant($dossierEnfant[0]);
 
 
         $prenomPere     = $request->get('prenomPere');
@@ -304,7 +304,7 @@ class DossierEnfantController extends Controller{
         $numTel         = $request->get('numTel');
         
         if(count($infoParent) < 1 ){
-            $parent     = $this->createEntityParents($request,$id);
+            $parent     = $this->createEntityParents($request,$dossierEnfant[0]);
 
             $this->em->persist($parent);
             $this->em->flush();
@@ -314,7 +314,7 @@ class DossierEnfantController extends Controller{
             $infoParent[0]->setNomMere($nomMere);
             $infoParent[0]->setPrenomMere($prenomMere);
             $infoParent[0]->setNumTel($numTel);
-            $infoParent[0]->setIdEnfant($id);
+            $infoParent[0]->setIdEnfant($dossierEnfant[0]);
 
             $this->em->flush();
         }

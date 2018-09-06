@@ -11,6 +11,7 @@ use Faker\Provider\DateTime;
 use Illuminate\Http\Request;
 
 use Doctrine\ORM\EntityManagerInterface;
+use App\Entities\DossierEnfant;
 
 class ConsultationMedicaleController extends Controller
 {
@@ -41,7 +42,9 @@ class ConsultationMedicaleController extends Controller
         $dossierRep             = $this->em->getRepository(DossierMedicale::class);
         $dossierMedicale        = $dossierRep->findByIdDossierMedicale($idDossierMedicale);
         
-        
+        $dossierEnfantRep       = $this->em->getRepository(DossierEnfant::class);
+        $dossierEnfant          = $dossierEnfantRep->findByIdDossierEnfant($dossierMedicale[0]->getDossierEnfant());
+
         $consultation =  new ConsultationMedicale();
         
         $consultation->setIdDossierMedicale($dossierMedicale[0]);
@@ -58,7 +61,7 @@ class ConsultationMedicaleController extends Controller
             "typeAction"    => "Creation Consultation ",
             "userId"        => session("id"),
             "typeUser"      => session('typeCurrentUser'),
-            "description"   =>  "Ajout d'une consultation dans le dossier de "
+            "description"   =>  "Ajout d'une consultation dans le dossier medical de ".$dossierEnfant[0]->getNomEnfant()." ".$dossierEnfant[0]->getPrenomEnfant()
         ];
         
         EventStoreController::store($this->em,$info);

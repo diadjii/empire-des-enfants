@@ -23,8 +23,8 @@
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg  navbar-absolute fixed-top text-black" id="navigation-example">
     <div class="container">
-      {{-- <img src="/images/logo.png" width=100px  style="margin-left:0%;" height=100px alt=""> --}}
-      <h1 style="color:#000;margin-left:50%;font-family: 'Lobster', cursive;font-size:1em;" class="center">Empire des Enfants</h1>
+      <img src="/images/logo.png" style="color:#000;margin-left:50%;position:unset;" width=120px  height=120px alt="">
+      {{-- <h1 style="color:#000;margin-left:50%;font-family: 'Lobster', cursive;font-size:1em;" class="center">Empire des Enfants</h1> --}}
       
     </div>
   </nav>

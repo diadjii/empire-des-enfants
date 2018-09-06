@@ -34,3 +34,8 @@
 #bodyLogin{
   background-image: url();
 }
+
+
+.editNote:hover{
+  cursor: pointer;
+}

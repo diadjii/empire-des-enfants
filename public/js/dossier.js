@@ -1,5 +1,4 @@
-
-  //recuperation des details du dossier d'un enfant
+ //recuperation des details du dossier d'un enfant
 function viewDetailsDossier(idDossier){
   // alert("ok ça marche"+idDossier )
   $('#exampleModalCenter').modal('toggle');
