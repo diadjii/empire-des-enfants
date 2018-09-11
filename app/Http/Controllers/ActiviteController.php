@@ -22,12 +22,13 @@ class ActiviteController extends Controller
   public function create(Request $request)
   {
     $nomActivite      = $request->get("nomActivite");
+    $descActivite     = $request->get("descActivite");
     $couleurActivite  = $request->get('couleur');
     
     $activite = new Activite();
     
     $activite->setNomActivite($nomActivite);
-    $activite->setDescActivite("");
+    $activite->setDescActivite($descActivite);
     $activite->setDateCreation("");
     $activite->setColor($couleurActivite);
     $activite->setBgColor($couleurActivite);

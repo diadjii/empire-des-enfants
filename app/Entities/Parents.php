@@ -34,7 +34,7 @@ class Parents {
   private $prenomMere;
 
   /**
-  *  @ORM\ManyToOne(targetEntity = DossierEnfant::class)
+  *  @ORM\ManyToOne(targetEntity = DossierEnfant::class,cascade={"remove"})
   */
   private $idEnfant;
 

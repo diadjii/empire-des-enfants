@@ -4,16 +4,24 @@
 @endsection
 @section("content")
 <div class="col-md-8 col-12 mr-auto ml-auto">
+        @if (session('error'))
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          {{session("error")}}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        @endif
     <!--      Wizard container        -->
     <div class="wizard-container">
         <div class="card card-wizard" data-color="rose" id="wizardProfile">
             <!--        You can switch " data-color="primary" "  with one of the next bright colors: "green", "orange", "red", "blue"       -->
-            <form id="createDossier" action="/add-dossier-enfant" method="post" enctype="multipart/form-data">
+            <form action="/add-dossier-enfant" method="post" enctype="multipart/form-data">
                 <div class="card-header text-center">
                     <h3 class="card-title">
                         Nouveau Dossier Enfant
                     </h3>
-                    <h5 class="card-description">Tous les informations concernant l'enfant.</h5>
+                    <h5 class="card-description"><strong>NB : Si les informations des parents ne sont pas connues ,mettez inconnu.</strong></h5>
                 </div>
                 <div class="wizard-navigation">
                     <ul class="nav nav-pills">
@@ -43,7 +51,7 @@
                                     <div class="picture-container">
                                         <div class="picture">
                                             <img src="assets/img/default-avatar.png" class="picture-src" id="wizardPicturePreview" title="" />
-                                            <input type="file" id="wizard-picture" name="photoEnfant" required>
+                                            <input type="file" id="wizard-picture" name="photoEnfant" value="{{old("photoEnfant")}}" required>
                                         </div>
                                         <h6 class="description">Choisir une photo</h6>
                                     </div>
@@ -57,7 +65,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="exampleInput1" class="bmd-label-floating">Nom</label>
-                                            <input type="text" class="form-control" id="exampleInput1" name="nom" required>
+                                            <input type="text" class="form-control" id="exampleInput1" name="nom" value="{{old("nom")}}" required>
                                         </div>
                                     </div>
                                     <div class="input-group form-control-lg">
@@ -68,7 +76,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="exampleInput11" class="bmd-label-floating">Prenom</label>
-                                            <input type="text" class="form-control" id="exampleInput11" name="prenom" required>
+                                            <input type="text" class="form-control" id="exampleInput11" name="prenom" value="{{old("prenom")}}" required>
                                         </div>
                                     </div>
                                 </div>
@@ -80,8 +88,8 @@
                                             </span>
                                         </div>
                                         <div class="form-group">
-                                            <label class="label-control">Date de naissance</label>
-                                            <input type="date" class="form-control datetimepicker" name="dateNaissance" />
+                                            <label class="label-control">Age Estimé</label>
+                                            <input type="number" min=2 class="form-control datetimepicker" name="age" value="{{old("age")}}" required/>
                                         </div>
                                     </div>
                                 </div>
@@ -94,7 +102,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label class="label-control">Lieu de naissance</label>
-                                            <input type="text" class="form-control" id="exampleInput11" name="lieuNaissance" required/>
+                                            <input type="text" class="form-control" id="exampleInput11" name="lieuNaissance" value="{{old("lieuNaissance")}}" required/>
                                         </div>
                                     </div>
                                 </div>
@@ -107,7 +115,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label class="label-control">Adresse</label>
-                                            <input type="text" class="form-control" id="exampleInput11" name="adresse" required/>
+                                            <input type="text" class="form-control" id="exampleInput11" name="adresse" value="{{old("adresse")}}" required/>
                                         </div>
                                     </div>
                                 </div>
@@ -120,14 +128,18 @@
                                         </div>
                                         <div class="form-group">
                                             <label class="label-control">Origine</label>
-                                            <input type="text" class="form-control" id="exampleInput11" name="origine" required/>
+                                            <input type="text" class="form-control" id="exampleInput11" name="origine" value="{{old("origine")}}" required/>
                                             <input type="hidden" name="_token" value="{!! csrf_token() !!}">
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="exampleInput1" class="label-control">Code </label>
-                                        <input type="text" class="form-control" name="idEnfant" placeholder="Identifiant de l'Enfant" required>
-                                    </div>
+                                        <div class="form-group-lg">
+                                            <label for="exampleInput1" class="label-control">Code </label>
+                                            <input type="text" class="form-control" name="idEnfant"  value="{{old("idEnfant")}}" required>
+                                        </div>
+                                        <div class="form-group-lg">
+                                            <label for="exampleInput1" class="label-control">Date Entree </label>
+                                            <input type="date" class="form-control" name="dateEntree"  value="{{old("dateEntree")}}" required>
+                                        </div>
                                 </div>
                             </div>
                         </div>
@@ -170,7 +182,7 @@
                             <div class="row">
                                 <div class="col">
                                     <label for="exampleInput11">Description</label>
-                                    <textarea name="description" class="form-control" id="" cols="40" placeholder="Description sur l'enfant" rows="10"></textarea>
+                                    <textarea name="description" class="form-control" id="" cols="40" placeholder="Description sur l'enfant" rows="10">{{old("description")}}</textarea>
                                 </div>
                             </div>
 
@@ -183,25 +195,25 @@
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label>Prénom Pére</label>
-                                        <input type="text" class="form-control" name="prenomPere">
+                                        <input type="text" class="form-control" name="prenomPere" value="{{old("prenomPere")}}">
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label>Prénom Mére</label>
-                                        <input type="text" class="form-control" name="prenomMere">
+                                        <input type="text" class="form-control" name="prenomMere" value="{{old("prenomMere")}}">
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label>Nom Mére</label>
-                                        <input type="text" class="form-control" name="nomMere">
+                                        <input type="text" class="form-control" name="nomMere" value="{{old("nomMere")}}">
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label>Telephone</label>
-                                        <input type="tel" class="form-control" name="numTel">
+                                        <input type="tel" class="form-control" name="numTel" value="{{old("numTel")}}">
                                     </div>
                                 </div>
                             </div>

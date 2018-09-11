@@ -35,14 +35,15 @@ class DossierEnfantController extends Controller{
     }
     
     public function store(CreateDossierEnfantFormRequest $request){
-        
         $dossierEnfant = $this->createEntityDossierEnfant($request); 
-        
-        try {
-            //enregistrement dossier enfant
+        $c = $dossierEnfant->getIdentifiantEnfant();
+        if($this->existCodeEnfant($c)){
+           return redirect()->back()->with("error","Ce code est deja attribué à un enfant.Veillez choisir un autre !")->withInput();
+        }else{
             $this->em->persist($dossierEnfant);
             $this->em->flush();
             
+            echo "ok"; 
             try{
 
                 $idEnfant   = $dossierEnfant->getIdDossierEnfant();
@@ -66,19 +67,17 @@ class DossierEnfantController extends Controller{
             $idCurrentUser  = session('id');
             $u              = $this->em->getRepository(User::class);
             $currentUser    = $u->findById($idCurrentUser);
-
+            
             $info = [
                 "typeAction"    => "Creation Dossier Enfant",
                 "userId"        => session("id"),
                 "typeUser"      => session('typeCurrentUser'),
                 "description"   => "Creation dossier de ".$dossierEnfant->getPrenomEnfant()." ".$dossierEnfant->getNomEnfant()." par ".$currentUser[0]->getPrenom()." ".$currentUser[0]->getNom()
-              ];
-              
+            ];
+            
             EventStoreController::store($this->em,$info);
             
             return redirect("/liste-dossier-des-enfants");
-        } catch (\Exception $e) {
-            echo $e->getMessage();
         }
     }
     
@@ -97,16 +96,14 @@ class DossierEnfantController extends Controller{
 
         $dossierEnfant  = $dossierRep->findByIdDossierEnfant($id);
         $parentEnfant   = $parentRep->findByIdEnfant($dossierEnfant[0]->getIdDossierEnfant());
-        
         $directory      = $dossierEnfant[0]->getPrenomEnfant().'-'.$dossierEnfant[0]->getNomEnfant().'-'.$dossierEnfant[0]->getIdDossierEnfant();
-         
         $img            = Storage::url("document/".$dossierEnfant[0]->getIdDossierEnfant()."/".$directory);
-       
         $statu          = $dossierEnfant[0]->getStatutEnfant();  
 
-        $enfantPresent  = "";
+        $enfantPresent      = "";
         $enfantPresAPartir  = "";
-        $enfantParti    = "";
+        $enfantParti        = "";
+        $disabled           = "";
 
         switch ($statu) {
             case 'Enfant Présent':
@@ -123,8 +120,12 @@ class DossierEnfantController extends Controller{
                 break;
         }   
 
-        $enfant         = $dossierEnfant[0];
-        $parent         = null;
+        if(session("typeCurrentUser") != "admin" && session("typeCurrentUser") != "encadreur"){
+            $disabled = "disabled";
+        }
+
+        $enfant = $dossierEnfant[0];
+        $parent = null;
         
         try{
             $parent     = $parentEnfant[0];
@@ -152,9 +153,7 @@ class DossierEnfantController extends Controller{
             default:
                 break;
         }
-        
-
-        return view("new.edit-dossier-enfant",compact("enfant","parent","login","img","evt","ep","erf","enfantPresent","enfantPresAPartir","enfantParti"));
+        return view("new.edit-dossier-enfant",compact("enfant","parent","login","disabled","img","evt","ep","erf","enfantPresent","enfantPresAPartir","enfantParti"));
     }
     
 
@@ -189,20 +188,7 @@ class DossierEnfantController extends Controller{
         $ext        = explode('/',$extension)[1];
         
         $request->file('doc')->storeAs($idEnfant,$nom.'.'.$ext);
-        
-        // if(\File::isDirectory($directory)){
-        //     //$img = Storage::url("document/".$directory."/".$directory);
-        //     $request->file('photoEnfant')->storeAs($directory,$prenomEnfant.'-'.$nomEnfant.'-'.$id);
-        // }else{
-        //     Storage::makeDirectory($directory);
-        //     if($request->file('photoEnfant') != null){
-        //         $request->file('photoEnfant')->storeAs($directory,$prenomEnfant.'-'.$nomEnfant.'-'.$id);
-        //     }
-        // }    
-
-        // print_r($ext);
-        // die();
-
+    
         $message    = "Document ajouté avec succes !!";
         
         $idCurrentUser  = session('id');
@@ -221,44 +207,23 @@ class DossierEnfantController extends Controller{
         return redirect()->back()->withErrors([$message]);
     }
     
-    public function getDossierTribunal($nom){
-        // $ok=false;
-        // $pat = null;
-        // $files = Storage::allFiles('dossier-juridique');
-        // foreach ($files as $value) {
-            
-        //     $t = explode("/",$value)[1];
-        //     $o =  explode(".",$t)[0];
-            
-        //     if($o ===$nom){
-        //         $pat =  $value;
-        //         $ok = true;
-        //     }
-            
-        // }
-        
-        // if($ok){
-        //     return Storage::download( $pat);
-        // }else{
-        //     $message = "Le dossier de l'enfant ne contient pas encore de dossier juridique";
-        //     return redirect()->back()->withErrors([$message]);
-        // }
-        $login = session('login');
-        return view("back.zone-telechargement",compact("login"));
-    }
-    
     public function update(Request $request, $id){
         $nomEnfant      = $request->get('nom');
         $prenomEnfant   = $request->get('prenom');
         $origine        = $request->get('origine');
         
-        $dateNaissance  = $request->get('dateNaissance');
+        $ageEnfant      = $request->get('age');
         $lieuNaissance  = $request->get('lieuNaissance');
         $adresse        = $request->get('adresse');
         
         $description    = $request->get('description');
         $profilEnfant   = $request->get('profilEnfant');
         $statu          = $request->get('statu');
+
+        $dateEntree     = $request->get("dateEntree");
+        $dateSortie     = $request->get("dateSortie");
+        $codeEnfant     = $request->get("codeEnfant");
+        $motifSortie    = $request->get("motifSortie");
 
         switch ($statu) {
             case '0':
@@ -283,14 +248,18 @@ class DossierEnfantController extends Controller{
         $dossierEnfant[0]->setPrenomEnfant($prenomEnfant);
         $dossierEnfant[0]->setOrigineEnfant($origine);
 
-        $dossierEnfant[0]->setDateNaissanceEnfant($dateNaissance);
         $dossierEnfant[0]->setLieuNaissance($lieuNaissance);
         $dossierEnfant[0]->setAdresse($adresse);
-        
         $dossierEnfant[0]->setStatutEnfant($statu);
-        $dossierEnfant[0]->setAgeEnfant(12);
+
+        $dossierEnfant[0]->setAgeEnfant($ageEnfant);
         $dossierEnfant[0]->setDescription($description);
         $dossierEnfant[0]->setProfil($profilEnfant);
+
+        $dossierEnfant[0]->setDateEntree($dateEntree);
+        $dossierEnfant[0]->setDateSortie($dateSortie);
+        $dossierEnfant[0]->setIdentifiantEnfant($codeEnfant);
+        $dossierEnfant[0]->setMotifSortie($motifSortie);
         
         $this->em->flush();
 
@@ -352,13 +321,18 @@ class DossierEnfantController extends Controller{
     public function createEntityDossierEnfant($request){
         $nomEnfant      = $request->get('nom');
         $prenomEnfant   = $request->get('prenom');
+
         $origine        = $request->get('origine');
-        $dateNaissance  = $request->get('dateNaissance');
+        $ageEnfant      = $request->get('age');
+
         $lieuNaissance  = $request->get('lieuNaissance');
         $adresse        = $request->get('adresse');
+
         $description    = $request->get('description');
         $profilEnfant   = $request->get('profilEnfant');
+        
         $idEnfant       = $request->get('idEnfant');  
+        $dateEntree     = $request->get("dateEntree");
 
         $dossierEnfant  = new DossierEnfant();
         
@@ -366,13 +340,13 @@ class DossierEnfantController extends Controller{
         $dossierEnfant->setNomEnfant($nomEnfant);
         $dossierEnfant->setPrenomEnfant($prenomEnfant);
         $dossierEnfant->setOrigineEnfant($origine);
-        $dossierEnfant->setDateNaissanceEnfant($dateNaissance);
         $dossierEnfant->setLieuNaissance($lieuNaissance);
         $dossierEnfant->setAdresse($adresse);
-        $dossierEnfant->setAgeEnfant(12);
+        $dossierEnfant->setAgeEnfant($ageEnfant);
         $dossierEnfant->setDescription($description);
         $dossierEnfant->setProfil($profilEnfant);
-        $dossierEnfant->setDateAjoutDossierEnfant("2018-06-28");
+        $dossierEnfant->setDateEntree($dateEntree);
+        $dossierEnfant->setDateAjoutDossierEnfant(" ");
         
         return $dossierEnfant;
     }
@@ -445,5 +419,18 @@ class DossierEnfantController extends Controller{
         $n = $request->get("nomDocument");
         
         return Storage::download($n);
+    }
+
+
+    public function existCodeEnfant($codeEnfant){
+        $dossierRep     = $this->em->getRepository(DossierEnfant::class);
+        $code= null;
+        $code           = $dossierRep->findByIdentifiantEnfant($codeEnfant);  
+        // dd($code);
+        if($code == null){
+            return false;
+        }else{
+            return true;
+        }
     }
 }

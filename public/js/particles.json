@@ -1,0 +1,15 @@
+{
+  "particles": {
+    "number": {
+      "value": 150,
+      "density": {
+        "enable": true,
+        "value_area": 800
+      }
+    },
+    "size" : {
+      "value" :3
+    },
+  "retina_detect": true
+}
+}

@@ -15,7 +15,7 @@ class DossierMedicale {
   private $idDossierMedicale;
 
   /**
-  * @ORM\OneToOne(targetEntity = DossierEnfant::class)
+  * @ORM\OneToOne(targetEntity = DossierEnfant::class,cascade={"remove"})
   */
   private $idDossierEnfant;
   

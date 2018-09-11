@@ -8,8 +8,18 @@
                     <i class="material-icons">assignment</i>
                   </div>
                   <h4 class="card-title">Dossier Enfant</h4>
+                  <form class="navbar-form">
+                      <div class="input-group ">
+                        <input type="text" value="" class="form-control" placeholder="Search...">
+                        <button type="submit" class="btn btn-white btn-round btn-just-icon">
+                          <i class="material-icons">search</i>
+                          <div class="ripple-container"></div>
+                        </button>
+                      </div>
+                    </form>
                 </div>
                 <div class="card-body">
+                 
                   <div class="toolbar">
                     <ul class="nav justify-content-end">
                       <a  href="/create-dossier-enfant"class="btn btn-primary">
@@ -19,6 +29,7 @@
                     <!--        Here you can write extra buttons/actions for the toolbar              -->
                   </div>
                   <div class="material-datatables">
+                    
                     <table id="datatables" class="table table-striped table-no-bordered table-hover" cellspacing="0" width="100%" style="width:100%">
                       <thead>
                         <tr>
@@ -85,12 +96,16 @@
   @endsection
  @section("script")
  <script>
-    $(document).ready(function() {
+    $(function() {
          // Initialise the wizard
          demo.initMaterialWizard();
          setTimeout(function() {
            $('.card.card-wizard').addClass('active');
          }, 600);
+
+
+
+
        });
    
    </script>

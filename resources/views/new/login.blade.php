@@ -16,15 +16,16 @@
   <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
   <!-- CSS Files -->
   <link href="/css/material-dashboard.css?v=2.0.2" rel="stylesheet" />
+  <link href="/css/empire.css" rel="stylesheet" />
   <!-- CSS Just for demo purpose, don't include it in your project -->
 </head>
 
-<body class="off-canvas-sidebar">
+<body  class="off-canvas-sidebar">
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg  navbar-absolute fixed-top text-black" id="navigation-example">
     <div class="container">
-      <img src="/images/logo.png" style="color:#000;margin-left:50%;position:unset;" width=120px  height=120px alt="">
-      {{-- <h1 style="color:#000;margin-left:50%;font-family: 'Lobster', cursive;font-size:1em;" class="center">Empire des Enfants</h1> --}}
+      {{-- <img src="/images/logo.png" style="color:#000;margin-left:50%;position:unset;" width=40px  height=40px alt=""> --}}
+      <h1 style="color:#000;margin-left:50%;font-family: 'Lobster', cursive;font-size:1.2em;" class="center">Empire des Enfants</h1>
       
     </div>
   </nav>
@@ -47,8 +48,9 @@
         </div>
       </div>
     </div>
-  <div class="wrapper wrapper-full-page">
+    <div  ></div>
     <div class="page-header login-page header-filter" filter-color="black" style="background-image: url('/images/bg.jpg'); background-size: cover; background-position: top center;">
+      <div  id="particles-js" class="wrapper wrapper-full-page" style=""> </div>
       <!--   you can change the color of the filter page using: data-color="blue | purple | green | orange | red | rose " -->
       <div class="container">
           
@@ -147,7 +149,7 @@
   <script src="/js/material-dashboard.min.js?v=2.0.2" type="text/javascript"></script>
   <!-- Material Dashboard DEMO methods, don't include it in your project! -->
   <script src="/js/empire.js" charset="utf-8"></script>
-
+  <script src="/js/particles.min.js"></script>
   <script>
     $(document).ready(function() {
       $().ready(function() {
@@ -327,6 +329,12 @@
         $('.card').removeClass('card-hidden');
       }, 700);
     });
+  </script>
+  <script>
+    particlesJS.load('particles-js',
+    "/js/particles.json",function(){
+      console.log("ok")
+    })
   </script>
 </body>
 

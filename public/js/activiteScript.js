@@ -216,21 +216,26 @@ $('#color-chooser > li > a').click(function (e) {
   })
 })
 
+//ajout d'une nouvelle activite 
 $("#add-new-activite").click(function(){
-  let activite  = $("#new-activite").val();
-  let  token    = $('input[name="_token"]').val();
-  let couleur   = $('#couleur').val();
-  
-  if(activite == "" || couleur == ""){
-    alert("Vous devez choisir une couleur et donnez le nom de l'activite");
+  let activite      = $("#new-activite").val();
+  let descActivite  = $("#descActivite").val();
+  let couleur       = $('#couleur').val();
+  let token         = $('input[name="_token"]').val();
+  console.log(activite+" "+couleur)
+  if(activite == "" || couleur == "" || descActivite == ""){
+    $("#addActivite").modal("toggle");
+    $("#messageError").text("Vous devez choisir une couleur et donnez le nom de l'activite");
+    $("#errorActivite").modal("toggle");
   }else{
     
     $.post("/add-activite",{
-      nomActivite : activite,
-      _token      : token,
-      couleur     : couleur
+      nomActivite   : activite,
+      _token        : token,
+      couleur       : couleur,
+      descActivite  : descActivite
     }).then(function(response){
-      window.location = "/administration";
+      location.reload();
     }).fail(function(r){
       console.log(r);
     });

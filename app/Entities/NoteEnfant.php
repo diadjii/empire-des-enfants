@@ -19,7 +19,7 @@ class NoteEnfant
   private $idNote;
 
   /**
-  * @ORM\ManyToOne(targetEntity = DossierEnfant::class)
+  * @ORM\ManyToOne(targetEntity = DossierEnfant::class,cascade={"remove"})
   */
   private $idDossierEnfant;
 

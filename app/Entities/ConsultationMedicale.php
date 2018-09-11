@@ -19,7 +19,7 @@ class ConsultationMedicale{
     private $idConsultation;
 
     /**
-     * @ORM\ManyToOne(targetEntity = DossierMedicale::class)
+     * @ORM\ManyToOne(targetEntity = DossierMedicale::class,cascade={"remove"})
      */
     private $idDossierMedicale;
 
