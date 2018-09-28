@@ -175,7 +175,6 @@ $(function () {
       dateDebut   : d,
       _token      : token
     }).then(function(response){
-      console.log(response);
       window.location.href="/liste-des-activites"
     }).fail(function(r){
       console.log(r);
@@ -200,8 +199,6 @@ function saveActivite(idActivite,heureDebut,heureFin){
   }).fail(function(r){
     console.log(r);
   });
-
-  //return i;
 }
 
 var currColor;

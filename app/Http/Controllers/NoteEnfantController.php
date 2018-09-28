@@ -58,6 +58,15 @@ class NoteEnfantController extends Controller
         $this->em->persist($noteEnfant);
         $this->em->flush();
 
+        $info = [
+            "typeAction"    => "Ajout note Enfant",
+            "userId"        => session("id"),
+            "typeUser"      => session('typeCurrentUser'),
+            "description"   => "Ajout de la note (".$noteEnfant->getObjet().") par ".$currentUser[0]->getPrenom()." ".$currentUser[0]->getNom()
+          ];
+          
+        EventStoreController::store($this->em,$info);
+
         return redirect()->action("NoteEnfantController@index", [$id]);
     }
 

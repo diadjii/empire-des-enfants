@@ -10,7 +10,7 @@
                   <h4 class="card-title">Dossier Enfant</h4>
                   <form class="navbar-form">
                       <div class="input-group ">
-                        <input type="text" value="" class="form-control" placeholder="Search...">
+                        <input type="text" id="chercherEnfant" value="" class="form-control" placeholder="Rechechet un enfant......">
                         <button type="submit" class="btn btn-white btn-round btn-just-icon">
                           <i class="material-icons">search</i>
                           <div class="ripple-container"></div>
@@ -53,7 +53,7 @@
                             <th class="disabled-sorting">Status</th>
                         </tr>
                       </tfoot>
-                      <tbody>
+                      <tbody class="liste">
                           @foreach ($liste as $dossier)
                           <tr>
                             <td>{{$loop->iteration}}</td>
@@ -103,6 +103,23 @@
            $('.card.card-wizard').addClass('active');
          }, 600);
 
+         $('.liste tr').each(function(){
+      $(this).attr('data-search-term', $(this).text().toLowerCase());
+    });
+
+    $('#chercherEnfant').on('keyup', function(){
+
+    var searchTerm = $(this).val().toLowerCase();
+
+        $('.liste tr').each(function(){
+          if ($(this).filter('[data-search-term *= ' + searchTerm + ']').length > 0 || searchTerm.length < 1) {
+              $(this).show();
+          } else {
+            $(this).hide();
+          }
+
+        });
+    });
 
 
 

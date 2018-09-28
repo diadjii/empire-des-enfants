@@ -39,15 +39,6 @@
                   <div class="tab-pane active" id="about">
                     <h5 class="info-text"> Vous pouvez insérer les informations à propos de l'utilisateur</h5>
                     <div class="row justify-content-center">
-                      <div class="col-sm-4">
-                        <div class="picture-container">
-                          <div class="picture">
-                            <img src="assets/img/default-avatar.png" class="picture-src" id="wizardPicturePreview" title="" />
-                            <input type="file" id="wizard-picture">
-                          </div>
-                          <h6 class="description">Choisir une photo</h6>
-                        </div>
-                      </div>
                       <div class="col-sm-6">
                         <div class="input-group form-control-lg">
                           <div class="input-group-prepend">
@@ -118,7 +109,7 @@
                               <div class="icon">
                                 <i class="fa fa-terminal"></i>
                               </div>
-                              <h6>Encadreur</h6>
+                              <h6>Educateur</h6>
                             </div>
                           </div>
                           <div class="col-sm-3">
