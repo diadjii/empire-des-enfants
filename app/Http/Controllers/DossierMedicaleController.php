@@ -19,17 +19,6 @@ class DossierMedicaleController extends Controller
         $this->em = $em;
     }
 
-    public function index()
-    {
-        //
-    }
-
-
-    public function create()
-    {
-        //
-    }
-
     public function store(Request $request)
     {
         $groupe = $request->get("groupeSanguin");
@@ -49,18 +38,17 @@ class DossierMedicaleController extends Controller
         $nom    = $dossierEnfant[0]->getNomEnfant();
         $prenom = $dossierEnfant[0]->getPrenomEnfant();
 
-         
         $u            = $this->em->getRepository(User::class);
         $currentUser  = $u->findById(session("id"));
+              
+        $info = [
+            "typeAction"    => "Creation Dossier Medical",
+            "userId"        => session("id"),
+            "typeUser"      => session('typeCurrentUser'),
+            "description"   => "Creation dossier medical ".$nom." ".$prenom." par ".$currentUser[0]->getPrenom()." ".$currentUser[0]->getNom()
+        ];
+        EventStoreController::store($this->em,$info);
         
-      
-            $info = [
-                "typeAction"    => "Creation Dossier Medical",
-                "userId"        => session("id"),
-                "typeUser"      => session('typeCurrentUser'),
-                "description"   => "Creation dossier medical ".$nom." ".$prenom." par ".$currentUser[0]->getPrenom()." ".$currentUser[0]->getNom()
-            ];
-            EventStoreController::store($this->em,$info);
         return redirect()->back();
     }
 

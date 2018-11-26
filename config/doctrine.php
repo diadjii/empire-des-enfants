@@ -20,6 +20,8 @@ return [
     | --> Warning: Proxy auto generation should only be enabled in dev!
     |
     */
+
+
     'managers'                   => [
         'default' => [
             'dev'           => env('APP_DEBUG', false),
@@ -35,6 +37,10 @@ return [
                 'path'          => storage_path('proxies'),
                 'auto_generate' => env('DOCTRINE_PROXY_AUTOGENERATE', false)
             ],
+
+
+
+            
             /*
             |--------------------------------------------------------------------------
             | Doctrine events

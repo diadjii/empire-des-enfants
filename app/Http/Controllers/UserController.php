@@ -146,7 +146,8 @@ class UserController extends Controller
                     "typeAction"    => "Suppression Compte Utlisateur",
                     "userId"        => session("id"),
                     "typeUser"      => session('typeCurrentUser'),
-                    "description"   => "Suppression de l'utilisateur " . $user[0]->getNom() . " " . $user[0]->getPrenom() . " par " . $currentUser[0]->getPrenom() . " " . $currentUser[0]->getNom(),
+                    "description"   => "Suppression de l'utilisateur " . $user[0]->getNom() . " " 
+                                . $user[0]->getPrenom() . " par " . $currentUser[0]->getPrenom() . " " . $currentUser[0]->getNom(),
                 ];
                 EventStoreController::store($this->em, $info);
                 return "ok";

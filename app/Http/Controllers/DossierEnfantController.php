@@ -426,7 +426,7 @@ class DossierEnfantController extends Controller{
         $dossierRep     = $this->em->getRepository(DossierEnfant::class);
         $code= null;
         $code           = $dossierRep->findByIdentifiantEnfant($codeEnfant);  
-        // dd($code);
+      
         if($code == null){
             return false;
         }else{
